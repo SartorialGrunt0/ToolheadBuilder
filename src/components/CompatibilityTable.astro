@@ -1,0 +1,26 @@
+---
+const { items, type } = Astro.props;
+---
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Mounting</th>
+      <th>Flow</th>
+      <th>Nozzles</th>
+      <th>Length</th>
+    </tr>
+  </thead>
+  <tbody>
+    {items.map(item => (
+      <tr>
+        <td>{item.name}</td>
+        <td>{item.mounting_pattern.join(", ")}</td>
+        <td>{item.flow_rate}</td>
+        <td>{item.nozzle_compatibility.join(", ")}</td>
+        <td>{item.length}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

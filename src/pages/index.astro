@@ -1,0 +1,13 @@
+---
+import { loadMetadata } from "../data/loadMetadata";
+const { extruders, toolheads, hotends } = await loadMetadata();
+---
+
+<h1>Toolhead Builder</h1>
+<p>Your open-source compatibility database for 3D printer extruders, toolheads, and hotends.</p>
+
+<ul>
+  <li><a href="/extruders">Extruders ({extruders.length})</a></li>
+  <li><a href="/toolheads">Toolheads ({toolheads.length})</a></li>
+  <li><a href="/hotends">Hotends ({hotends.length})</a></li>
+</ul>
