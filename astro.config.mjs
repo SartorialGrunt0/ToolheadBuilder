@@ -16,26 +16,22 @@ export default defineConfig({
 
       sidebar: [
         {
-          label: 'Hotends',
-          items: [
-            { label: 'Hotends', slug: 'hotends' },
-          ],
-        },
-        {
           label: 'Toolheads',
           items: [
-            { label: 'Toolheads', slug: 'toolheads' },
+            { label: 'Awesome-Toolheads', slug: 'toolheads' },
           ],
         },
         {
           label: 'Extruders',
           items: [
-            { label: 'Extruders', slug: 'extruders' },
+            { label: 'Awesome-Extruders', slug: 'extruders' },
           ],
         },
         {
-          label: 'Reference',
-          autogenerate: { directory: 'reference' },
+          label: 'Hotends',
+          items: [
+            { label: 'Awesome-Hotends', slug: 'hotends' },
+          ],
         },
       ],
     }),
