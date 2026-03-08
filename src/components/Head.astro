@@ -1,0 +1,10 @@
+---
+import type { Props } from '@astrojs/starlight/props'
+import Default from '@astrojs/starlight/components/Head.astro'
+---
+
+<!-- Render the default <Head/> component. -->
+<Default {...Astro.props}><slot /></Default>
+
+<!-- OpenGraph Meta Tags -->
+<meta name="theme-color" content="#89c0d0">

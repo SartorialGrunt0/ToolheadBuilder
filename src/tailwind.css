@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hero image in index.mdx */
+@media only screen and (max-width: 799px) {
+    .mockup-desktop {
+        display: none;
+    }
+
+    .mockup-tablet {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1269px) {
+    .mockup-mobile {
+        display: none;
+    }
+
+    .mockup-desktop {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1270px) {
+    .mockup-mobile {
+        display: none;
+    }
+
+    .mockup-tablet {
+        display: none;
+    }
+}
