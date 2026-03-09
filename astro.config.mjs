@@ -16,6 +16,12 @@ export default defineConfig({
 
       sidebar: [
         {
+          label: 'Introduction',
+          items: [
+            { label: 'Introduction', slug: 'introduction' },
+          ],
+        },        
+        {
           label: 'Toolheads',
           items: [
             { label: 'Awesome-Toolheads', slug: 'toolheads' },

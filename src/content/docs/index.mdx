@@ -4,12 +4,29 @@ description: A place for all your toolhead needs.
 template: splash
 hero:
   tagline: Build your toolhead the way you always wanted it.
+  image:
+    file: ../../assets/toolheads.webp
   actions:
     - text: Get Started
-      link: toolheads/
+      link: introduction/
       icon: right-arrow
     - text: Check out the github
       link: https://github.com/SartorialGrunt0/ToolheadBuilder
       icon: external
       variant: minimal
 ---
+Disclaimer: Any photos or products listed I do not claim and rights to. All links found in this document are not affiliate links.
+## Image Carousel
+
+import Carousel from '../../components/Carousel.astro';
+
+<Carousel
+  images={[
+    "/bmg.png",
+    "/hgx-lite.jpg",
+    "/galileo2.png"
+  ]}
+  interval={3000}
+/>
+
+

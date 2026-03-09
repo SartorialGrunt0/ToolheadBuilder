@@ -1,0 +1,49 @@
+---
+const { images = [], interval = 3000 } = Astro.props;
+---
+
+<div class="carousel">
+  <img id="carousel-img" src={images[0]} alt="" />
+</div>
+
+<style>
+.carousel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  opacity: 1;
+  transition: opacity 0.6s ease-in-out;
+}
+</style>
+
+<script>
+  // Deserialize props safely
+  const imgList = JSON.parse(`<!--${JSON.stringify(images)}-->`);
+  const delay = Number(`<!--${interval}-->`);
+
+  let index = 0;
+  const img = document.getElementById('carousel-img');
+
+  setInterval(() => {
+    // Fade out
+    img.style.opacity = 0;
+
+    setTimeout(() => {
+      // Switch image
+      index = (index + 1) % imgList.length;
+      img.src = imgList[index];
+
+      // Fade in
+      img.style.opacity = 1;
+    }, 300); // half the fade duration
+  }, delay);
+</script>
+
+
+
