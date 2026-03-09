@@ -4,8 +4,6 @@ description: A place for all your toolhead needs.
 template: splash
 hero:
   tagline: Build your toolhead the way you always wanted it.
-  image:
-    file: ../../assets/toolheads.webp
   actions:
     - text: Get Started
       link: introduction/
@@ -16,17 +14,19 @@ hero:
       variant: minimal
 ---
 Disclaimer: Any photos or products listed I do not claim and rights to. All links found in this document are not affiliate links.
-## Image Carousel
 
-import Carousel from '../../components/Carousel.astro';
+import Carousel from '../../components/Carousel.jsx';
 
 <Carousel
+  client:load
   images={[
-    "/bmg.png",
-    "/hgx-lite.jpg",
-    "/galileo2.png"
+    "/A4T_render.png",
+    "/Orbiter.gif",
+    "/sherpa_mini.jpg"
   ]}
   interval={3000}
 />
+
+
 
 

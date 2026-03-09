@@ -1,12 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import react from '@astrojs/react';
 import tailwindcss from "@tailwindcss/vite";
 
-
-// https://astro.build/config
 export default defineConfig({
   site: 'https://toolheadbuilder.com',
+
   integrations: [
     starlight({
       title: 'Toolhead Builder',
@@ -17,29 +17,46 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Introduction',
-          items: [
-            { label: 'Introduction', slug: 'introduction' },
-          ],
-        },        
+          items: [{ label: 'Introduction', slug: 'introduction' }],
+        },
         {
           label: 'Toolheads',
           items: [
-            { label: 'Awesome-Toolheads', slug: 'toolheads' },
+            { label: 'Overview', slug: 'toolheads/toolheads-overview' },
+            { label: 'Catalog', slug: 'toolheads/toolheads-catalog' },
           ],
         },
         {
           label: 'Extruders',
           items: [
-            { label: 'Awesome-Extruders', slug: 'extruders' },
+            { label: 'Overview', slug: 'extruders/extruders-overview' },
+            { label: 'Catalog', slug: 'extruders/extruders-catalog' },
           ],
         },
         {
           label: 'Hotends',
           items: [
-            { label: 'Awesome-Hotends', slug: 'hotends' },
+            { label: 'Overview', slug: 'hotends/hotends-overview' },
+            { label: 'Catalog', slug: 'hotends/hotends-catalog' },
+          ],
+        },
+        {
+          label: 'Probes',
+          items: [
+            { label: 'Overview', slug: 'probes/probes-overview' },
+            { label: 'Catalog', slug: 'probes/probes-catalog' },
           ],
         },
       ],
     }),
+
+    // ⭐ Enable React
+    react(),
   ],
+
+  // ⭐ Enable Tailwind via Vite plugin
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
+
