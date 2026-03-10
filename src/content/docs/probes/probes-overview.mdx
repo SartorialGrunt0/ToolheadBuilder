@@ -6,17 +6,11 @@ description: A catalog of 3D printer probes.
 import { Aside, Icon ,Tabs, TabItem } from '@astrojs/starlight/components';
 import { Image } from "astro:assets";
 
-The 3D printer probe is responsible for measuring the distance between the too FDM 3D printers, responsible for melting plastic from a solid to a molten state.
+The 3D printer probe is responsible for measuring the distance between the toolhead and the bed on FDM 3D printers, ensuring a consistent first layer.
 
-This is a list of popular all-metal hotends compatible with common toolheads for Voron pritner, Printers for Ants, and other custom 3D printers. Non-standardized, PTFE lined, or proprietary hotends for  prebuilt machines shall typically be excluded unless widely adopted and supported by the community.
-
-Disclaimer: The listed flow rates for the hotends are estimated claims and will vary based on test conditions.
+This is a list of popular probes compatible with common toolheads for Voron printers, Printers for Ants, and other custom 3D printers.
 
 Terminology:
-- Mounting: How the hotend is attached to the toolhead.
-- Length: The total length from the top of the mount to the tip of the nozzle.
-- Flow Rate: The max mm^3/s the hotend can flow without extrusion issues.
-- Melt Zone: The zone from the top of the heaterblock to the tip of the nozzle.
 
-<img src="/hotend_parts.png" width="400" height="400" alt="parts" />
-<img src="/hotend_lengths.png" alt="lengths" />
+<img src="/BLTouch.gif" width="255" height="255" alt="bltouch" />
+<img src="/Voron-Tap.gif" alt="tap" />
