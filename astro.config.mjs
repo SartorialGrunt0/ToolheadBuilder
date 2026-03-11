@@ -3,7 +3,6 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import tailwindcss from "@tailwindcss/vite";
-
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
@@ -12,6 +11,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Toolhead Builder',
+      customCss: ['./src/styles/custom.css'],
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }
       ],
@@ -53,12 +53,8 @@ export default defineConfig({
         },
       ],
     }),
-
-    // ⭐ Enable React
     react(),
   ],
-
-  // ⭐ Enable Tailwind via Vite plugin
   vite: {
     plugins: [tailwindcss()],
   },
