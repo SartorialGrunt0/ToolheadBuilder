@@ -8,8 +8,6 @@ import { Image } from "astro:assets";
 
 ## Touch Probes
 
-Touch probes are the most traditional probes. They rely on a servo and pin to deploy and stow the probe pin.
-
 - [BLTouch](https://www.antclabs.com/bltouch) - The OG probe, wide-compatibilibility, fragile pin, best suited for unenclosed printers.
 - [3DTouch](https://trianglelab.net/products/3d-touch?VariantsId=10429) - Clone of BLTouch, available from many vendors, lower cost alternative.
 - [CRTouch](https://www.creality3dofficial.com/products/creality-cr-touch?srsltid=AfmBOorpqiWGeJO0H0x2FTjj4KzZ_nlzrvoU4I_gdTsSAF7bQ9wUKxnQ) - Variant of BLTouch, features a metal probe pin.
@@ -19,18 +17,12 @@ Touch probes are the most traditional probes. They rely on a servo and pin to de
 
 ## Touchless Probes
 
-Touchless probes rely on non-physical sensors to probe the bed such as light, induction, or capacitance.
-
 - [Omron](https://west3d.com/products/omron-tl-q5m-inductive-probe) - An inductive probe often fit within the Voron x-carraige, clones available eith varying quality.
 - [SuperPINDA](https://www.prusa3d.com/product/superpinda/) - The classic Prusa inductive probe fit on many of their classic printers, similar probes availabe from other vendors.
 
 --------------------
 
 ## Dockable Probes
-
-Dockable probes are the lightest as they are stored on the printer frame after probing.
-They are are very simple in design, often based on a simple mouse microswitch.
-Require a complex klipper macro to support the docking and stowing of the probe.
 
 - [Klicky](https://github.com/jlas1/Klicky-Probe) - Dockable microswitch probe, features a mouse switch for probe, wide printer support, supports of fixed docking.
 - [Klicky PCB](https://github.com/tanaes/whopping_Voron_mods/tree/main/pcb_klicky) - Dockable microswitch probe, variant of Klicky with a PCB main switch body.
@@ -44,12 +36,6 @@ Require a complex klipper macro to support the docking and stowing of the probe.
 
 ## Nozzle Probes
 
-Nozzle probes utilize the tip of the hotend nozzle to probe the bed.
-This gives a very accurate probe measurement and do not require and X or Y offset.
-This also requires that the tip of the nozzle be clean and heated to the ideal temperature before probing.
-They are best paired with a nozzle wiper.
-
-
 - [TAP](https://github.com/VoronDesign/Voron-Tap) - Probe designed to allow the X carriage to move in the Z direction for probing, uses a microswitch or optical sensor, often can be found in CNC aluminum or carbon fiber variants.
 - [Boop](https://github.com/PrintersForAnts/Boop) - Similar to TAP, designed for Printers for Ants, features an optical sensor.
 - [PZ](https://e3d-online.com/products/pz-probe?srsltid=AfmBOopCkk44Azg8ySMm6_5Gj9cQxeVgEav7dtdpjlHCE6du4UQm0JIE) - Nozzle probe featuring a piezoelectric sensor attached to the Revo Voron hotend.
@@ -60,8 +46,6 @@ They are best paired with a nozzle wiper.
 --------------------
 
 ## Bed Scanner Probes
-
-Eddy current probes scan the bed taking rapid height measurements based on the magnetic eddie current reflected from the metal bed.
 
 - [Cartographer](https://cartographer3d.com/) - Eddy current sensor bed scanner, supports CANbus or USB, built in ADXL345.
 - [Beacon](https://beacon3d.com/) - Eddy current sensor bed scanner, supports USB.

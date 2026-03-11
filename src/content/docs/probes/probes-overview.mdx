@@ -10,7 +10,47 @@ The 3D printer probe is responsible for measuring the distance between the toolh
 
 This is a list of popular probes compatible with common toolheads for Voron printers, Printers for Ants, and other custom 3D printers.
 
-Terminology:
+---
+
+## Touch Probes
+
+Touch probes are the most traditional probes. They rely on a servo to deploy, sense, and retract a pin probe.
 
 <img src="/BLTouch.gif" width="255" height="255" alt="bltouch" />
-<img src="/Voron-Tap.gif" alt="tap" />
+
+---
+
+## Touchless Probes
+
+Touchless probes rely on non-physical sensors to probe the bed such as light, induction, or capacitance.
+
+<img src="/Omron.jpg" width="255" height="255" alt="Omron" />
+
+---
+## Dockable Probes
+
+Dockable probes are the lightest as they are stored on the printer frame after probing.
+They are are very simple in design, often based on a simple mouse microswitch.
+Require a complex klipper macro to support the docking and stowing of the probe.
+
+<img src="/Klicky.gif" width="420" height="255" alt="klicky" />
+
+---
+
+## Nozzle Probes
+
+Nozzle probes utilize the tip of the hotend nozzle to probe the bed.
+This gives a very accurate probe measurement and do not require and X or Y offset.
+This also requires that the tip of the nozzle be clean and heated to the ideal temperature before probing.
+They are best paired with a nozzle wiper.
+
+<img src="/Voron-Tap.gif" width="255" height="255" alt="tap" />
+
+---
+
+## Bed Scanner Probes
+
+Eddy current probes scan the bed taking rapid height measurements based on the magnetic eddie current reflected from the metal bed.
+
+<img src="/Eddy.gif" width="420" height="255" alt="Eddy" />
+

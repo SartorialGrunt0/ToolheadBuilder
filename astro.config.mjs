@@ -24,29 +24,31 @@ export default defineConfig({
         {
           label: 'Toolheads',
           items: [
-            { label: 'Overview', slug: 'toolheads/toolheads-overview' },
-            { label: 'Catalog', slug: 'toolheads/toolheads-catalog' },
+            { label: 'Toolheads Overview', slug: 'toolheads/toolheads-overview' },
+            { label: 'Toolheads Community Picks', slug: 'toolheads/toolheads-community-picks' },
+            { label: 'Toolheads Catalog', slug: 'toolheads/toolheads-catalog' },
           ],
         },
         {
           label: 'Extruders',
           items: [
-            { label: 'Overview', slug: 'extruders/extruders-overview' },
-            { label: 'Catalog', slug: 'extruders/extruders-catalog' },
+            { label: 'Extruders Overview', slug: 'extruders/extruders-overview' },
+            { label: 'Extruders Community Picks', slug: 'extruders/extruders-community-picks' },
+            { label: 'Extruders Catalog', slug: 'extruders/extruders-catalog' },
           ],
         },
         {
           label: 'Hotends',
           items: [
-            { label: 'Overview', slug: 'hotends/hotends-overview' },
-            { label: 'Catalog', slug: 'hotends/hotends-catalog' },
+            { label: 'Hotends Overview', slug: 'hotends/hotends-overview' },
+            { label: 'Hotends Catalog', slug: 'hotends/hotends-catalog' },
           ],
         },
         {
           label: 'Probes',
           items: [
-            { label: 'Overview', slug: 'probes/probes-overview' },
-            { label: 'Catalog', slug: 'probes/probes-catalog' },
+            { label: 'Probes Overview', slug: 'probes/probes-overview' },
+            { label: 'Probes Catalog', slug: 'probes/probes-catalog' },
           ],
         },
       ],

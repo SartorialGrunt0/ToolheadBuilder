@@ -31,8 +31,8 @@ export default function Carousel({ images = [], interval = 3000 }) {
     <div
       style={{
         position: "relative",
-        width: "500px",
-        height: "500px",
+        width: "400px",
+        height: "400px",
         margin: "0 auto",
         overflow: "hidden",
         borderRadius: "8px",
