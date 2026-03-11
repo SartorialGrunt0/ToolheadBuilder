@@ -37,9 +37,6 @@ jobs:
     - name: Astro Check
       run: npm run astro check
 
-    - name: Validate Tailwind config
-      run: npx tailwindcss --config tailwind.config.cjs --help
-
     - name: Validate Cloudflare config
       run: npx wrangler pages project list
 
