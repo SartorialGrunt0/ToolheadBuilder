@@ -4,6 +4,8 @@ import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import tailwindcss from "@tailwindcss/vite";
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
   site: 'https://toolheadbuilder.com',
 
@@ -58,5 +60,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-});
 
+  adapter: cloudflare(),
+});
