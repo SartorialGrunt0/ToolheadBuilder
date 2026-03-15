@@ -41,6 +41,7 @@ export default defineConfig({
           label: 'Hotends',
           items: [
             { label: 'Hotends Overview', slug: 'hotends/hotends-overview' },
+            { label: 'Hotends Community Picks', slug: 'hotends/hotends-community-picks' },
             { label: 'Hotends Catalog', slug: 'hotends/hotends-catalog' },
           ],
         },
@@ -48,6 +49,7 @@ export default defineConfig({
           label: 'Probes',
           items: [
             { label: 'Probes Overview', slug: 'probes/probes-overview' },
+            { label: 'Probes Community Picks', slug: 'probes/probes-community-picks' },
             { label: 'Probes Catalog', slug: 'probes/probes-catalog' },
           ],
         },
