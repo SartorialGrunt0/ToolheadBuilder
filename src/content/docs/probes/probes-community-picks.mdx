@@ -1,5 +1,5 @@
 ---
-title: Community Picks
+title: Probe Community Picks
 description: The community favorite probes.
 ---
 import { Aside, Icon ,Tabs, TabItem } from '@astrojs/starlight/components';
@@ -10,16 +10,26 @@ Is there so many options you have developed choice paralysis? Here is the commun
 ---
 ## I Am Speed: Cartographer
 
- [Cartographer](https://cartographer3d.com/) 
+[Cartographer](https://cartographer3d.com/) is blazing fast at taking a mesh of the bed. 
+By scanning the bed eith its Eddy current sensor it can used a fixed Z postion and only move in the X and Y.
+While this this is true of all Eddy currenr sensors, Cartographer stands out for its ongoing development, solid toolhead and community support, all at a reasonable price.
 
 ---
 
 ## Accuracy Is My Name: TAP
 
-[TAP](https://github.com/VoronDesign/Voron-Tap)
+[TAP](https://github.com/VoronDesign/Voron-Tap), developed by the Voron team, trades toolhead ridgity and weight for simplicty and accuracy.
+Tap operates by using a beefy linear rail and rare earth magnets to hold the toolhead in place but slide in the Z when the nozzle touched the bed.
+While not the lightest or fastest probe, it ensures reliable and accurate probing beyond all other solutions and the z offset can be reused after nozzles changes or toolhead swaps.
+With its full build guide, Voron team support, and a number of CNC aluminum and carbon fiber mods, its a solid and reliable probe.
 
 ---
 
 ## El Cheapo
 
-[Klicky](https://github.com/jlas1/Klicky-Probe)
+[Klicky](https://github.com/jlas1/Klicky-Probe) stands out from the pack for its hardware simplicty and toolhead weight savings.
+Simply attach the dock to your frame, mount to the toolhead, and watch with amazement as your homebuilt robot picks up and drops off the probe on your command.
+It can be thrown together with a cheap mouse switch, some solder wick, screws, and some printed parts making it 1/4 or less the price of other probe solutions.
+While there are several similar docking probes, Klicky's standout feature is the klipper macro support.
+The developers have spent many hours crafting macros that ensure reliable docking and undocking in every scenario.
+Bonus points if your dock has a servo, because who doesnt love a good ol' servo action?
