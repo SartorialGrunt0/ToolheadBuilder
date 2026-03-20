@@ -2,8 +2,8 @@
   "toolheads": [
     {
       "name": "A4T",
-      "extruders": ["Sherpa Mini","LGX-lite","Orbiter 2","other"],
-      "probe": ["Tap","Klicky","Eddie","Touch"],
+      "extruders": ["Sherpa Mini","LGX-lite","Orbiter 2","Wristwatch G2","Wristwatch BMG"],
+      "probe": ["Tap","Klicky","Eddy","Touch"],
       "hotend": ["Dragon","Dragon UHF","Dragon Ace","NF-Crazy","Rapido HF","Rapido UHF","Revo","TZ2.0","Chube"],
       "url": "https://github.com/Armchair-Heavy-Industries/A4T",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
