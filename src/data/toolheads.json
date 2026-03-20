@@ -32,9 +32,9 @@
 
     {
       "name": "AntHead",
-      "extruders": ["Sherpa Mini","unknown"],
+      "extruders": ["Sherpa Mini","Wristwatch BMG","Wristwatch G2","Galileo 2","Orbiter 2"],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": ["Bambulab X1/P1","Dragon Ace"],
       "url": "https://github.com/PrintersForAnts/AntHead",
       "description": "Lightweight toolhead for Printers for Ants.",
       "communityPick": true,
