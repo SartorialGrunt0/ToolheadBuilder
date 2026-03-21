@@ -26,6 +26,99 @@ function formatList(items) {
     : [];
 }
 
+const mountingPatternMap = new Map(
+  [...new Set(extrudersData.extruders.map((e) => e.mounting_pattern))].map(
+    (p) => [p.toLowerCase(), p]
+  )
+);
+
+const extruderNameSet = new Set(
+  extrudersData.extruders.map((e) => e.name.toLowerCase())
+);
+
+function getOfficialExtruders(extruderNames) {
+  const formatted = formatList(extruderNames);
+  const official = [];
+  const seen = new Set();
+
+  for (const name of formatted) {
+    const lowerName = name.toLowerCase();
+    if (extruderNameSet.has(lowerName) && !seen.has(lowerName)) {
+      official.push(name);
+      seen.add(lowerName);
+    }
+  }
+  return official;
+}
+
+function getExpandedExtruders(extruderNames) {
+  const official = getOfficialExtruders(extruderNames);
+  const officialLower = new Set(official.map((n) => n.toLowerCase()));
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+
+  // Collect mounting patterns from official extruders
+  const patterns = new Set();
+  for (const name of official) {
+    const ext = extrudersData.extruders.find(
+      (e) => e.name.toLowerCase() === name.toLowerCase()
+    );
+    if (ext && ext.mounting_pattern !== 'other') {
+      patterns.add(ext.mounting_pattern);
+    }
+  }
+
+  // Also check if any listed name is itself a mounting pattern name
+  for (const name of formatList(extruderNames)) {
+    const matched = mountingPatternMap.get(name.toLowerCase());
+    if (matched && matched !== 'other') patterns.add(matched);
+  }
+
+  for (const ext of extrudersData.extruders) {
+    const extLower = ext.name.toLowerCase();
+    if (!seen.has(extLower) && patterns.has(ext.mounting_pattern)) {
+      expanded.push(ext.name);
+      seen.add(extLower);
+    }
+  }
+  return expanded;
+}
+
+const hotendNameSet = new Set(
+  hotendsData.hotends.map((h) => h.name.toLowerCase())
+);
+
+function getOfficialHotends(hotendNames) {
+  return formatList(hotendNames);
+}
+
+function getExpandedHotends(hotendNames) {
+  const official = formatList(hotendNames);
+  const officialLower = new Set(official.map((n) => n.toLowerCase()));
+  const mountPatterns = new Set();
+
+  for (const name of official) {
+    const detail = findDetail(name, hotendsData.hotends);
+    if (detail?.mounting_pattern) {
+      for (const p of detail.mounting_pattern) {
+        if (p !== 'other') mountPatterns.add(p);
+      }
+    }
+  }
+
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+  for (const hotend of hotendsData.hotends) {
+    const hLower = hotend.name.toLowerCase();
+    if (seen.has(hLower)) continue;
+    if (hotend.mounting_pattern?.some((p) => mountPatterns.has(p))) {
+      expanded.push(hotend.name);
+      seen.add(hLower);
+    }
+  }
+  return expanded;
+}
+
 function HardwareCard({ name, detail, accentColor }) {
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb' },
@@ -144,8 +237,12 @@ function HardwareCard({ name, detail, accentColor }) {
   );
 }
 
-function HardwareSection({ title, items, catalog, accentColor }) {
-  const list = formatList(items);
+function HardwareSection({ title, officialItems, expandedItems, catalog, accentColor }) {
+  const [showExpanded, setShowExpanded] = useState(false);
+  const officialList = typeof officialItems === 'object' && Array.isArray(officialItems) ? officialItems : formatList(officialItems);
+  const expandedList = expandedItems || [];
+  const borderColor = accentColor === 'blue' ? '#3b82f6' : accentColor === 'green' ? '#22c55e' : '#a855f7';
+
   return (
     <div style={{ flex: '1', minWidth: '280px' }}>
       <h3
@@ -154,20 +251,14 @@ function HardwareSection({ title, items, catalog, accentColor }) {
           fontWeight: 700,
           marginBottom: '12px',
           color: 'var(--sl-color-white)',
-          borderBottom: `2px solid ${
-            accentColor === 'blue'
-              ? '#3b82f6'
-              : accentColor === 'green'
-              ? '#22c55e'
-              : '#a855f7'
-          }`,
+          borderBottom: `2px solid ${borderColor}`,
           paddingBottom: '6px',
         }}
       >
-        {title} ({list.length})
+        {title} ({officialList.length}{expandedList.length > 0 ? ` + ${expandedList.length}` : ''})
       </h3>
-      {list.length > 0 ? (
-        list.map((name) => (
+      {officialList.length > 0 ? (
+        officialList.map((name) => (
           <HardwareCard
             key={name}
             name={name}
@@ -179,6 +270,51 @@ function HardwareSection({ title, items, catalog, accentColor }) {
         <p style={{ color: 'var(--sl-color-gray-4)', fontStyle: 'italic', fontSize: '0.9rem' }}>
           Compatibility data not yet available
         </p>
+      )}
+      {expandedList.length > 0 && (
+        <>
+          <button
+            onClick={() => setShowExpanded(!showExpanded)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              width: '100%',
+              padding: '8px 12px',
+              marginTop: '4px',
+              marginBottom: '8px',
+              border: `1px solid var(--sl-color-gray-5)`,
+              borderRadius: '6px',
+              backgroundColor: 'transparent',
+              color: 'var(--sl-color-gray-3)',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <span style={{
+              display: 'inline-block',
+              transition: 'transform 0.2s ease',
+              transform: showExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+            }}>
+              ▶
+            </span>
+            {showExpanded ? 'Hide' : 'See'} {expandedList.length} more by mounting pattern
+          </button>
+          {showExpanded && (
+            <div style={{ opacity: 0.85 }}>
+              {expandedList.map((name) => (
+                <HardwareCard
+                  key={name}
+                  name={name}
+                  detail={findDetail(name, catalog)}
+                  accentColor={accentColor}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -314,19 +450,21 @@ export default function ToolheadConfigurator() {
           <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
             <HardwareSection
               title="Extruders"
-              items={toolheadEntry.extruders}
+              officialItems={getOfficialExtruders(toolheadEntry.extruders)}
+              expandedItems={getExpandedExtruders(toolheadEntry.extruders)}
               catalog={extrudersData.extruders}
               accentColor="blue"
             />
             <HardwareSection
               title="Hotends"
-              items={toolheadEntry.hotend}
+              officialItems={getOfficialHotends(toolheadEntry.hotend)}
+              expandedItems={getExpandedHotends(toolheadEntry.hotend)}
               catalog={hotendsData.hotends}
               accentColor="green"
             />
             <HardwareSection
               title="Probes"
-              items={toolheadEntry.probe}
+              officialItems={formatList(toolheadEntry.probe)}
               catalog={probesData.probes}
               accentColor="purple"
             />

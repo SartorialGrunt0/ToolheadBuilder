@@ -33,8 +33,8 @@
     {
       "name": "AntHead",
       "extruders": ["Sherpa Mini","Wristwatch BMG","Wristwatch G2","Galileo 2","Orbiter 2"],
-      "probe": "unknown",
-      "hotend": ["Bambulab X1/P1","Dragon Ace"],
+      "probe": ["Beacon","Cartographer"],
+      "hotend": ["Bambu X1/P1","Dragon Ace","Revo","Dragon","Dragon UHF","Rapido HF"],
       "url": "https://github.com/PrintersForAnts/AntHead",
       "description": "Lightweight toolhead for Printers for Ants.",
       "communityPick": true,
@@ -98,9 +98,9 @@
 
     {
       "name": "Dragon Burner",
-      "extruders": ["Sherpa Mini","unknown"],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "extruders": ["Sherpa Mini","LGX-lite","Orbiter 2","Orbiter 1.5","Vz HextrudORT","Double Folded Ascender","RoundTrip","Galileo 2 Standalone"],
+      "probe": ["SlideSwipe","Unklicky","ZeroClick"],
+      "hotend": ["Phateus Dragon SF","Phateus Dragon HF","Trianglelabs Dragon Ace Volcano","Dragonfly BMO","Phateus Dragonfly","E3D Revo","Phateus Rapido","NF Crazy","Creality Spider Pro","Bambu X1/P1","TaiChi","E3D V6","Red Lizard K1","Red Lizard K1 HF","Trianglelabs Dragon Ace","Phaetus NeXt G HF","Phaetus NeXt G UHF","Chube Compact"],
       "url": "https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner",
       "description": "Lightweight toolhead for Printers for Ants."
     },

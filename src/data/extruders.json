@@ -345,7 +345,7 @@
     },
 
     {
-      "name": "BMG Extruder",
+      "name": "BMG",
       "mounting_pattern": "other",
       "gear_type": "other",
       "url": "https://www.bondtech.se/product/bmg-extruder/",
@@ -353,7 +353,7 @@
     },
 
     {
-      "name": "LGX Lite Extruder",
+      "name": "LGX-Lite",
       "mounting_pattern": "LGX-lite",
       "gear_type": "other",
       "url": "https://www.bondtech.se/product/lgx-lite-v2-large-gears-extruder-no-motor/",
