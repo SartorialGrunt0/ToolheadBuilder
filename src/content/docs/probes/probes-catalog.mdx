@@ -3,48 +3,6 @@ title: Catalog
 description: A catalog of 3D printer probes.
 ---
 
-import { Aside, Icon ,Tabs, TabItem } from '@astrojs/starlight/components';
-import { Image } from "astro:assets";
+import ProbesCatalog from '../../../components/ProbesCatalog.astro';
 
-<Tabs syncKey="Probes">
-
-  <TabItem label="Touch Probes">
-    - [BLTouch](https://www.antclabs.com/bltouch) - The OG probe, wide-compatibility, fragile pin, best suited for unenclosed printers.
-    - [3DTouch](https://trianglelab.net/products/3d-touch?VariantsId=10429) - Clone of BLTouch, available from many vendors, lower cost alternative.
-    - [CRTouch](https://www.creality3dofficial.com/products/creality-cr-touch) - Variant of BLTouch, features a metal probe pin.
-    - [MicroProbe](https://github.com/bigtreetech/MicroProbe) - Lightweight touchprobe.
-  </TabItem>
-
-  <TabItem label="Touchless Probes">
-    - [Omron](https://west3d.com/products/omron-tl-q5m-inductive-probe) - An inductive probe often fit within the Voron x-carriage, clones available with varying quality.
-    - [SuperPINDA](https://www.prusa3d.com/product/superpinda/) - The classic Prusa inductive probe fit on many of their classic printers, similar probes available from other vendors.
-  </TabItem>
-
-  <TabItem label="Dockable Probes">
-    - [Klicky](https://github.com/jlas1/Klicky-Probe) - Dockable microswitch probe, features a mouse switch for probe, wide printer support, supports fixed docking.
-    - [Klicky PCB](https://github.com/tanaes/whopping_Voron_mods/tree/main/pcb_klicky) - Dockable microswitch probe, variant of Klicky with a PCB main switch body.
-    - [Quickdraw](https://github.com/Annex-Engineering/Quickdraw_Probe) - Dockable microswitch probe.
-    - [Euclid](https://euclidprobe.github.io/) - Dockable microswitch probe, PCB main body.
-    - [ZeroClick](https://github.com/zruncho3d/ZeroClick) - Dockable microswitch probe for Voron V0.
-    - [Unklicky](https://github.com/majarspeed/Unklicky) - Dockable probe, high sensitivity conductive probe, many variations for different applications.
-    - [SideSwipe](https://github.com/chestwood96/SlideSwipe) - Dockable microswitch probe for Voron V0, features a servo dock.
-  </TabItem>
-
-  <TabItem label="Nozzle Probes">
-    - [TAP](https://github.com/VoronDesign/Voron-Tap) - Probe designed to allow the X carriage to move in the Z direction for probing, uses a microswitch or optical sensor, often available in CNC aluminum or carbon fiber variants.
-    - [Boop](https://github.com/PrintersForAnts/Boop) - Similar to TAP, designed for Printers for Ants, features an optical sensor.
-    - [PZ](https://e3d-online.com/products/pz-probe) - Nozzle probe featuring a piezoelectric sensor attached to the Revo Voron hotend.
-    - [ALPS](https://3dmellow.com/products/mellow-heatcore-4-uhf-alps-hotend-smart-leveling-nozzle-probe-for-voron-blv-vzbot-hevort-diy-3d-printer-high-flow-and-high-speed) - Nozzle probe featuring a pressure sensor attached to a Mellow HeatCore, FluxHeat, or V6 hotend.
-    - [Z-Probe Membrane](https://trianglelab.net/products/z-probe-1) - Nozzle probe featuring a membrane sensor, must be removed after probing.
-    - [Z-Probe Piezo20](https://trianglelab.net/products/z-probe-2?VariantsId=10844) - Piezo nozzle probe designed for V6-style hotends.
-  </TabItem>
-
-  <TabItem label="Bed Scanner Probes">
-    - [Cartographer](https://cartographer3d.com/) - Eddy current sensor bed scanner, supports CANbus or USB, built-in ADXL345.
-    - [Beacon](https://beacon3d.com/) - Eddy current sensor bed scanner, supports USB.
-    - [Eddy](https://github.com/bigtreetech/Eddy) - Eddy current sensor bed scanner, supports USB, CANBus, or I2C, fits within the Voron X-carriage using the Omron inductive probe mount.
-    - [Mellow Scanner](https://3dmellow.com/products/mellow-fly-sht36-v3-klipper-compatible-3d-printer-klipper-rrf-canbus-rs232-board-max-plus-ldc1612-eddy-for-nema14-17-motor) - Eddy current sensor bed scanner, typically paired with the Mellow toolhead board.
-    - [BD Sensor](https://mellow.klipper.cn/en/docs/ProductDoc/ExtensionBoard/bd-sensor/) - Eddy current sensor bed probe, supports USB, must be removed after probing.
-    - [IDM Scanner](https://github.com/Killajoedotcom/IDM) - Eddy current bed sensor, supports CANbus.
-  </TabItem>
-</Tabs>
+<ProbesCatalog />

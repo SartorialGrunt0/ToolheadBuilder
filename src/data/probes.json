@@ -1,0 +1,185 @@
+{
+  "probes": [
+    {
+      "name": "BLTouch",
+      "type": "touch",
+      "url": "https://www.antclabs.com/bltouch",
+      "description": "The OG probe, wide-compatibility, fragile pin, best suited for unenclosed printers."
+    },
+
+    {
+      "name": "3DTouch",
+      "type": "touch",
+      "url": "https://trianglelab.net/products/3d-touch",
+      "description": "Clone of BLTouch, available from many vendors, lower cost alternative."
+    },
+
+    {
+      "name": "CRTouch",
+      "type": "touch",
+      "url": "https://www.creality3dofficial.com/products/creality-cr-touch",
+      "description": "Variant of BLTouch, features a metal probe pin."
+    },
+
+    {
+      "name": "MicroProbe",
+      "type": "touch",
+      "url": "https://github.com/bigtreetech/MicroProbe",
+      "description": "Lightweight touch probe."
+    },
+
+    {
+      "name": "Omron",
+      "type": "touchless",
+      "url": "https://west3d.com/products/omron-tl-q5m-inductive-probe",
+      "description": "An inductive probe often fit within the Voron x-carriage, clones available with varying quality."
+    },
+
+    {
+      "name": "SuperPINDA",
+      "type": "touchless",
+      "url": "https://www.prusa3d.com/product/superpinda/",
+      "description": "The classic Prusa inductive probe fit on many of their classic printers, similar probes available from other vendors."
+    },
+
+    {
+      "name": "Klicky",
+      "type": "dockable",
+      "url": "https://github.com/jlas1/Klicky-Probe",
+      "description": "Dockable microswitch probe, features a mouse switch for probe, wide printer support, supports fixed docking."
+    },
+
+    {
+      "name": "Klicky PCB",
+      "type": "dockable",
+      "url": "https://github.com/tanaes/whopping_Voron_mods/tree/main/pcb_klicky",
+      "description": "Dockable microswitch probe, variant of Klicky with a PCB main switch body."
+    },
+
+    {
+      "name": "Quickdraw",
+      "type": "dockable",
+      "url": "https://github.com/Annex-Engineering/Quickdraw_Probe",
+      "description": "Dockable microswitch probe."
+    },
+
+    {
+      "name": "Euclid",
+      "type": "dockable",
+      "url": "https://euclidprobe.github.io/",
+      "description": "Dockable microswitch probe, PCB main body."
+    },
+
+    {
+      "name": "ZeroClick",
+      "type": "dockable",
+      "url": "https://github.com/zruncho3d/ZeroClick",
+      "description": "Dockable microswitch probe for Voron V0."
+    },
+
+    {
+      "name": "Unklicky",
+      "type": "dockable",
+      "url": "https://github.com/majarspeed/Unklicky",
+      "description": "Dockable probe, high sensitivity conductive probe, many variations for different applications."
+    },
+
+    {
+      "name": "SlideSwipe",
+      "type": "dockable",
+      "url": "https://github.com/chestwood96/SlideSwipe",
+      "description": "Dockable microswitch probe for Voron V0, features a servo dock."
+    },
+
+    {
+      "name": "SideSwipe",
+      "type": "dockable",
+      "url": "https://github.com/oldfar-t/Side-Swipe-Magnetic-Probe",
+      "description": "Dockable microswitch probe for Voron V0, features a servo dock."
+    },
+
+    {
+      "name": "TAP",
+      "type": "nozzle",
+      "url": "https://github.com/VoronDesign/Voron-Tap",
+      "description": "Probe designed to allow the X carriage to move in the Z direction for probing, uses a microswitch or optical sensor, often available in CNC aluminum or carbon fiber variants."
+    },
+
+    {
+      "name": "Boop",
+      "type": "nozzle",
+      "url": "https://github.com/PrintersForAnts/Boop",
+      "description": "Similar to TAP, designed for Printers for Ants, features an optical sensor."
+    },
+
+    {
+      "name": "PZ",
+      "type": "nozzle",
+      "url": "https://e3d-online.com/products/pz-probe",
+      "description": "Nozzle probe featuring a piezoelectric sensor attached to the Revo Voron hotend."
+    },
+
+    {
+      "name": "ALPS",
+      "type": "nozzle",
+      "url": "https://3dmellow.com/products/mellow-heatcore-4-uhf-alps-hotend-smart-leveling-nozzle-probe-for-voron-blv-vzbot-hevort-diy-3d-printer-high-flow-and-high-speed",
+      "description": "Nozzle probe featuring a pressure sensor attached to a Mellow HeatCore, FluxHeat, or V6 hotend."
+    },
+
+    {
+      "name": "Z-Probe Membrane",
+      "type": "nozzle",
+      "url": "https://trianglelab.net/products/z-probe-1",
+      "description": "Nozzle probe featuring a membrane sensor, must be removed after probing."
+    },
+
+    {
+      "name": "Z-Probe Piezo20",
+      "type": "nozzle",
+      "url": "https://trianglelab.net/products/z-probe-2",
+      "description": "Piezo nozzle probe designed for V6-style hotends."
+    },
+
+    {
+      "name": "Cartographer",
+      "type": "bed_scanner",
+      "url": "https://cartographer3d.com/",
+      "description": "Eddy current sensor bed scanner, supports CANbus or USB, built-in ADXL345."
+    },
+
+    {
+      "name": "Beacon",
+      "type": "bed_scanner",
+      "url": "https://beacon3d.com/",
+      "description": "Eddy current sensor bed scanner, supports USB."
+    },
+
+    {
+      "name": "Eddy",
+      "type": "bed_scanner",
+      "url": "https://github.com/bigtreetech/Eddy",
+      "description": "Eddy current sensor bed scanner, supports USB, CANBus, or I2C, fits within the Voron X-carriage using the Omron inductive probe mount."
+    },
+
+    {
+      "name": "Mellow Scanner",
+      "type": "bed_scanner",
+      "url": "https://3dmellow.com/products/mellow-fly-sht36-v3-klipper-compatible-3d-printer-klipper-rrf-canbus-rs232-board-max-plus-ldc1612-eddy-for-nema14-17-motor",
+      "description": "Eddy current sensor bed scanner, typically paired with the Mellow toolhead board."
+    },
+
+    {
+      "name": "BD Sensor",
+      "type": "bed_scanner",
+      "url": "https://mellow.klipper.cn/en/docs/ProductDoc/ExtensionBoard/bd-sensor/",
+      "description": "Eddy current sensor bed probe, supports USB, must be removed after probing."
+    },
+
+    {
+      "name": "IDM Scanner",
+      "type": "bed_scanner",
+      "url": "https://github.com/Killajoedotcom/IDM",
+      "description": "Eddy current bed sensor, supports CANbus."
+    }
+  ]
+}

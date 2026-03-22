@@ -1,0 +1,26 @@
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import toolheadsData from '../data/toolheads.json';
+
+const toolheads = toolheadsData.toolheads;
+const fullSize = toolheads.filter(t => t.category === 'Full Size Printers');
+const ants = toolheads.filter(t => t.category === 'Printers for Ants');
+---
+
+<Tabs syncKey="Toolheads">
+  <TabItem label="Full Size Printers">
+    <ul>
+      {fullSize.map(t => (
+        <li><a href={t.url} target="_blank" rel="noopener noreferrer">{t.name}</a> - {t.description}</li>
+      ))}
+    </ul>
+  </TabItem>
+
+  <TabItem label="Printers for Ants">
+    <ul>
+      {ants.map(t => (
+        <li><a href={t.url} target="_blank" rel="noopener noreferrer">{t.name}</a> - {t.description}</li>
+      ))}
+    </ul>
+  </TabItem>
+</Tabs>

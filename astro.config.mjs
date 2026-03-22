@@ -19,7 +19,10 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Introduction',
-          items: [{ label: 'Introduction', slug: 'introduction' }],
+          items: [
+            { label: 'Introduction', slug: 'introduction' },
+            { label: 'Toolhead Configurator', slug: 'toolhead-configurator' },
+          ],
         },
         {
           label: 'Toolheads',
