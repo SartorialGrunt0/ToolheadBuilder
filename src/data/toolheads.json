@@ -181,13 +181,19 @@
       "name": "Dragon Burner",
       "extruders": [
         "Sherpa Mini",
+        "Sherpa Micro",
+        "Sailfin",
+        "Sharkfin",
+        "E3D Roto Vitamins",
         "LGX-lite",
         "Orbiter 2",
         "Orbiter 1.5",
         "Vz HextrudORT",
         "Double Folded Ascender",
         "RoundTrip",
-        "Galileo 2 Standalone"
+        "Galileo 2 Standalone",
+        "Wristwatch BMG",
+        "Papilio Lite"
       ],
       "probe": [
         "SlideSwipe",
@@ -197,7 +203,6 @@
       "hotend": [
         "Dragon SF",
         "Dragon HF",
-        "Dragon Ace Volcano",
         "Dragonfly",
         "Revo",
         "Rapido HF",
@@ -206,8 +211,8 @@
         "Bambu X1/P1",
         "TaiChi",
         "E3D V6",
-        "Red Lizard K1",
         "Red Lizard K1 HF",
+        "Red Lizard K1 UHF",
         "Dragon Ace",
         "Phaetus NeXt G HF",
         "Phaetus NeXt G UHF",
