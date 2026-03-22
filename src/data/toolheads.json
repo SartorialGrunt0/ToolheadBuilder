@@ -590,7 +590,13 @@
       "extruders": [
         "Clockwork2"
       ],
-      "probe": "unknown",
+      "probe": [
+        "Tap",
+        "Klicky",
+        "Klicky PCB",
+        "Eddy",
+        "Omron"
+      ],
       "hotend": ["Dragon HF","Dragonfly","Rapido HF","Revo","E3D V6","Chube"],
       "url": "https://github.com/VoronDesign/Voron-Stealthburner",
       "description": "Toolhead for Voron 2.4 R1 and Trident, designed for Clockwork2 extruder.",
