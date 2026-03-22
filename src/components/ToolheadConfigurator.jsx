@@ -8,14 +8,7 @@ const communityPicks = toolheadsData.toolheads.filter((t) => t.configurator);
 
 function findDetail(name, catalog, nameKey = 'name') {
   const lower = name.toLowerCase();
-  return catalog.find((item) => {
-    const itemName = item[nameKey].toLowerCase();
-    return (
-      itemName === lower ||
-      itemName.includes(lower) ||
-      lower.includes(itemName)
-    );
-  });
+  return catalog.find((item) => item[nameKey].toLowerCase() === lower);
 }
 
 function formatList(items) {
