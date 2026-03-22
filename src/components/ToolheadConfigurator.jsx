@@ -681,6 +681,9 @@ export default function ToolheadConfigurator() {
     }
   };
 
+  const makeToggleHandler = (current, setter) => (name) =>
+    setter(name === current ? null : name);
+
   // Build the "Selected Hardware" table rows
   const selectedHardwareRows = [];
 
@@ -810,7 +813,7 @@ export default function ToolheadConfigurator() {
                 catalog={extrudersData.extruders}
                 accentColor="blue"
                 selectedItem={selectedExtruder}
-                onSelect={(name) => setSelectedExtruder(name === selectedExtruder ? null : name)}
+                onSelect={makeToggleHandler(selectedExtruder, setSelectedExtruder)}
               />
               <HardwareSection
                 title="Hotends"
@@ -819,7 +822,7 @@ export default function ToolheadConfigurator() {
                 catalog={hotendsData.hotends}
                 accentColor="green"
                 selectedItem={selectedHotend}
-                onSelect={(name) => setSelectedHotend(name === selectedHotend ? null : name)}
+                onSelect={makeToggleHandler(selectedHotend, setSelectedHotend)}
               />
               <HardwareSection
                 title="Probes"
@@ -827,7 +830,7 @@ export default function ToolheadConfigurator() {
                 catalog={probesData.probes}
                 accentColor="purple"
                 selectedItem={selectedProbe}
-                onSelect={(name) => setSelectedProbe(name === selectedProbe ? null : name)}
+                onSelect={makeToggleHandler(selectedProbe, setSelectedProbe)}
               />
             </div>
           </div>
