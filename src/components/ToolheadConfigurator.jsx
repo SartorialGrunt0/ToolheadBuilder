@@ -112,6 +112,50 @@ function getExpandedHotends(hotendNames) {
   return expanded;
 }
 
+function isUnknownValue(value) {
+  return typeof value === 'string' && value.trim().toLowerCase() === 'unknown';
+}
+
+function toKnownList(value) {
+  const list = Array.isArray(value) ? value : value ? [value] : [];
+  return list.filter((item) => !isUnknownValue(item));
+}
+
+function getDisplayHotendType(detail) {
+  if (!detail) return null;
+  if (detail.hotend_type && !isUnknownValue(detail.hotend_type)) return detail.hotend_type;
+
+  // Backward-compatible fallback for existing data where flow_rate stores SF/HF/UHF class.
+  if (
+    typeof detail.flow_rate === 'string' &&
+    ['sf', 'hf', 'uhf'].includes(detail.flow_rate.toLowerCase())
+  ) {
+    return detail.flow_rate.toUpperCase();
+  }
+
+  return null;
+}
+
+function getDisplayFlowRate(detail) {
+  if (!detail) return null;
+
+  // New-format flow rate value.
+  if (typeof detail.flow_rate === 'string' && !isUnknownValue(detail.flow_rate)) {
+    const typeOnly = ['sf', 'hf', 'uhf'].includes(detail.flow_rate.toLowerCase());
+    if (!typeOnly) return detail.flow_rate;
+  }
+
+  // Fallback: derive from description text like "max flow ~25 mm3/s".
+  const description = typeof detail.description === 'string' ? detail.description : '';
+  const primary = description.match(/(?:max flow|targeting)\s*~\s*([0-9]+(?:\.[0-9]+)?)\s*mm3\/s/i);
+  if (primary) return `~${primary[1]} mm3/s`;
+
+  const secondary = description.match(/([0-9]+(?:\.[0-9]+)?)\s*mm3\/s/i);
+  if (secondary) return `${secondary[1]} mm3/s`;
+
+  return null;
+}
+
 function HardwareCard({ name, detail, accentColor }) {
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb' },
@@ -119,6 +163,20 @@ function HardwareCard({ name, detail, accentColor }) {
     purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea' },
   };
   const c = colors[accentColor] || colors.blue;
+  const nozzleCompatibility = toKnownList(detail?.nozzle_compatibility);
+  const mountingPatterns = toKnownList(detail?.mounting_pattern);
+  const hotendType = getDisplayHotendType(detail);
+  const flowRate = getDisplayFlowRate(detail);
+  const showMeltzone = detail?.meltzone_length && !isUnknownValue(detail.meltzone_length);
+  const showLength = detail?.length && !isUnknownValue(detail.length);
+
+  const mountAndLength = [];
+  if (mountingPatterns.length > 0) {
+    mountAndLength.push(`Mount: ${mountingPatterns.join(', ')}`);
+  }
+  if (showLength) {
+    mountAndLength.push(`Length: ${detail.length}`);
+  }
 
   return (
     <div
@@ -154,7 +212,7 @@ function HardwareCard({ name, detail, accentColor }) {
             name
           )}
         </strong>
-        {detail?.flow_rate && (
+        {hotendType && (
           <span
             style={{
               fontSize: '0.7rem',
@@ -166,10 +224,10 @@ function HardwareCard({ name, detail, accentColor }) {
               marginLeft: 'auto',
             }}
           >
-            {detail.flow_rate}
+            {hotendType}
           </span>
         )}
-        {detail?.type && (
+        {detail?.type && !isUnknownValue(detail.type) && (
           <span
             style={{
               fontSize: '0.7rem',
@@ -184,7 +242,7 @@ function HardwareCard({ name, detail, accentColor }) {
             {detail.type}
           </span>
         )}
-        {detail?.gear_type && (
+        {detail?.gear_type && !isUnknownValue(detail.gear_type) && (
           <span
             style={{
               fontSize: '0.7rem',
@@ -213,7 +271,7 @@ function HardwareCard({ name, detail, accentColor }) {
           {detail.description}
         </p>
       )}
-      {detail?.mounting_pattern && (
+      {flowRate && (
         <p
           style={{
             margin: '4px 0 0 0',
@@ -222,8 +280,43 @@ function HardwareCard({ name, detail, accentColor }) {
             paddingLeft: '16px',
           }}
         >
-          Mount: {Array.isArray(detail.mounting_pattern) ? detail.mounting_pattern.join(', ') : detail.mounting_pattern}
-          {detail.length && detail.length !== 'unknown' ? ` · Length: ${detail.length}` : ''}
+          Flow: {flowRate}
+        </p>
+      )}
+      {mountAndLength.length > 0 && (
+        <p
+          style={{
+            margin: '4px 0 0 0',
+            fontSize: '0.75rem',
+            color: 'var(--sl-color-gray-4)',
+            paddingLeft: '16px',
+          }}
+        >
+          {mountAndLength.join(' · ')}
+        </p>
+      )}
+      {showMeltzone && (
+        <p
+          style={{
+            margin: '4px 0 0 0',
+            fontSize: '0.75rem',
+            color: 'var(--sl-color-gray-4)',
+            paddingLeft: '16px',
+          }}
+        >
+          Meltzone: {detail.meltzone_length}
+        </p>
+      )}
+      {nozzleCompatibility.length > 0 && (
+        <p
+          style={{
+            margin: '4px 0 0 0',
+            fontSize: '0.75rem',
+            color: 'var(--sl-color-gray-4)',
+            paddingLeft: '16px',
+          }}
+        >
+          Nozzle: {nozzleCompatibility.join(', ')}
         </p>
       )}
     </div>

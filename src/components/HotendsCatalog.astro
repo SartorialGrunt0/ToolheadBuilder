@@ -3,9 +3,9 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 import hotendsData from '../data/hotends.json';
 
 const hotends = hotendsData.hotends;
-const sf = hotends.filter(h => h.flow_rate === 'SF');
-const hf = hotends.filter(h => h.flow_rate === 'HF');
-const uhf = hotends.filter(h => h.flow_rate === 'UHF');
+const sf = hotends.filter(h => h.hotend_type === 'SF');
+const hf = hotends.filter(h => h.hotend_type === 'HF');
+const uhf = hotends.filter(h => h.hotend_type === 'UHF');
 ---
 
 <Tabs syncKey="hotends">
