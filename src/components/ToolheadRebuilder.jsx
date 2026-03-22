@@ -361,8 +361,8 @@ function ComponentSelector({ title, options, selected, onSelect, accentColor }) 
   );
 }
 
-const HOTEND_FAN_OPTIONS = ['3007', '3010', '4010', 'unknown'];
-const PART_COOLING_FAN_OPTIONS = ['4010', '4020', '5015', 'CPAP', 'unknown'];
+const HOTEND_FAN_OPTIONS = ['3007', '3010', '4010'];
+const PART_COOLING_FAN_OPTIONS = ['4010', '4020', '5015', 'CPAP'];
 
 function FanFilter({ title, options, selected, onSelect, accentColor }) {
   const colors = {

@@ -646,8 +646,20 @@ export default function ToolheadConfigurator() {
   const [selectedProbe, setSelectedProbe] = useState(null);
   const total = communityPicks.length;
 
-  const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
-  const goRight = () => setActiveIndex((prev) => (prev + 1) % total);
+  const clearComponentSelections = () => {
+    setSelectedExtruder(null);
+    setSelectedHotend(null);
+    setSelectedProbe(null);
+  };
+
+  const goLeft = () => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+    clearComponentSelections();
+  };
+  const goRight = () => {
+    setActiveIndex((prev) => (prev + 1) % total);
+    clearComponentSelections();
+  };
 
   const leftIndex = (activeIndex - 1 + total) % total;
   const rightIndex = (activeIndex + 1) % total;
@@ -662,12 +674,11 @@ export default function ToolheadConfigurator() {
       const isDeselecting = selectedName === name;
       setSelectedName(isDeselecting ? null : name);
       if (isDeselecting) {
-        setSelectedExtruder(null);
-        setSelectedHotend(null);
-        setSelectedProbe(null);
+        clearComponentSelections();
       }
     } else {
       setActiveIndex(index);
+      clearComponentSelections();
     }
   };
 
@@ -675,9 +686,7 @@ export default function ToolheadConfigurator() {
     const isDeselecting = selectedName === toolheadName;
     setSelectedName(isDeselecting ? null : toolheadName);
     if (isDeselecting) {
-      setSelectedExtruder(null);
-      setSelectedHotend(null);
-      setSelectedProbe(null);
+      clearComponentSelections();
     }
   };
 
