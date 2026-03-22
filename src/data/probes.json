@@ -85,9 +85,16 @@
     },
 
     {
-      "name": "SideSwipe",
+      "name": "SlideSwipe",
       "type": "dockable",
       "url": "https://github.com/chestwood96/SlideSwipe",
+      "description": "Dockable microswitch probe for Voron V0, features a servo dock."
+    },
+
+    {
+      "name": "SideSwipe",
+      "type": "dockable",
+      "url": "https://github.com/oldfar-t/Side-Swipe-Magnetic-Probe",
       "description": "Dockable microswitch probe for Voron V0, features a servo dock."
     },
 

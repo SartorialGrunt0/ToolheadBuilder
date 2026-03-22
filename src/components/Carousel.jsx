@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+/**
+ * @param {{ images?: string[], interval?: number }} props
+ */
 export default function Carousel({ images = [], interval = 3000 }) {
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState(null);

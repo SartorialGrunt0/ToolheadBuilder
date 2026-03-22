@@ -15,25 +15,10 @@ hero:
 ---
 
 
-import Carousel from '../../components/Carousel.jsx';
+import ToolheadCarousel from '../../components/ToolheadCarousel.astro';
 
 <div class="mt-12 flex justify-center">
-  <Carousel
-    client:load
-    images={[
-      "/A4T_render.png",
-      "/Xol.png",
-      "/Stealthburner.jpg",
-      "/Jabberwocky.webp",
-      "/Archetype.jpg",
-      "/yavoth.png",
-      "/dragonburner.png",
-      "/RX.webp",
-      "/Trinity.jpg",
-      "/Anthead_render.png"
-    ]}
-    interval={3000}
-  />
+  <ToolheadCarousel />
 </div>
 
 <div class="mt-10 text-center text-gray-600 dark:text-gray-400 text-sm max-w-2xl mx-auto px-4">

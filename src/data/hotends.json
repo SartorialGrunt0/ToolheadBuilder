@@ -144,7 +144,7 @@
     },
 
     {
-      "name": "TZ 2.0",
+      "name": "TZ2.0",
       "mounting_pattern": ["v6","dragon","bambu"],
       "length": "25.4mm",
       "meltzone_length": "25.4mm",

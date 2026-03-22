@@ -4,7 +4,7 @@ import hotendsData from '../data/hotends.json';
 import extrudersData from '../data/extruders.json';
 import probesData from '../data/probes.json';
 
-const communityPicks = toolheadsData.toolheads.filter((t) => t.communityPick);
+const communityPicks = toolheadsData.toolheads.filter((t) => t.configurator);
 
 function findDetail(name, catalog, nameKey = 'name') {
   const lower = name.toLowerCase();
@@ -320,111 +320,246 @@ function HardwareSection({ title, officialItems, expandedItems, catalog, accentC
   );
 }
 
+function CarouselArrow({ direction, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-label={direction === 'left' ? 'Previous toolhead' : 'Next toolhead'}
+      style={{
+        position: 'absolute',
+        top: '50%',
+        [direction === 'left' ? 'left' : 'right']: '0px',
+        transform: 'translateY(-50%)',
+        zIndex: 10,
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--sl-color-gray-3)',
+        transition: 'color 0.2s ease',
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--sl-color-white)')}
+      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--sl-color-gray-3)')}
+    >
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {direction === 'left' ? (
+          <polyline points="15 18 9 12 15 6" />
+        ) : (
+          <polyline points="9 6 15 12 9 18" />
+        )}
+      </svg>
+    </button>
+  );
+}
+
+function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
+  const isCenter = position === 'center';
+  const isLeft = position === 'left';
+  const isRight = position === 'right';
+
+  const translateX = isCenter ? '0%' : isLeft ? '-60%' : '60%';
+  const scale = isCenter ? 1 : 0.82;
+  const opacity = isCenter ? 1 : 0.4;
+  const zIndex = isCenter ? 5 : 2;
+
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        width: '100%',
+        maxWidth: '420px',
+        transform: `translateX(-50%) translateX(${translateX}) scale(${scale})`,
+        opacity,
+        zIndex,
+        transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+        cursor: 'pointer',
+        pointerEvents: isCenter ? 'auto' : 'auto',
+      }}
+    >
+      <div
+        style={{
+          borderRadius: '12px',
+          border: isSelected && isCenter
+            ? '3px solid #2E8B57'
+            : '2px solid var(--sl-color-gray-5)',
+          padding: '16px',
+          backgroundColor: isSelected && isCenter
+            ? 'var(--sl-color-bg-nav)'
+            : 'var(--sl-color-bg-sidebar)',
+          boxShadow: isSelected && isCenter
+            ? '0 4px 12px rgba(46, 139, 87, 0.3)'
+            : isCenter
+              ? '0 2px 8px rgba(0,0,0,0.15)'
+              : 'none',
+        }}
+      >
+        <img
+          src={toolhead.image}
+          alt={toolhead.name}
+          style={{
+            width: '100%',
+            height: '220px',
+            objectFit: 'contain',
+            objectPosition: 'center',
+            backgroundColor: 'var(--sl-color-bg-nav)',
+            borderRadius: '8px',
+            marginBottom: '12px',
+          }}
+        />
+        <h3
+          style={{
+            fontSize: '1.2rem',
+            fontWeight: 700,
+            marginBottom: '8px',
+            color: 'var(--sl-color-white)',
+          }}
+        >
+          {toolhead.title || toolhead.name}
+        </h3>
+        <p
+          style={{
+            fontSize: '0.9rem',
+            color: 'var(--sl-color-gray-3)',
+            marginBottom: '8px',
+            lineHeight: 1.5,
+          }}
+        >
+          {toolhead.description}
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <a
+            href={toolhead.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: '#2E8B57',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            View on GitHub →
+          </a>
+          {isCenter && (
+            <span
+              onClick={(e) => { e.stopPropagation(); onSelect(); }}
+              style={{
+                fontSize: '0.8rem',
+                padding: '4px 12px',
+                borderRadius: '16px',
+                backgroundColor: isSelected ? '#2E8B57' : 'transparent',
+                color: isSelected ? '#fff' : 'var(--sl-color-gray-3)',
+                border: isSelected ? 'none' : '1px solid var(--sl-color-gray-5)',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              {isSelected ? '✓ Selected' : 'Click to select'}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ToolheadConfigurator() {
   const [selectedName, setSelectedName] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = communityPicks.length;
+
+  const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
+  const goRight = () => setActiveIndex((prev) => (prev + 1) % total);
+
+  const leftIndex = (activeIndex - 1 + total) % total;
+  const rightIndex = (activeIndex + 1) % total;
 
   const toolheadEntry = selectedName
     ? communityPicks.find((t) => t.name === selectedName)
     : null;
 
+  const handleCardClick = (index) => {
+    if (index === activeIndex) {
+      const name = communityPicks[activeIndex].name;
+      setSelectedName((prev) => (prev === name ? null : name));
+    } else {
+      setActiveIndex(index);
+    }
+  };
+
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-      {/* Toolhead selection cards */}
+      {/* Toolhead carousel */}
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '24px',
+          position: 'relative',
+          height: '430px',
           marginBottom: '32px',
+          overflow: 'hidden',
+          padding: '0 40px',
         }}
       >
-        {communityPicks.map((toolhead) => {
-          const isSelected = selectedName === toolhead.name;
+        <CarouselArrow direction="left" onClick={goLeft} />
+        <CarouselArrow direction="right" onClick={goRight} />
+
+        {communityPicks.map((toolhead, i) => {
+          let position = null;
+          if (i === activeIndex) position = 'center';
+          else if (i === leftIndex) position = 'left';
+          else if (i === rightIndex) position = 'right';
+          else return null;
+
           return (
-            <div
+            <ToolheadCard
               key={toolhead.name}
-              onClick={() =>
-                setSelectedName(isSelected ? null : toolhead.name)
+              toolhead={toolhead}
+              position={position}
+              isSelected={selectedName === toolhead.name}
+              onSelect={() =>
+                setSelectedName((prev) =>
+                  prev === toolhead.name ? null : toolhead.name
+                )
               }
-              style={{
-                cursor: 'pointer',
-                borderRadius: '12px',
-                border: isSelected
-                  ? '3px solid #2E8B57'
-                  : '2px solid var(--sl-color-gray-5)',
-                padding: '16px',
-                transition: 'all 0.2s ease',
-                backgroundColor: isSelected
-                  ? 'var(--sl-color-bg-nav)'
-                  : 'var(--sl-color-bg-sidebar)',
-                boxShadow: isSelected
-                  ? '0 4px 12px rgba(46, 139, 87, 0.3)'
-                  : 'none',
-              }}
-            >
-              <img
-                src={toolhead.image}
-                alt={toolhead.name}
-                style={{
-                  width: '100%',
-                  height: '220px',
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                  marginBottom: '12px',
-                }}
-              />
-              <h3
-                style={{
-                  fontSize: '1.2rem',
-                  fontWeight: 700,
-                  marginBottom: '8px',
-                  color: 'var(--sl-color-white)',
-                }}
-              >
-                {toolhead.title || toolhead.name}
-              </h3>
-              <p
-                style={{
-                  fontSize: '0.9rem',
-                  color: 'var(--sl-color-gray-3)',
-                  marginBottom: '8px',
-                  lineHeight: 1.5,
-                }}
-              >
-                {toolhead.description}
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <a
-                  href={toolhead.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: '#2E8B57',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  View on GitHub →
-                </a>
-                <span
-                  style={{
-                    fontSize: '0.8rem',
-                    padding: '4px 12px',
-                    borderRadius: '16px',
-                    backgroundColor: isSelected ? '#2E8B57' : 'transparent',
-                    color: isSelected ? '#fff' : 'var(--sl-color-gray-3)',
-                    border: isSelected ? 'none' : '1px solid var(--sl-color-gray-5)',
-                    fontWeight: 600,
-                  }}
-                >
-                  {isSelected ? '✓ Selected' : 'Click to select'}
-                </span>
-              </div>
-            </div>
+              onClick={() => handleCardClick(i)}
+            />
           );
         })}
+      </div>
+
+      {/* Dot indicators */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '32px' }}>
+        {communityPicks.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            style={{
+              width: i === activeIndex ? '24px' : '8px',
+              height: '8px',
+              borderRadius: '4px',
+              border: 'none',
+              backgroundColor: i === activeIndex ? '#2E8B57' : 'var(--sl-color-gray-5)',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'all 0.3s ease',
+            }}
+          />
+        ))}
       </div>
 
       {/* Compatible hardware display */}
@@ -458,7 +593,7 @@ export default function ToolheadConfigurator() {
             <HardwareSection
               title="Hotends"
               officialItems={getOfficialHotends(toolheadEntry.hotend)}
-              expandedItems={getExpandedHotends(toolheadEntry.hotend)}
+              // expandedItems={getExpandedHotends(toolheadEntry.hotend)}
               catalog={hotendsData.hotends}
               accentColor="green"
             />

@@ -1,0 +1,10 @@
+---
+import toolheadsData from '../data/toolheads.json';
+import Carousel from './Carousel.jsx';
+
+const images = toolheadsData.toolheads
+  .filter(t => t.image)
+  .map(t => t.image);
+---
+
+<Carousel client:load images={images} interval={3000} />
