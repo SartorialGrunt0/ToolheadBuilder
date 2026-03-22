@@ -16,6 +16,7 @@
         "Omron"
       ],
       "hotend": [
+        "Bambu X1/P1",
         "Dragon HF",
         "Dragon UHF",
         "Dragon Ace",
@@ -36,7 +37,7 @@
     {
       "name": "Afterburner",
       "extruders": [
-        "Afterburner"
+        "Clockwork 1"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -93,14 +94,15 @@
       "name": "Archetype",
       "extruders": [
         "Sherpa Mini",
-        "unknown"
+        "Sherpa Micro",
+        "HextrudORT"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": ["Klicky PCB","Klicky","Euclid","Beacon"],
+      "hotend": ["Chube","Goliath","Rapido HF","Rapido UHF"],
       "url": "https://github.com/Armchair-Heavy-Industries/Archetype",
       "description": "Toolhead for Voron 2.4 and Trident, features support for varying fan types.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Archetype",
       "image": "/Archetype.jpg"
     },
@@ -270,10 +272,13 @@
     {
       "name": "Gustav",
       "extruders": [
-        "unknown"
+        "Double Folded Ascender",
+        "Wristwatch G2",
+        "Wristwatch BMG",
+        "Micro-cosm"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": ["Beacon"],
+      "hotend": ["Dragon Ace"],
       "url": "https://github.com/RCI-Nicket/Gustav-Railway-Toolhead",
       "description": "Toolhead for Monolith gantry, features support for CPAP, UHF hotends, and beacon probe.",
       "category": "Full Size Printers",
@@ -287,16 +292,18 @@
         "Sherpa Mini",
         "LGX-lite",
         "Orbiter 2",
-        "unknown"
+        "Orbiter 2",
+        "Galileo 2 Standalone",
+        "Wristwatch BMG"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": ["Beacon","Cartographer"],
+      "hotend": ["Rapido UHF","TZ2.0","Dragon Ace","Chube"],
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova_bedsligers/",
       "description": "Toolhead for Switchwire/Enderwire, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Hypernova",
-      "image": ""
+      "image": "/Hypernova.png"
     },
     {
       "name": "Jabberwocky",
@@ -352,9 +359,9 @@
       "url": "https://github.com/Armchair-Heavy-Industries/Mantis-Xol",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Mantis",
-      "image": ""
+      "image": "/mantis.webp"
     },
     {
       "name": "Micro Saul2",
@@ -392,10 +399,13 @@
       "name": "Mini-Aftersherpa",
       "extruders": [
         "Sherpa Mini",
-        "unknown"
+        "Sherpa Micro",
+        "Sailfin",
+        "Orbiter 1.5",
+        "Orbiter 2"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": ["Dragon HF","Dragonfly","E3D V6","Mosquito"],
       "url": "https://github.com/PrintersForAnts/Mini-AfterSherpa",
       "description": "Toolhead for Voron V0.1, adds support for standalone extruders.",
       "category": "Printers for Ants",
@@ -427,16 +437,22 @@
       "name": "Mini-Stealthdort",
       "extruders": [
         "Sherpa Mini",
-        "unknown"
+        "Sherpa Micro",
+        "Sailfin",
+        "Sharkfin",
+        "Orbiter 1.5",
+        "Orbiter 2",
+        "LGX-Lite",
+        "HextrudORT"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
-      "url": "https://www.printables.com/model/252586-mini-stealthdort",
+      "probe": ["Klicky","ZeroClick"],
+      "hotend": ["Dragon HF","Dragonfly","Mosquito","Revo","Mellow NF-Zone"],
+      "url": "https://github.com/nhchiu/VoronMods/tree/main/V0/Toolhead",
       "description": "Toolhead for Voron V0, features support for standalone extruders.",
       "category": "Printers for Ants",
-      "configurator": false,
+      "configurator": true,
       "title": "Mini-Stealthdort",
-      "image": ""
+      "image": "/Mini-Stealthdort.png"
     },
     {
       "name": "Omniburner",
@@ -444,7 +460,10 @@
         "Sherpa Mini",
         "LGX-lite",
         "Orbiter 2",
-        "unknown"
+        "LGX-Lite",
+        "Papilio Lite",
+        "Papilio",
+        "TBG Lite"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -453,7 +472,7 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Omniburner",
-      "image": ""
+      "image": "/omniburner.webp"
     },
     {
       "name": "Rapid Burner",
@@ -572,7 +591,7 @@
         "Clockwork2"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": ["Dragon HF","Dragonfly","Rapido HF","Revo","E3D V6","Chube"],
       "url": "https://github.com/VoronDesign/Voron-Stealthburner",
       "description": "Toolhead for Voron 2.4 R1 and Trident, designed for Clockwork2 extruder.",
       "category": "Full Size Printers",
@@ -643,10 +662,10 @@
     {
       "name": "Trinity",
       "extruders": [
-        "unknown"
+        "Sherpa Mini"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": "Dragon Ace Volcano",
       "url": "https://github.com/WV-design/Trinity-toolhead/",
       "description": "High performance part cooling toolhead, features 3628 fans and 9mm belt support.",
       "category": "Full Size Printers",
