@@ -133,7 +133,7 @@
     },
 
     {
-      "name": "Red Lizard K1",
+      "name": "Red Lizard K1 HF",
       "mounting_pattern": ["v6","dragon"],
       "length": "46.0mm",
       "meltzone_length": "26mm",
@@ -356,7 +356,7 @@
       "name": "Chube",
       "mounting_pattern": ["dragon"],
       "length": "60mm",
-      "meltzone_length": "42mm/52mm",
+      "meltzone_length": "39.5mm",
       "flow_rate": "UHF",
       "nozzle_compatibility": ["V6"],
       "url": "https://chubehotend.com",
