@@ -28,7 +28,7 @@
       ],
       "url": "https://github.com/Armchair-Heavy-Industries/A4T",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
-      "title": "The Full Size: A4T",
+      "title": "A4T",
       "image": "/A4T_render.png",
       "category": "Full Size Printers",
       "configurator": true
@@ -84,7 +84,7 @@
       ],
       "url": "https://github.com/PrintersForAnts/AntHead",
       "description": "Lightweight toolhead for Printers for Ants.",
-      "title": "The Micro-King: AntHead",
+      "title": "AntHead",
       "image": "/Anthead_render.png",
       "category": "Printers for Ants",
       "configurator": true
@@ -216,7 +216,7 @@
       ],
       "url": "https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner",
       "description": "Lightweight toolhead for Printers for Ants.",
-      "title": "Compatibly First: Dragon Burner",
+      "title": "Dragon Burner",
       "image": "/dragonburner.png",
       "category": "Printers for Ants",
       "configurator": true
