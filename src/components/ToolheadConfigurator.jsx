@@ -156,11 +156,11 @@ function getDisplayFlowRate(detail) {
   return null;
 }
 
-function HardwareCard({ name, detail, accentColor }) {
+function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
   const colors = {
-    blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb' },
-    green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a' },
-    purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea' },
+    blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.08)' },
+    green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.08)' },
+    purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.08)' },
   };
   const c = colors[accentColor] || colors.blue;
   const nozzleCompatibility = toKnownList(detail?.nozzle_compatibility);
@@ -169,6 +169,7 @@ function HardwareCard({ name, detail, accentColor }) {
   const flowRate = getDisplayFlowRate(detail);
   const showMeltzone = detail?.meltzone_length && !isUnknownValue(detail.meltzone_length);
   const showLength = detail?.length && !isUnknownValue(detail.length);
+  const showFilamentSensor = detail?.filament_sensor && !isUnknownValue(detail.filament_sensor);
 
   const mountAndLength = [];
   if (mountingPatterns.length > 0) {
@@ -180,12 +181,15 @@ function HardwareCard({ name, detail, accentColor }) {
 
   return (
     <div
+      onClick={onSelect ? () => onSelect(name) : undefined}
       style={{
-        border: '1px solid #e5e7eb',
+        border: isSelected ? `2px solid ${c.border}` : '1px solid #e5e7eb',
         borderRadius: '8px',
         padding: '12px 16px',
         marginBottom: '8px',
-        backgroundColor: 'var(--sl-color-bg-nav)',
+        backgroundColor: isSelected ? c.bgAlpha : 'var(--sl-color-bg-nav)',
+        cursor: onSelect ? 'pointer' : 'default',
+        transition: 'all 0.2s ease',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: detail ? '6px' : 0 }}>
@@ -194,17 +198,19 @@ function HardwareCard({ name, detail, accentColor }) {
             width: '8px',
             height: '8px',
             borderRadius: '50%',
-            backgroundColor: c.dot,
+            backgroundColor: isSelected ? c.dot : 'var(--sl-color-gray-5)',
             flexShrink: 0,
+            transition: 'background-color 0.2s ease',
           }}
         />
-        <strong style={{ fontSize: '0.95rem', color: 'var(--sl-color-white)' }}>
+        <strong style={{ fontSize: '0.95rem', color: isSelected ? c.label : 'var(--sl-color-white)' }}>
           {detail ? (
             <a
               href={detail.url}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: c.label, textDecoration: 'none' }}
+              style={{ color: isSelected ? c.label : 'var(--sl-color-white)', textDecoration: 'none' }}
+              onClick={(e) => e.stopPropagation()}
             >
               {detail.name}
             </a>
@@ -255,6 +261,24 @@ function HardwareCard({ name, detail, accentColor }) {
             }}
           >
             {detail.gear_type}
+          </span>
+        )}
+        {onSelect && (
+          <span
+            style={{
+              fontSize: '0.72rem',
+              padding: '2px 8px',
+              borderRadius: '12px',
+              backgroundColor: isSelected ? c.border : 'transparent',
+              color: isSelected ? '#fff' : 'var(--sl-color-gray-3)',
+              border: isSelected ? 'none' : '1px solid var(--sl-color-gray-5)',
+              fontWeight: 600,
+              marginLeft: hotendType || detail?.type || detail?.gear_type ? '4px' : 'auto',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            {isSelected ? '✓' : 'Select'}
           </span>
         )}
       </div>
@@ -319,45 +343,92 @@ function HardwareCard({ name, detail, accentColor }) {
           Nozzle: {nozzleCompatibility.join(', ')}
         </p>
       )}
+      {showFilamentSensor && (
+        <p
+          style={{
+            margin: '4px 0 0 0',
+            fontSize: '0.75rem',
+            color: 'var(--sl-color-gray-4)',
+            paddingLeft: '16px',
+          }}
+        >
+          Filament Sensor: {detail.filament_sensor}
+        </p>
+      )}
     </div>
   );
 }
 
-function HardwareSection({ title, officialItems, expandedItems, catalog, accentColor }) {
+function HardwareSection({ title, officialItems, expandedItems, catalog, accentColor, selectedItem, onSelect }) {
   const [showExpanded, setShowExpanded] = useState(false);
   const officialList = typeof officialItems === 'object' && Array.isArray(officialItems) ? officialItems : formatList(officialItems);
   const expandedList = expandedItems || [];
   const borderColor = accentColor === 'blue' ? '#3b82f6' : accentColor === 'green' ? '#22c55e' : '#a855f7';
 
+  const visibleOfficial = selectedItem
+    ? officialList.filter((name) => name === selectedItem)
+    : officialList;
+  const visibleExpanded = selectedItem
+    ? expandedList.filter((name) => name === selectedItem)
+    : expandedList;
+
   return (
     <div style={{ flex: '1', minWidth: '280px' }}>
-      <h3
+      <div
         style={{
-          fontSize: '1.1rem',
-          fontWeight: 700,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           marginBottom: '12px',
-          color: 'var(--sl-color-white)',
           borderBottom: `2px solid ${borderColor}`,
           paddingBottom: '6px',
         }}
       >
-        {title} ({officialList.length}{expandedList.length > 0 ? ` + ${expandedList.length}` : ''})
-      </h3>
-      {officialList.length > 0 ? (
-        officialList.map((name) => (
+        <h3
+          style={{
+            fontSize: '1.1rem',
+            fontWeight: 700,
+            color: 'var(--sl-color-white)',
+            margin: 0,
+          }}
+        >
+          {title} ({officialList.length}{expandedList.length > 0 ? ` + ${expandedList.length}` : ''})
+        </h3>
+        {selectedItem && onSelect && (
+          <button
+            onClick={() => onSelect(null)}
+            style={{
+              fontSize: '0.75rem',
+              padding: '2px 8px',
+              borderRadius: '12px',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: 'transparent',
+              color: 'var(--sl-color-gray-3)',
+              cursor: 'pointer',
+              fontWeight: 600,
+            }}
+          >
+            ✕ Clear
+          </button>
+        )}
+      </div>
+      {visibleOfficial.length > 0 ? (
+        visibleOfficial.map((name) => (
           <HardwareCard
             key={name}
             name={name}
             detail={findDetail(name, catalog)}
             accentColor={accentColor}
+            isSelected={selectedItem === name}
+            onSelect={onSelect}
           />
         ))
-      ) : (
+      ) : officialList.length === 0 ? (
         <p style={{ color: 'var(--sl-color-gray-4)', fontStyle: 'italic', fontSize: '0.9rem' }}>
           Compatibility data not yet available
         </p>
-      )}
-      {expandedList.length > 0 && (
+      ) : null}
+      {!selectedItem && visibleExpanded.length > 0 && (
         <>
           <button
             onClick={() => setShowExpanded(!showExpanded)}
@@ -390,12 +461,14 @@ function HardwareSection({ title, officialItems, expandedItems, catalog, accentC
           </button>
           {showExpanded && (
             <div style={{ opacity: 0.85 }}>
-              {expandedList.map((name) => (
+              {visibleExpanded.map((name) => (
                 <HardwareCard
                   key={name}
                   name={name}
                   detail={findDetail(name, catalog)}
                   accentColor={accentColor}
+                  isSelected={selectedItem === name}
+                  onSelect={onSelect}
                 />
               ))}
             </div>
@@ -568,6 +641,9 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
 export default function ToolheadConfigurator() {
   const [selectedName, setSelectedName] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedExtruder, setSelectedExtruder] = useState(null);
+  const [selectedHotend, setSelectedHotend] = useState(null);
+  const [selectedProbe, setSelectedProbe] = useState(null);
   const total = communityPicks.length;
 
   const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
@@ -583,11 +659,71 @@ export default function ToolheadConfigurator() {
   const handleCardClick = (index) => {
     if (index === activeIndex) {
       const name = communityPicks[activeIndex].name;
-      setSelectedName((prev) => (prev === name ? null : name));
+      const isDeselecting = selectedName === name;
+      setSelectedName(isDeselecting ? null : name);
+      if (isDeselecting) {
+        setSelectedExtruder(null);
+        setSelectedHotend(null);
+        setSelectedProbe(null);
+      }
     } else {
       setActiveIndex(index);
     }
   };
+
+  const handleToolheadSelect = (toolheadName) => {
+    const isDeselecting = selectedName === toolheadName;
+    setSelectedName(isDeselecting ? null : toolheadName);
+    if (isDeselecting) {
+      setSelectedExtruder(null);
+      setSelectedHotend(null);
+      setSelectedProbe(null);
+    }
+  };
+
+  // Build the "Selected Hardware" table rows
+  const selectedHardwareRows = [];
+
+  if (toolheadEntry) {
+    if (selectedExtruder) {
+      const detail = findDetail(selectedExtruder, extrudersData.extruders);
+      selectedHardwareRows.push({
+        component: 'Extruder',
+        selection: selectedExtruder,
+        url: detail?.url || null,
+      });
+    }
+    if (selectedHotend) {
+      const detail = findDetail(selectedHotend, hotendsData.hotends);
+      selectedHardwareRows.push({
+        component: 'Hotend',
+        selection: selectedHotend,
+        url: detail?.url || null,
+      });
+    }
+    if (selectedProbe) {
+      const detail = findDetail(selectedProbe, probesData.probes);
+      selectedHardwareRows.push({
+        component: 'Probe',
+        selection: selectedProbe,
+        url: detail?.url || null,
+      });
+    }
+    if (toolheadEntry.hotend_fan && !isUnknownValue(toolheadEntry.hotend_fan)) {
+      selectedHardwareRows.push({
+        component: 'Hotend Fan',
+        selection: toolheadEntry.hotend_fan,
+        url: null,
+      });
+    }
+    if (toolheadEntry.part_cooling_fan && !isUnknownValue(toolheadEntry.part_cooling_fan)) {
+      selectedHardwareRows.push({
+        component: 'Part Cooling Fan',
+        selection: toolheadEntry.part_cooling_fan,
+        url: null,
+      });
+    }
+  }
 
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
@@ -617,11 +753,7 @@ export default function ToolheadConfigurator() {
               toolhead={toolhead}
               position={position}
               isSelected={selectedName === toolhead.name}
-              onSelect={() =>
-                setSelectedName((prev) =>
-                  prev === toolhead.name ? null : toolhead.name
-                )
-              }
+              onSelect={() => handleToolheadSelect(toolhead.name)}
               onClick={() => handleCardClick(i)}
             />
           );
@@ -650,47 +782,187 @@ export default function ToolheadConfigurator() {
 
       {/* Compatible hardware display */}
       {toolheadEntry && (
-        <div
-          style={{
-            padding: '24px',
-            borderRadius: '12px',
-            border: '1px solid var(--sl-color-gray-5)',
-            backgroundColor: 'var(--sl-color-bg-sidebar)',
-          }}
-        >
-          <h2
+        <>
+          <div
             style={{
-              fontSize: '1.4rem',
-              fontWeight: 700,
+              padding: '24px',
+              borderRadius: '12px',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: 'var(--sl-color-bg-sidebar)',
               marginBottom: '24px',
-              color: 'var(--sl-color-white)',
             }}
           >
-            Compatible Hardware for {selectedName}
-          </h2>
-          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-            <HardwareSection
-              title="Extruders"
-              officialItems={getOfficialExtruders(toolheadEntry.extruders)}
-              expandedItems={getExpandedExtruders(toolheadEntry.extruders)}
-              catalog={extrudersData.extruders}
-              accentColor="blue"
-            />
-            <HardwareSection
-              title="Hotends"
-              officialItems={getOfficialHotends(toolheadEntry.hotend)}
-              // expandedItems={getExpandedHotends(toolheadEntry.hotend)}
-              catalog={hotendsData.hotends}
-              accentColor="green"
-            />
-            <HardwareSection
-              title="Probes"
-              officialItems={formatList(toolheadEntry.probe)}
-              catalog={probesData.probes}
-              accentColor="purple"
-            />
+            <h2
+              style={{
+                fontSize: '1.4rem',
+                fontWeight: 700,
+                marginBottom: '24px',
+                color: 'var(--sl-color-white)',
+              }}
+            >
+              Compatible Hardware for {selectedName}
+            </h2>
+            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+              <HardwareSection
+                title="Extruders"
+                officialItems={getOfficialExtruders(toolheadEntry.extruders)}
+                expandedItems={getExpandedExtruders(toolheadEntry.extruders)}
+                catalog={extrudersData.extruders}
+                accentColor="blue"
+                selectedItem={selectedExtruder}
+                onSelect={(name) => setSelectedExtruder(name === selectedExtruder ? null : name)}
+              />
+              <HardwareSection
+                title="Hotends"
+                officialItems={getOfficialHotends(toolheadEntry.hotend)}
+                // expandedItems={getExpandedHotends(toolheadEntry.hotend)}
+                catalog={hotendsData.hotends}
+                accentColor="green"
+                selectedItem={selectedHotend}
+                onSelect={(name) => setSelectedHotend(name === selectedHotend ? null : name)}
+              />
+              <HardwareSection
+                title="Probes"
+                officialItems={formatList(toolheadEntry.probe)}
+                catalog={probesData.probes}
+                accentColor="purple"
+                selectedItem={selectedProbe}
+                onSelect={(name) => setSelectedProbe(name === selectedProbe ? null : name)}
+              />
+            </div>
           </div>
-        </div>
+
+          {/* Toolhead Info (static, non-selectable) */}
+          <div
+            style={{
+              padding: '24px',
+              borderRadius: '12px',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: 'var(--sl-color-bg-sidebar)',
+              marginBottom: '24px',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: '1.2rem',
+                fontWeight: 700,
+                marginBottom: '16px',
+                color: 'var(--sl-color-white)',
+                borderBottom: '2px solid #f97316',
+                paddingBottom: '6px',
+              }}
+            >
+              Toolhead Info
+            </h2>
+            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+              <div style={{ minWidth: '140px' }}>
+                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Hotend Fan
+                </p>
+                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                  {toolheadEntry.hotend_fan || 'unknown'}
+                </p>
+              </div>
+              <div style={{ minWidth: '160px' }}>
+                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Part Cooling Fan
+                </p>
+                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                  {toolheadEntry.part_cooling_fan || 'unknown'}
+                </p>
+              </div>
+              <div style={{ minWidth: '140px' }}>
+                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Filament Cutter
+                </p>
+                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                  {toolheadEntry.filament_cutter || 'unknown'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Selected Hardware table */}
+          {selectedHardwareRows.length > 0 && (
+            <div
+              style={{
+                padding: '24px',
+                borderRadius: '12px',
+                border: '1px solid var(--sl-color-gray-5)',
+                backgroundColor: 'var(--sl-color-bg-sidebar)',
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 700,
+                  marginBottom: '16px',
+                  color: 'var(--sl-color-white)',
+                  borderBottom: '2px solid #2E8B57',
+                  paddingBottom: '6px',
+                }}
+              >
+                Selected Hardware
+              </h2>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                <thead>
+                  <tr>
+                    {['Component', 'Selection', 'Link'].map((col) => (
+                      <th
+                        key={col}
+                        style={{
+                          textAlign: 'left',
+                          padding: '8px 12px',
+                          borderBottom: '1px solid var(--sl-color-gray-5)',
+                          color: 'var(--sl-color-gray-3)',
+                          fontWeight: 700,
+                          fontSize: '0.8rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                        }}
+                      >
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedHardwareRows.map((row, idx) => (
+                    <tr
+                      key={row.component}
+                      style={{
+                        backgroundColor: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.03)',
+                      }}
+                    >
+                      <td style={{ padding: '10px 12px', color: 'var(--sl-color-gray-3)', fontWeight: 600 }}>
+                        {row.component}
+                      </td>
+                      <td style={{ padding: '10px 12px', color: 'var(--sl-color-white)', fontWeight: 500 }}>
+                        {row.selection}
+                      </td>
+                      <td style={{ padding: '10px 12px' }}>
+                        {row.url ? (
+                          <a
+                            href={row.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#2E8B57', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}
+                          >
+                            View →
+                          </a>
+                        ) : (
+                          <span style={{ color: 'var(--sl-color-gray-5)', fontStyle: 'italic', fontSize: '0.85rem' }}>
+                            No Link Available
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

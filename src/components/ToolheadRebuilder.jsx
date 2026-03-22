@@ -361,16 +361,91 @@ function ComponentSelector({ title, options, selected, onSelect, accentColor }) 
   );
 }
 
+const HOTEND_FAN_OPTIONS = ['3007', '3010', '4010', 'unknown'];
+const PART_COOLING_FAN_OPTIONS = ['4010', '4020', '5015', 'CPAP', 'unknown'];
+
+function FanFilter({ title, options, selected, onSelect, accentColor }) {
+  const colors = {
+    orange: { border: '#f97316', active: '#f97316', activeBg: 'rgba(249,115,22,0.13)', activeText: '#ea580c' },
+    teal: { border: '#14b8a6', active: '#14b8a6', activeBg: 'rgba(20,184,166,0.13)', activeText: '#0d9488' },
+  };
+  const c = colors[accentColor] || colors.orange;
+
+  return (
+    <div style={{ flex: '1', minWidth: '220px' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '12px',
+          borderBottom: `2px solid ${c.border}`,
+          paddingBottom: '6px',
+        }}
+      >
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+          {title}
+        </h3>
+        {selected && (
+          <button
+            onClick={() => onSelect(null)}
+            style={{
+              fontSize: '0.75rem',
+              padding: '2px 8px',
+              borderRadius: '12px',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: 'transparent',
+              color: 'var(--sl-color-gray-3)',
+              cursor: 'pointer',
+              fontWeight: 600,
+            }}
+          >
+            ✕ Clear
+          </button>
+        )}
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {options.map((opt) => {
+          const isActive = selected === opt;
+          return (
+            <button
+              key={opt}
+              onClick={() => onSelect(isActive ? null : opt)}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '20px',
+                border: isActive ? `2px solid ${c.active}` : '1px solid var(--sl-color-gray-5)',
+                backgroundColor: isActive ? c.activeBg : 'var(--sl-color-bg-nav)',
+                color: isActive ? c.activeText : 'var(--sl-color-gray-3)',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function ToolheadRebuilder() {
   const [selectedExtruder, setSelectedExtruder] = useState(null);
   const [selectedHotend, setSelectedHotend] = useState(null);
   const [selectedProbe, setSelectedProbe] = useState(null);
+  const [selectedHotendFan, setSelectedHotendFan] = useState(null);
+  const [selectedPartCoolingFan, setSelectedPartCoolingFan] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const filteredToolheads = activeToolheads.filter((th) => {
     if (selectedExtruder && !matchesComponent(th.extruders, selectedExtruder)) return false;
     if (selectedHotend && !matchesComponent(th.hotend, selectedHotend)) return false;
     if (selectedProbe && !matchesComponent(th.probe, selectedProbe)) return false;
+    if (selectedHotendFan && th.hotend_fan !== selectedHotendFan) return false;
+    if (selectedPartCoolingFan && th.part_cooling_fan !== selectedPartCoolingFan) return false;
     return true;
   });
 
@@ -378,7 +453,7 @@ export default function ToolheadRebuilder() {
 
   useEffect(() => {
     setActiveIndex(0);
-  }, [selectedExtruder, selectedHotend, selectedProbe]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
 
   const safeIndex = total > 0 ? Math.min(activeIndex, total - 1) : 0;
   const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
@@ -434,6 +509,22 @@ export default function ToolheadRebuilder() {
             selected={selectedProbe}
             onSelect={setSelectedProbe}
             accentColor="purple"
+          />
+        </div>
+        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--sl-color-gray-5)' }}>
+          <FanFilter
+            title="Hotend Fan"
+            options={HOTEND_FAN_OPTIONS}
+            selected={selectedHotendFan}
+            onSelect={setSelectedHotendFan}
+            accentColor="orange"
+          />
+          <FanFilter
+            title="Part Cooling Fan"
+            options={PART_COOLING_FAN_OPTIONS}
+            selected={selectedPartCoolingFan}
+            onSelect={setSelectedPartCoolingFan}
+            accentColor="teal"
           />
         </div>
       </div>
