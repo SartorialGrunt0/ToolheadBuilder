@@ -12,7 +12,7 @@ function buildNameSet(toolheads, fieldGetter) {
     const val = fieldGetter(th);
     const list = Array.isArray(val) ? val : val ? [val] : [];
     for (const name of list) {
-      if (typeof name === 'string' && name.toLowerCase() !== 'unknown' && name !== 'NA') {
+      if (typeof name === 'string' && name.toLowerCase() !== 'unknown' && name.toLowerCase() !== 'na') {
         set.add(name.toLowerCase());
       }
     }
@@ -223,9 +223,9 @@ function NoCompatibleCard() {
 
 function ComponentOption({ item, isSelected, onClick, accentColor }) {
   const colors = {
-    blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb' },
-    green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a' },
-    purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea' },
+    blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
+    green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.13)' },
+    purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.13)' },
   };
   const c = colors[accentColor] || colors.blue;
 
@@ -269,7 +269,7 @@ function ComponentOption({ item, isSelected, onClick, accentColor }) {
               fontSize: '0.7rem',
               padding: '2px 6px',
               borderRadius: '4px',
-              backgroundColor: isSelected ? c.border + '22' : 'var(--sl-color-gray-6)',
+              backgroundColor: isSelected ? c.bgAlpha : 'var(--sl-color-gray-6)',
               color: isSelected ? c.label : 'var(--sl-color-gray-3)',
               fontWeight: 600,
               marginLeft: 'auto',
