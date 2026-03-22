@@ -414,7 +414,7 @@ function FanFilter({ title, options, selected, onSelect, accentColor }) {
               style={{
                 padding: '6px 14px',
                 borderRadius: '20px',
-                border: isActive ? `2px solid ${c.active}` : '1px solid var(--sl-color-gray-5)',
+                border: isActive ? `2px solid ${c.active}` : '2px solid var(--sl-color-gray-5)',
                 backgroundColor: isActive ? c.activeBg : 'var(--sl-color-bg-nav)',
                 color: isActive ? c.activeText : 'var(--sl-color-gray-3)',
                 fontSize: '0.85rem',

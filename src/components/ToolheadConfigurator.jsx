@@ -845,54 +845,68 @@ export default function ToolheadConfigurator() {
           </div>
 
           {/* Toolhead Info (static, non-selectable) */}
-          <div
-            style={{
-              padding: '24px',
-              borderRadius: '12px',
-              border: '1px solid var(--sl-color-gray-5)',
-              backgroundColor: 'var(--sl-color-bg-sidebar)',
-              marginBottom: '24px',
-            }}
-          >
-            <h2
-              style={{
-                fontSize: '1.2rem',
-                fontWeight: 700,
-                marginBottom: '16px',
-                color: 'var(--sl-color-white)',
-                borderBottom: '2px solid #f97316',
-                paddingBottom: '6px',
-              }}
-            >
-              Toolhead Info
-            </h2>
-            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-              <div style={{ minWidth: '140px' }}>
-                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Hotend Fan
-                </p>
-                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
-                  {toolheadEntry.hotend_fan || 'unknown'}
-                </p>
+          {(() => {
+            const showHotendFan = toolheadEntry.hotend_fan && !isUnknownValue(toolheadEntry.hotend_fan);
+            const showCoolingFan = toolheadEntry.part_cooling_fan && !isUnknownValue(toolheadEntry.part_cooling_fan);
+            const showCutter = toolheadEntry.filament_cutter && !isUnknownValue(toolheadEntry.filament_cutter);
+            if (!showHotendFan && !showCoolingFan && !showCutter) return null;
+            return (
+              <div
+                style={{
+                  padding: '24px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--sl-color-gray-5)',
+                  backgroundColor: 'var(--sl-color-bg-sidebar)',
+                  marginBottom: '24px',
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: '1.2rem',
+                    fontWeight: 700,
+                    marginBottom: '16px',
+                    color: 'var(--sl-color-white)',
+                    borderBottom: '2px solid #f97316',
+                    paddingBottom: '6px',
+                  }}
+                >
+                  Toolhead Info
+                </h2>
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                  {showHotendFan && (
+                    <div style={{ minWidth: '140px' }}>
+                      <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Hotend Fan
+                      </p>
+                      <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                        {toolheadEntry.hotend_fan}
+                      </p>
+                    </div>
+                  )}
+                  {showCoolingFan && (
+                    <div style={{ minWidth: '160px' }}>
+                      <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Part Cooling Fan
+                      </p>
+                      <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                        {toolheadEntry.part_cooling_fan}
+                      </p>
+                    </div>
+                  )}
+                  {showCutter && (
+                    <div style={{ minWidth: '140px' }}>
+                      <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Filament Cutter
+                      </p>
+                      <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                        {toolheadEntry.filament_cutter}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div style={{ minWidth: '160px' }}>
-                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Part Cooling Fan
-                </p>
-                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
-                  {toolheadEntry.part_cooling_fan || 'unknown'}
-                </p>
-              </div>
-              <div style={{ minWidth: '140px' }}>
-                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Filament Cutter
-                </p>
-                <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
-                  {toolheadEntry.filament_cutter || 'unknown'}
-                </p>
-              </div>
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Selected Hardware table */}
           {selectedHardwareRows.length > 0 && (
