@@ -7,7 +7,8 @@
         "LGX-lite",
         "Orbiter 2",
         "Wristwatch G2",
-        "Wristwatch BMG"
+        "Wristwatch BMG",
+        "Vz HextrudORT"
       ],
       "probe": [
         "Tap",
@@ -25,7 +26,8 @@
         "Rapido UHF",
         "Revo",
         "TZ2.0",
-        "Chube"
+        "Chube",
+        "NF-Crazy"
       ],
       "url": "https://github.com/Armchair-Heavy-Industries/A4T",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
@@ -176,24 +178,35 @@
       "extruders": [
         "Sherpa Mini",
         "LGX-lite",
-        "Orbiter 2"
+        "Orbiter 2",
+        "HextrudORT",
+        "Clockwork1",
+        "Clockwork2"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": [
+        "Klicky",
+        "Euclid"
+      ],
+      "hotend": [
+        "Rapido UHF",
+        "Dragon SF",
+        "Rapido HF",
+        "Dragon HF"
+      ],
       "url": "https://github.com/sneakytreesnake/CrownCooler",
       "description": "Toolhead for Voron 2.4 and Trident, lightweight, features support for the Stealthburner X carriage, CPAP, standalone extruders, and UHF hotends.",
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Crown Cooler",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "4028",
+      "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown"
     },
     {
       "name": "DK's Monolith",
       "extruders": [
-        "unknown"
+        "Sherpa Micro"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -245,7 +258,10 @@
       "probe": [
         "SlideSwipe",
         "Unklicky",
-        "ZeroClick"
+        "ZeroClick",
+        "Klicky",
+        "TAP",
+        "Boop"
       ],
       "hotend": [
         "Dragon SF",
@@ -295,10 +311,15 @@
     {
       "name": "Fibre Steam",
       "extruders": [
-        "unknown"
+        "Galileo 2"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": "Beacon",
+      "hotend": [
+        "Rapido UHF",
+        "Dragon UHF",
+        "Rapido HF",
+        "Goliath"
+      ],
       "url": "https://github.com/tristanmcpherson/fibresteam_wiki/tree/main",
       "description": "Toolhead for Monolith gantry.",
       "category": "Full Size Printers",
@@ -373,7 +394,7 @@
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova/#hypernova-printhead",
       "description": "Toolhead for Voron 2.4 and Trident, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
       "category": "Full Size Printers",
-      "configurator": true,
+      "configurator": false,
       "title": "Hypernova",
       "image": "/hypernova.png",
       "hotend_fan": "2510",
@@ -465,6 +486,7 @@
         "Sherpa Mini",
         "Orbiter 2",
         "Vz HextrudORT",
+        "Double Folded Ascender",
         "LGX-Lite"
       ],
       "probe": [
@@ -544,7 +566,9 @@
         "Dragon HF",
         "Dragonfly",
         "E3D V6",
-        "Mosquito"
+        "Mosquito",
+        "NF-Crazy",
+        "Revo"
       ],
       "url": "https://github.com/PrintersForAnts/Mini-AfterSherpa",
       "description": "Toolhead for Voron V0.1, adds support for standalone extruders.",
@@ -657,7 +681,10 @@
       "probe": [
         "SlideSwipe",
         "Unklicky",
-        "ZeroClick"
+        "ZeroClick",
+        "Klicky",
+        "Boop",
+        "TAP"
       ],
       "hotend": [
         "Rapido UHF",
@@ -798,10 +825,23 @@
     {
       "name": "StovePipe",
       "extruders": [
-        "unknown"
+        "Orbiter 1.5",
+        "Sherpa Mini",
+        "RoundAbout",
+        "RoundHouseBMG",
+        "LGX-Lite",
+        "Sailfin"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": "ZeroClick",
+      "hotend": [
+        "NF-Crazy",
+        "Rapido UHF",
+        "Dragon UHF",
+        "Revo",
+        "Dragon SF",
+        "Dragonfly",
+        "Rapido HF"
+      ],
       "url": "https://github.com/chirpy2605/voron/blob/main/V0/StovePipe",
       "description": "Toolhead for Voron 0, features CPAP support.",
       "category": "Printers for Ants",
