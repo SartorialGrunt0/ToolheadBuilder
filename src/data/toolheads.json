@@ -196,9 +196,9 @@
       "url": "https://github.com/sneakytreesnake/CrownCooler",
       "description": "Toolhead for Voron 2.4 and Trident, lightweight, features support for the Stealthburner X carriage, CPAP, standalone extruders, and UHF hotends.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Crown Cooler",
-      "image": "",
+      "image": "/crowncooler.png",
       "hotend_fan": "4028",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown"
