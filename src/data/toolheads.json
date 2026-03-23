@@ -35,7 +35,7 @@
       "configurator": true,
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "native"
     },
     {
       "name": "Afterburner",
@@ -176,8 +176,7 @@
       "extruders": [
         "Sherpa Mini",
         "LGX-lite",
-        "Orbiter 2",
-        "unknown"
+        "Orbiter 2"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -414,35 +413,51 @@
     {
       "name": "Jabberwocky",
       "extruders": [
-        "unknown"
+        "other"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": "Conch",
       "url": "https://github.com/kinematicdigit/Jabberwocky",
       "description": "Toolhead for Voron 2.4 and Trident, features support for filament changers.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Jabberwocky",
       "image": "/Jabberwocky.webp",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "hotend_fan": "2510",
+      "part_cooling_fan": "3010",
+      "filament_cutter": "native"
     },
     {
       "name": "Mailbox",
       "extruders": [
-        "unknown"
+        "LGX-lite",
+        "Orbiter 1.5",
+        "RoundHouse",
+        "RoundTrip",
+        "RoundAbout"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": [
+        "SlideSwipe",
+        "ZeroClick",
+        "Unklicky"
+      "hotend": [
+        "Revo",
+        "Dragon SF",
+        "Dragon HF",
+        "Dragonfly",
+        "Rapido HF",
+        "Mellow Crazy Dragon",
+        "Dragon UHF",
+        "NF-Crazy
+      ],
       "url": "https://github.com/chirpy2605/voron/blob/main/V0/Mailbox",
       "description": "Toolhead for Voron 0, features support for enhanced 5015 fan cooling.",
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Mailbox",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "5015",
       "filament_cutter": "unknown"
     },
     {
@@ -500,7 +515,7 @@
       "extruders": [
         "NA"
       ],
-      "probe": "unknown",
+      "probe": "ZeroClick",
       "hotend": [
         "Mosquito",
         "Dragon",
@@ -525,7 +540,7 @@
         "Orbiter 1.5",
         "Orbiter 2"
       ],
-      "probe": "unknown",
+      "probe": "ZeroClick",
       "hotend": [
         "Dragon HF",
         "Dragonfly",
@@ -547,7 +562,7 @@
       "extruders": [
         "NA"
       ],
-      "probe": "unknown",
+      "probe": "ZeroClick",
       "hotend": [
         "Revo",
         "Dragon",
@@ -664,11 +679,10 @@
     {
       "name": "Rainbow Dragon",
       "extruders": [
-        "Sherpa Mini",
-        "unknown"
+        "Other",
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": "",
+      "hotend": "TaiChi",
       "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
       "description": "Lightweight toolhead for Printers for Ants, features support for dual filament paths.",
       "category": "Printers for Ants",
@@ -719,7 +733,7 @@
     {
       "name": "Rx",
       "extruders": [
-        "unknown"
+        "other"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -753,7 +767,9 @@
     {
       "name": "Stealthburner",
       "extruders": [
-        "Clockwork2"
+        "Clockwork2",
+        "Large Gear Clockwork 2",
+        "Galileo 2"
       ],
       "probe": [
         "Tap",
@@ -773,12 +789,12 @@
       "url": "https://github.com/VoronDesign/Voron-Stealthburner",
       "description": "Toolhead for Voron 2.4 R1 and Trident, designed for Clockwork2 extruder.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Stealthburner",
       "image": "/Stealthburner.jpg",
       "hotend_fan": "4010",
       "part_cooling_fan": "5015",
-      "filament_cutter": "unknown"
+      "filament_cutter": "mod"
     },
     {
       "name": "StovePipe",
