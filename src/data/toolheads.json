@@ -32,7 +32,10 @@
       "title": "A4T",
       "image": "/A4T_render.png",
       "category": "Full Size Printers",
-      "configurator": true
+      "configurator": true,
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Afterburner",
@@ -46,7 +49,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Afterburner",
-      "image": ""
+      "image": "",
+      "hotend_fan": "4010",
+      "part_cooling_fan": "4020",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Angry",
@@ -60,7 +66,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Angry",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "AntHead",
@@ -88,7 +97,10 @@
       "title": "AntHead",
       "image": "/Anthead_render.png",
       "category": "Printers for Ants",
-      "configurator": true
+      "configurator": true,
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Archetype",
@@ -97,14 +109,33 @@
         "Sherpa Micro",
         "HextrudORT"
       ],
-      "probe": ["Klicky PCB","Klicky","Euclid","Beacon"],
-      "hotend": ["Chube","Goliath","Rapido HF","Rapido UHF"],
+      "probe": [
+        "Klicky PCB",
+        "Klicky",
+        "Euclid",
+        "Beacon"
+      ],
+      "hotend": [
+        "Chube",
+        "Goliath",
+        "Rapido HF",
+        "Rapido UHF"
+      ],
       "url": "https://github.com/Armchair-Heavy-Industries/Archetype",
       "description": "Toolhead for Voron 2.4 and Trident, features support for varying fan types.",
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Archetype",
-      "image": "/Archetype.jpg"
+      "image": "/Archetype.jpg",
+      "hotend_fan": "2510",
+      "part_cooling_fan": [
+        "5020",
+        "4010",
+        "3515",
+        "5015",
+        "CPAP"
+      ],
+      "filament_cutter": "unknown"
     },
     {
       "name": "Banantis",
@@ -118,7 +149,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Banantis",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Calamity",
@@ -132,7 +166,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Calamity",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Crown Cooler",
@@ -149,7 +186,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Crown Cooler",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "DK's Monolith",
@@ -163,7 +203,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "DK's Monolith",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Dragon Brick",
@@ -177,7 +220,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Dragon Brick",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Dragon Burner",
@@ -225,7 +271,10 @@
       "title": "Dragon Burner",
       "image": "/dragonburner.png",
       "category": "Printers for Ants",
-      "configurator": true
+      "configurator": true,
+      "hotend_fan": "3010",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "EVA",
@@ -239,7 +288,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "EVA",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Fibre Steam",
@@ -253,7 +305,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Fibre Steam",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Fibre Stream",
@@ -267,7 +322,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Fibre Stream",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Gustav",
@@ -277,14 +335,21 @@
         "Wristwatch BMG",
         "Micro-cosm"
       ],
-      "probe": ["Beacon"],
-      "hotend": ["Dragon Ace"],
+      "probe": [
+        "Beacon"
+      ],
+      "hotend": [
+        "Dragon Ace"
+      ],
       "url": "https://github.com/RCI-Nicket/Gustav-Railway-Toolhead",
       "description": "Toolhead for Monolith gantry, features support for CPAP, UHF hotends, and beacon probe.",
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Gustav",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Hypernova",
@@ -296,14 +361,25 @@
         "Galileo 2 Standalone",
         "Wristwatch BMG"
       ],
-      "probe": ["Beacon","Cartographer"],
-      "hotend": ["Rapido UHF","TZ2.0","Dragon Ace","Chube"],
+      "probe": [
+        "Beacon",
+        "Cartographer"
+      ],
+      "hotend": [
+        "Rapido UHF",
+        "TZ2.0",
+        "Dragon Ace",
+        "Chube"
+      ],
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova_bedsligers/",
       "description": "Toolhead for Switchwire/Enderwire, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Hypernova",
-      "image": "/Hypernova.png"
+      "image": "/Hypernova.png",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Jabberwocky",
@@ -317,7 +393,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Jabberwocky",
-      "image": "/Jabberwocky.webp"
+      "image": "/Jabberwocky.webp",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Mailbox",
@@ -331,7 +410,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Mailbox",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Mantis",
@@ -361,7 +443,10 @@
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Mantis",
-      "image": "/mantis.webp"
+      "image": "/mantis.webp",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Micro Saul2",
@@ -375,7 +460,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Micro Saul2",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Mini-Afterburner",
@@ -393,7 +481,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Mini-Afterburner",
-      "image": ""
+      "image": "",
+      "hotend_fan": "3007",
+      "part_cooling_fan": "3010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Mini-Aftersherpa",
@@ -405,13 +496,21 @@
         "Orbiter 2"
       ],
       "probe": "unknown",
-      "hotend": ["Dragon HF","Dragonfly","E3D V6","Mosquito"],
+      "hotend": [
+        "Dragon HF",
+        "Dragonfly",
+        "E3D V6",
+        "Mosquito"
+      ],
       "url": "https://github.com/PrintersForAnts/Mini-AfterSherpa",
       "description": "Toolhead for Voron V0.1, adds support for standalone extruders.",
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Mini-Aftersherpa",
-      "image": ""
+      "image": "",
+      "hotend_fan": "3007",
+      "part_cooling_fan": "3010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Mini-Stealthburner",
@@ -431,7 +530,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Mini-Stealthburner",
-      "image": ""
+      "image": "",
+      "hotend_fan": "3007",
+      "part_cooling_fan": "3010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Mini-Stealthdort",
@@ -445,14 +547,29 @@
         "LGX-Lite",
         "HextrudORT"
       ],
-      "probe": ["Klicky","ZeroClick"],
-      "hotend": ["Dragon HF","Dragonfly","Mosquito","Revo","Mellow NF-Zone"],
+      "probe": [
+        "Klicky",
+        "ZeroClick"
+      ],
+      "hotend": [
+        "Dragon HF",
+        "Dragonfly",
+        "Mosquito",
+        "Revo",
+        "Mellow NF-Zone"
+      ],
       "url": "https://github.com/nhchiu/VoronMods/tree/main/V0/Toolhead",
       "description": "Toolhead for Voron V0, features support for standalone extruders.",
       "category": "Printers for Ants",
       "configurator": true,
       "title": "Mini-Stealthdort",
-      "image": "/Mini-Stealthdort.png"
+      "image": "/Mini-Stealthdort.png",
+      "hotend_fan": [
+        "3007",
+        "3010"
+      ],
+      "part_cooling_fan": "3010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Omniburner",
@@ -472,7 +589,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Omniburner",
-      "image": "/omniburner.webp"
+      "image": "/omniburner.webp",
+      "hotend_fan": "3007",
+      "part_cooling_fan": "3010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Rapid Burner",
@@ -506,7 +626,10 @@
       "category": "Printers for Ants",
       "configurator": true,
       "title": "Rapid Burner",
-      "image": "/rapidburner.png"
+      "image": "/rapidburner.png",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Rainbow Dragon",
@@ -521,7 +644,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Rainbow Dragon",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Reaper",
@@ -555,7 +681,10 @@
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Reaper",
-      "image": "/reaper.png"
+      "image": "/reaper.png",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "5015",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Rx",
@@ -569,7 +698,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Rx",
-      "image": "/RX.webp"
+      "image": "/RX.webp",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Spartacus",
@@ -583,7 +715,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Spartacus",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Stealthburner",
@@ -597,13 +732,23 @@
         "Eddy",
         "Omron"
       ],
-      "hotend": ["Dragon HF","Dragonfly","Rapido HF","Revo","E3D V6","Chube"],
+      "hotend": [
+        "Dragon HF",
+        "Dragonfly",
+        "Rapido HF",
+        "Revo",
+        "E3D V6",
+        "Chube"
+      ],
       "url": "https://github.com/VoronDesign/Voron-Stealthburner",
       "description": "Toolhead for Voron 2.4 R1 and Trident, designed for Clockwork2 extruder.",
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Stealthburner",
-      "image": "/Stealthburner.jpg"
+      "image": "/Stealthburner.jpg",
+      "hotend_fan": "4010",
+      "part_cooling_fan": "5015",
+      "filament_cutter": "unknown"
     },
     {
       "name": "StovePipe",
@@ -617,7 +762,10 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "StovePipe",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Stormbreaker",
@@ -631,7 +779,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Stormbreaker",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Takeoff",
@@ -645,7 +796,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Takeoff",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "The Yokai",
@@ -663,7 +817,13 @@
       "category": "Full Size Printers",
       "configurator": true,
       "title": "The Yokai",
-      "image": "/yokai.webp"
+      "image": "/yokai.webp",
+      "hotend_fan": "3010",
+      "part_cooling_fan": [
+        "4010",
+        "CPAP"
+      ],
+      "filament_cutter": "unknown"
     },
     {
       "name": "Trinity",
@@ -677,7 +837,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Trinity",
-      "image": "/Trinity.jpg"
+      "image": "/Trinity.jpg",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "3628",
+      "filament_cutter": "unknown"
     },
     {
       "name": "UAP",
@@ -691,7 +854,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "UAP",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "V4",
@@ -705,7 +871,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "V4",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "V5",
@@ -719,7 +888,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "V5",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Xenomorph",
@@ -733,7 +905,10 @@
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Xenomorph",
-      "image": ""
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Xol",
@@ -773,7 +948,13 @@
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Xol",
-      "image": "/Xol.png"
+      "image": "/Xol.png",
+      "hotend_fan": "2510",
+      "part_cooling_fan": [
+        "4010",
+        "CPAP"
+      ],
+      "filament_cutter": "unknown"
     },
     {
       "name": "Yavoth",
@@ -801,7 +982,10 @@
       "category": "Printers for Ants",
       "configurator": true,
       "title": "Yavoth",
-      "image": "/yavoth.png"
+      "image": "/yavoth.png",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
     }
   ]
 }
