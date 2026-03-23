@@ -6,9 +6,9 @@ import probesData from '../data/probes.json';
 
 const activeToolheads = toolheadsData.toolheads.filter((t) => t.configurator);
 
-function findDetail(name, catalog) {
+function findDetail(name, catalog, nameKey = 'name') {
   const lower = name.toLowerCase();
-  return catalog.find((item) => item.name.toLowerCase() === lower);
+  return catalog.find((item) => item[nameKey].toLowerCase() === lower);
 }
 
 function formatList(items) {

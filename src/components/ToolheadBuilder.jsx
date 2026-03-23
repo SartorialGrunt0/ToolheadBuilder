@@ -543,7 +543,7 @@ function HardwareSection({ title, officialItems, expandedItems, catalog, accentC
             }}>
               ▶
             </span>
-            {showExpanded ? 'Hide' : 'See'} {expandedList.length} more by mounting pattern
+            {showExpanded ? 'Hide' : 'See'} {expandedList.length} more compatible options
           </button>
           {showExpanded && (
             <div style={{ opacity: 0.85 }}>
