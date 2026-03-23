@@ -350,7 +350,7 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown"
     },
-{
+    {
       "name": "Hypernova",
       "extruders": [
         "Sherpa Mini",
@@ -412,9 +412,7 @@
     },
     {
       "name": "Jabberwocky",
-      "extruders": [
-        "other"
-      ],
+      "extruders": "other",
       "probe": "unknown",
       "hotend": "Conch",
       "url": "https://github.com/kinematicdigit/Jabberwocky",
@@ -682,7 +680,7 @@
       "extruders": [
         "Other",
       ],
-      "probe": "",
+      "probe": "unknow",
       "hotend": "TaiChi",
       "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
       "description": "Lightweight toolhead for Printers for Ants, features support for dual filament paths.",
