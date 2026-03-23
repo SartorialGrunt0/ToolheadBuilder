@@ -85,36 +85,116 @@ function getOfficialHotends(hotendNames) {
   return formatList(hotendNames);
 }
 
+const ALWAYS_COMPATIBLE_HOTENDS = ['dragon sf', 'dragon hf', 'tz2.0', 'tz 3.0/4.0', 'red lizard k1 hf'];
+
 function getExpandedHotends(hotendNames) {
   const official = formatList(hotendNames);
   const officialLower = new Set(official.map((n) => n.toLowerCase()));
-  const mountPatterns = new Set();
 
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+
+  // Check if any official hotend uses bambu mounting
+  let hasBambu = false;
   for (const name of official) {
     const detail = findDetail(name, hotendsData.hotends);
-    if (detail?.mounting_pattern) {
-      for (const p of detail.mounting_pattern) {
-        if (p !== 'other') mountPatterns.add(p);
+    if (detail?.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
+      hasBambu = true;
+      break;
+    }
+  }
+
+  // If bambu mounting found, add other hotends that also have Bambu mounting
+  if (hasBambu) {
+    for (const hotend of hotendsData.hotends) {
+      const hLower = hotend.name.toLowerCase();
+      if (!seen.has(hLower) && hotend.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
+        expanded.push(hotend.name);
+        seen.add(hLower);
       }
     }
   }
 
-  const expanded = [];
-  const seen = new Set([...officialLower]);
-  for (const hotend of hotendsData.hotends) {
-    const hLower = hotend.name.toLowerCase();
-    if (seen.has(hLower)) continue;
-    if (hotend.mounting_pattern?.some((p) => mountPatterns.has(p))) {
-      expanded.push(hotend.name);
-      seen.add(hLower);
+  // Check if any always-compatible hotend is in official list
+  const hasAlwaysCompatible = official.some((n) =>
+    ALWAYS_COMPATIBLE_HOTENDS.includes(n.toLowerCase())
+  );
+
+  if (hasAlwaysCompatible) {
+    for (const acName of ALWAYS_COMPATIBLE_HOTENDS) {
+      if (!seen.has(acName)) {
+        const detail = hotendsData.hotends.find((h) => h.name.toLowerCase() === acName);
+        if (detail) {
+          expanded.push(detail.name);
+          seen.add(acName);
+        }
+      }
     }
   }
+
+  return expanded;
+}
+
+function getExpandedProbes(probeNames) {
+  const official = formatList(probeNames);
+  const officialLower = new Set(official.map((n) => n.toLowerCase()));
+
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+
+  // Always include Z-Probe Membrane
+  if (!seen.has('z-probe membrane')) {
+    const detail = probesData.probes.find((p) => p.name.toLowerCase() === 'z-probe membrane');
+    if (detail) {
+      expanded.push(detail.name);
+      seen.add('z-probe membrane');
+    }
+  }
+
+  // If any touch probe is listed, add rest of touch probes
+  const hasTouchProbe = official.some((n) => {
+    const detail = findDetail(n, probesData.probes);
+    return detail?.type === 'touch';
+  });
+
+  if (hasTouchProbe) {
+    for (const probe of probesData.probes) {
+      if (probe.type === 'touch' && !seen.has(probe.name.toLowerCase())) {
+        expanded.push(probe.name);
+        seen.add(probe.name.toLowerCase());
+      }
+    }
+  }
+
+  // If Klicky or Klicky PCB is listed, include the other
+  const hasKlicky = officialLower.has('klicky');
+  const hasKlickyPCB = officialLower.has('klicky pcb');
+
+  if (hasKlicky && !hasKlickyPCB && !seen.has('klicky pcb')) {
+    const detail = probesData.probes.find((p) => p.name.toLowerCase() === 'klicky pcb');
+    if (detail) {
+      expanded.push(detail.name);
+      seen.add('klicky pcb');
+    }
+  }
+  if (hasKlickyPCB && !hasKlicky && !seen.has('klicky')) {
+    const detail = probesData.probes.find((p) => p.name.toLowerCase() === 'klicky');
+    if (detail) {
+      expanded.push(detail.name);
+      seen.add('klicky');
+    }
+  }
+
   return expanded;
 }
 
 function fanDisplayValue(value) {
   if (!value) return '';
   return Array.isArray(value) ? value.join(' / ') : value;
+}
+
+function isGitHubUrl(url) {
+  return typeof url === 'string' && url.toLowerCase().includes('github');
 }
 
 function isUnknownValue(value) {
@@ -462,7 +542,7 @@ function HardwareSection({ title, officialItems, expandedItems, catalog, accentC
             }}>
               ▶
             </span>
-            {showExpanded ? 'Hide' : 'See'} {expandedList.length} more by mounting pattern
+            {showExpanded ? 'Hide' : 'See'} {expandedList.length} more compatible options
           </button>
           {showExpanded && (
             <div style={{ opacity: 0.85 }}>
@@ -618,7 +698,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            View on GitHub →
+            {isGitHubUrl(toolhead.url) ? 'View on GitHub →' : 'View Webpage →'}
           </a>
           {isCenter && (
             <span
@@ -643,7 +723,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
   );
 }
 
-export default function ToolheadConfigurator() {
+export default function ToolheadBuilder() {
   const [selectedName, setSelectedName] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedExtruder, setSelectedExtruder] = useState(null);
@@ -702,6 +782,11 @@ export default function ToolheadConfigurator() {
   const selectedHardwareRows = [];
 
   if (toolheadEntry) {
+    selectedHardwareRows.push({
+      component: 'Toolhead',
+      selection: toolheadEntry.title || toolheadEntry.name,
+      url: toolheadEntry.url || null,
+    });
     if (selectedExtruder) {
       const detail = findDetail(selectedExtruder, extrudersData.extruders);
       selectedHardwareRows.push({
@@ -748,7 +833,7 @@ export default function ToolheadConfigurator() {
       <div
         style={{
           position: 'relative',
-          height: '430px',
+          height: '480px',
           marginBottom: '32px',
           overflow: 'hidden',
           padding: '0 40px',
@@ -832,7 +917,7 @@ export default function ToolheadConfigurator() {
               <HardwareSection
                 title="Hotends"
                 officialItems={getOfficialHotends(toolheadEntry.hotend)}
-                // expandedItems={getExpandedHotends(toolheadEntry.hotend)}
+                expandedItems={getExpandedHotends(toolheadEntry.hotend)}
                 catalog={hotendsData.hotends}
                 accentColor="green"
                 selectedItem={selectedHotend}
@@ -841,6 +926,7 @@ export default function ToolheadConfigurator() {
               <HardwareSection
                 title="Probes"
                 officialItems={formatList(toolheadEntry.probe)}
+                expandedItems={getExpandedProbes(toolheadEntry.probe)}
                 catalog={probesData.probes}
                 accentColor="purple"
                 selectedItem={selectedProbe}

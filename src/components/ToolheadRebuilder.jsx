@@ -6,6 +6,158 @@ import probesData from '../data/probes.json';
 
 const activeToolheads = toolheadsData.toolheads.filter((t) => t.configurator);
 
+function findDetail(name, catalog, nameKey = 'name') {
+  const lower = name.toLowerCase();
+  return catalog.find((item) => item[nameKey].toLowerCase() === lower);
+}
+
+function formatList(items) {
+  if (!items) return [];
+  if (typeof items === 'string') return items === 'unknown' ? [] : [items];
+  return Array.isArray(items)
+    ? items.filter((i) => i !== 'unknown' && i !== 'other' && i !== 'NA')
+    : [];
+}
+
+function isGitHubUrl(url) {
+  return typeof url === 'string' && url.toLowerCase().includes('github');
+}
+
+const ALWAYS_COMPATIBLE_HOTENDS = ['dragon sf', 'dragon hf', 'tz2.0', 'tz 3.0/4.0', 'red lizard k1 hf'];
+
+const mountingPatternMap = new Map(
+  [...new Set(extrudersData.extruders.map((e) => e.mounting_pattern))].map(
+    (p) => [p.toLowerCase(), p]
+  )
+);
+
+function getExpandedExtruders(extruderNames) {
+  const official = formatList(extruderNames);
+  const officialLower = new Set(official.map((n) => n.toLowerCase()));
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+
+  const patterns = new Set();
+  for (const name of official) {
+    const ext = extrudersData.extruders.find(
+      (e) => e.name.toLowerCase() === name.toLowerCase()
+    );
+    if (ext && ext.mounting_pattern !== 'other') {
+      patterns.add(ext.mounting_pattern);
+    }
+  }
+
+  for (const name of formatList(extruderNames)) {
+    const matched = mountingPatternMap.get(name.toLowerCase());
+    if (matched && matched !== 'other') patterns.add(matched);
+  }
+
+  for (const ext of extrudersData.extruders) {
+    const extLower = ext.name.toLowerCase();
+    if (!seen.has(extLower) && patterns.has(ext.mounting_pattern)) {
+      expanded.push(ext.name);
+      seen.add(extLower);
+    }
+  }
+  return expanded;
+}
+
+function getExpandedHotends(hotendNames) {
+  const official = formatList(hotendNames);
+  const officialLower = new Set(official.map((n) => n.toLowerCase()));
+
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+
+  let hasBambu = false;
+  for (const name of official) {
+    const detail = findDetail(name, hotendsData.hotends);
+    if (detail?.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
+      hasBambu = true;
+      break;
+    }
+  }
+
+  // If bambu mounting found, add other hotends that also have Bambu mounting
+  if (hasBambu) {
+    for (const hotend of hotendsData.hotends) {
+      const hLower = hotend.name.toLowerCase();
+      if (!seen.has(hLower) && hotend.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
+        expanded.push(hotend.name);
+        seen.add(hLower);
+      }
+    }
+  }
+
+  const hasAlwaysCompatible = official.some((n) =>
+    ALWAYS_COMPATIBLE_HOTENDS.includes(n.toLowerCase())
+  );
+
+  if (hasAlwaysCompatible) {
+    for (const acName of ALWAYS_COMPATIBLE_HOTENDS) {
+      if (!seen.has(acName)) {
+        const detail = hotendsData.hotends.find((h) => h.name.toLowerCase() === acName);
+        if (detail) {
+          expanded.push(detail.name);
+          seen.add(acName);
+        }
+      }
+    }
+  }
+
+  return expanded;
+}
+
+function getExpandedProbes(probeNames) {
+  const official = formatList(probeNames);
+  const officialLower = new Set(official.map((n) => n.toLowerCase()));
+
+  const expanded = [];
+  const seen = new Set([...officialLower]);
+
+  if (!seen.has('z-probe membrane')) {
+    const detail = probesData.probes.find((p) => p.name.toLowerCase() === 'z-probe membrane');
+    if (detail) {
+      expanded.push(detail.name);
+      seen.add('z-probe membrane');
+    }
+  }
+
+  const hasTouchProbe = official.some((n) => {
+    const detail = findDetail(n, probesData.probes);
+    return detail?.type === 'touch';
+  });
+
+  if (hasTouchProbe) {
+    for (const probe of probesData.probes) {
+      if (probe.type === 'touch' && !seen.has(probe.name.toLowerCase())) {
+        expanded.push(probe.name);
+        seen.add(probe.name.toLowerCase());
+      }
+    }
+  }
+
+  const hasKlicky = officialLower.has('klicky');
+  const hasKlickyPCB = officialLower.has('klicky pcb');
+
+  if (hasKlicky && !hasKlickyPCB && !seen.has('klicky pcb')) {
+    const detail = probesData.probes.find((p) => p.name.toLowerCase() === 'klicky pcb');
+    if (detail) {
+      expanded.push(detail.name);
+      seen.add('klicky pcb');
+    }
+  }
+  if (hasKlickyPCB && !hasKlicky && !seen.has('klicky')) {
+    const detail = probesData.probes.find((p) => p.name.toLowerCase() === 'klicky');
+    if (detail) {
+      expanded.push(detail.name);
+      seen.add('klicky');
+    }
+  }
+
+  return expanded;
+}
+
 function buildNameSet(toolheads, fieldGetter) {
   const set = new Set();
   for (const th of toolheads) {
@@ -20,9 +172,29 @@ function buildNameSet(toolheads, fieldGetter) {
   return set;
 }
 
-const extruderNamesInToolheads = buildNameSet(activeToolheads, (t) => t.extruders);
-const hotendNamesInToolheads = buildNameSet(activeToolheads, (t) => t.hotend);
-const probeNamesInToolheads = buildNameSet(activeToolheads, (t) => t.probe);
+// Build extended name sets: include both direct + extended list items
+function buildExtendedNameSet(toolheads, fieldGetter, getExpandedFn) {
+  const set = new Set();
+  for (const th of toolheads) {
+    const val = fieldGetter(th);
+    const list = Array.isArray(val) ? val : val ? [val] : [];
+    for (const name of list) {
+      if (typeof name === 'string' && name.toLowerCase() !== 'unknown' && name.toLowerCase() !== 'na') {
+        set.add(name.toLowerCase());
+      }
+    }
+    // Also add extended items
+    const expanded = getExpandedFn(list);
+    for (const name of expanded) {
+      set.add(name.toLowerCase());
+    }
+  }
+  return set;
+}
+
+const extruderNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.extruders, getExpandedExtruders);
+const hotendNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.hotend, getExpandedHotends);
+const probeNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.probe, getExpandedProbes);
 
 const availableExtruders = extrudersData.extruders.filter((e) =>
   extruderNamesInToolheads.has(e.name.toLowerCase())
@@ -38,6 +210,12 @@ function matchesComponent(list, name) {
   const nameList = Array.isArray(list) ? list : list ? [list] : [];
   const lower = name.toLowerCase();
   return nameList.some((item) => typeof item === 'string' && item.toLowerCase() === lower);
+}
+
+function matchesComponentExtended(list, name, getExpandedFn) {
+  if (matchesComponent(list, name)) return true;
+  const expanded = getExpandedFn(list);
+  return expanded.some((item) => item.toLowerCase() === name.toLowerCase());
 }
 
 function CarouselArrow({ direction, onClick, disabled }) {
@@ -169,7 +347,7 @@ function ToolheadCard({ toolhead, position, onClick }) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          View on GitHub →
+          {isGitHubUrl(toolhead.url) ? 'View on GitHub →' : 'View Webpage →'}
         </a>
       </div>
     </div>
@@ -423,6 +601,7 @@ function FanFilter({ title, options, selected, onSelect, accentColor }) {
                 transition: 'border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease',
                 boxSizing: 'border-box',
                 lineHeight: '1.4',
+                margin: 0,
               }}
             >
               {opt}
@@ -443,9 +622,9 @@ export default function ToolheadRebuilder() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const filteredToolheads = activeToolheads.filter((th) => {
-    if (selectedExtruder && !matchesComponent(th.extruders, selectedExtruder)) return false;
-    if (selectedHotend && !matchesComponent(th.hotend, selectedHotend)) return false;
-    if (selectedProbe && !matchesComponent(th.probe, selectedProbe)) return false;
+    if (selectedExtruder && !matchesComponentExtended(th.extruders, selectedExtruder, getExpandedExtruders)) return false;
+    if (selectedHotend && !matchesComponentExtended(th.hotend, selectedHotend, getExpandedHotends)) return false;
+    if (selectedProbe && !matchesComponentExtended(th.probe, selectedProbe, getExpandedProbes)) return false;
     if (selectedHotendFan) {
       const hf = th.hotend_fan;
       if (!hf || hf === 'unknown') return false;
@@ -573,7 +752,7 @@ export default function ToolheadRebuilder() {
           <div
             style={{
               position: 'relative',
-              height: '430px',
+              height: '480px',
               marginBottom: '32px',
               overflow: 'hidden',
               padding: '0 40px',
