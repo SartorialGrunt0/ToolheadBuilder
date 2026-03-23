@@ -21,7 +21,7 @@ export default defineConfig({
           label: 'Introduction',
           items: [
             { label: 'Introduction', slug: 'introduction' },
-            { label: 'Toolhead Configurator', slug: 'toolhead-configurator' },
+            { label: 'Toolhead Builder', slug: 'toolhead-builder' },
             { label: 'Toolhead Rebuilder', slug: 'toolhead-rebuilder' },
           ],
         },
