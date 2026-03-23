@@ -78,15 +78,15 @@ function getExpandedHotends(hotendNames) {
     }
   }
 
+  // If bambu mounting found, add other hotends that also have Bambu mounting
   if (hasBambu) {
     for (const hotend of hotendsData.hotends) {
       const hLower = hotend.name.toLowerCase();
-      if (!seen.has(hLower)) {
+      if (!seen.has(hLower) && hotend.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
         expanded.push(hotend.name);
         seen.add(hLower);
       }
     }
-    return expanded;
   }
 
   const hasAlwaysCompatible = official.some((n) =>
