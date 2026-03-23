@@ -253,6 +253,7 @@
         "RoundTrip",
         "Galileo 2 Standalone",
         "Wristwatch BMG",
+        "Wristwatch G2",
         "Papilio Lite"
       ],
       "probe": [
@@ -287,7 +288,7 @@
       "image": "/dragonburner.webp",
       "category": "Printers for Ants",
       "configurator": true,
-      "hotend_fan": "3010",
+      "hotend_fan": ["3010","2510"],
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown"
     },
@@ -377,8 +378,8 @@
         "Sherpa Mini",
         "LGX-lite",
         "Orbiter 2",
-        "Orbiter 2",
         "Galileo 2 Standalone",
+        "Wristwatch G2",
         "Wristwatch BMG"
       ],
       "probe": [
@@ -387,9 +388,12 @@
         "Klicky"
       ],
       "hotend": [
-        "Rapido UHF",
         "TZ2.0",
         "Dragon Ace",
+        "Red Lizard K1 UHF",
+        "Rapido HF",
+        "Rapido UHF",
+        "Red Lizard K1 HF",
         "Red Lizard K1 UHF",
         "Chube Air"
       ],
@@ -409,8 +413,8 @@
         "Sherpa Mini",
         "LGX-lite",
         "Orbiter 2",
-        "Orbiter 2",
         "Galileo 2 Standalone",
+        "Wristwatch G2",
         "Wristwatch BMG"
       ],
       "probe": [
@@ -419,6 +423,7 @@
       ],
       "hotend": [
         "Rapido UHF",
+        "Rapido HF",
         "TZ2.0",
         "Dragon Ace",
         "Red Lizard K1 UHF",
@@ -496,6 +501,7 @@
         "TAP",
         "Beacon",
         "Klicky PCB",
+        "Klicky",
         "Euclid"
       ],
       "hotend": [
@@ -872,13 +878,22 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown"
     },
-    {
+      {
       "name": "Takeoff",
       "extruders": [
-        "unknown"
+        "unknown",
+        "Vz HextrudORT",
+        "Sherpa Micro",
+        "Sherpa Mini",
+        "Orbiter 2",
+        "LGX-Lite",
+        "Double Folded Ascender"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": "Beacon",
+      "hotend": [
+        "Lancer",
+        "Chube"
+      ],
       "url": "https://github.com/Kizime123/Takeoff-Toolhead",
       "description": "Toolhead for Voron 2.4 and Trident, features an SLM design and large 3628 fans.",
       "category": "Full Size Printers",
@@ -1055,6 +1070,7 @@
         "Sherpa Micro",
         "Sharkfin",
         "Sailfin",
+        "Dragon Ace",
         "Orbiter 2"
       ],
       "probe": "unknown",
