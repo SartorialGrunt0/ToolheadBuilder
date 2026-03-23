@@ -351,8 +351,38 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown"
     },
-    {
+{
       "name": "Hypernova",
+      "extruders": [
+        "Sherpa Mini",
+        "LGX-lite",
+        "Orbiter 2",
+        "Orbiter 2",
+        "Galileo 2 Standalone",
+        "Wristwatch BMG"
+      ],
+      "probe": [
+        "Beacon",
+        "Cartographer"
+      ],
+      "hotend": [
+        "Rapido UHF",
+        "TZ2.0",
+        "Dragon Ace",
+        "Chube"
+      ],
+      "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova/#hypernova-printhead",
+      "description": "Toolhead for Switchwire/Enderwire, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
+      "category": "Full Size Printers",
+      "configurator": false,
+      "title": "Hypernova",
+      "image": "",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown"
+    },
+    {
+      "name": "Hypernova BSE",
       "extruders": [
         "Sherpa Mini",
         "LGX-lite",
@@ -375,7 +405,7 @@
       "description": "Toolhead for Switchwire/Enderwire, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
       "category": "Full Size Printers",
       "configurator": true,
-      "title": "Hypernova",
+      "title": "Hypernova BSE",
       "image": "/Hypernova.png",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
@@ -677,7 +707,7 @@
         "Goliath"
       ],
       "url": "https://github.com/APDMachine/Reaper",
-      "description": "Toolhead for Voron 2.4 and Trident, variant of Mantis.",
+      "description": "Toolhead for Voron 2.4 and Trident, inspired by Mantis.",
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Reaper",
