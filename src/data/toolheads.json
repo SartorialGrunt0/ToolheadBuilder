@@ -383,13 +383,15 @@
       ],
       "probe": [
         "Beacon",
-        "Cartographer"
+        "Cartographer",
+        "Klicky"
       ],
       "hotend": [
         "Rapido UHF",
         "TZ2.0",
         "Dragon Ace",
-        "Chube"
+        "Red Lizard K1 UHF",
+        "Chube Air"
       ],
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova/#hypernova-printhead",
       "description": "Toolhead for Voron 2.4 and Trident, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
@@ -419,7 +421,8 @@
         "Rapido UHF",
         "TZ2.0",
         "Dragon Ace",
-        "Chube"
+        "Red Lizard K1 UHF",
+        "Chube Air"
       ],
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova_bedsligers/",
       "description": "Toolhead for Switchwire/Enderwire, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
@@ -794,7 +797,7 @@
       "name": "Stealthburner",
       "extruders": [
         "Clockwork2",
-        "Large Gear Clockwork 2",
+        "Large Gear Clockwork2",
         "Galileo 2"
       ],
       "probe": [

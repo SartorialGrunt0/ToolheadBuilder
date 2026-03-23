@@ -69,17 +69,10 @@ function getExpandedHotends(hotendNames) {
   const expanded = [];
   const seen = new Set([...officialLower]);
 
-  let hasBambu = false;
-  for (const name of official) {
-    const detail = findDetail(name, hotendsData.hotends);
-    if (detail?.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
-      hasBambu = true;
-      break;
-    }
-  }
+  // Only expand Bambu-mount hotends when Bambu X1/P1 is explicitly listed.
+  const hasBambuX1P1 = officialLower.has('bambu x1/p1');
 
-  // If bambu mounting found, add other hotends that also have Bambu mounting
-  if (hasBambu) {
+  if (hasBambuX1P1) {
     for (const hotend of hotendsData.hotends) {
       const hLower = hotend.name.toLowerCase();
       if (!seen.has(hLower) && hotend.mounting_pattern?.some((p) => p.toLowerCase() === 'bambu')) {
