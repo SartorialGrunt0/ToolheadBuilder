@@ -198,7 +198,7 @@
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Crown Cooler",
-      "image": "/crowncooler.png",
+      "image": "/crown_cooler.jpg",
       "hotend_fan": "4028",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown"
