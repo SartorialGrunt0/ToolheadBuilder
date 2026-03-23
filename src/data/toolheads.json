@@ -372,7 +372,7 @@
         "Chube"
       ],
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova/#hypernova-printhead",
-      "description": "Toolhead for Switchwire/Enderwire, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
+      "description": "Toolhead for Voron 2.4 and Trident, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Hypernova",
