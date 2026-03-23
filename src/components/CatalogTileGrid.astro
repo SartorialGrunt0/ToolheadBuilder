@@ -1,0 +1,183 @@
+---
+interface CatalogItem {
+  name: string;
+  url?: string;
+  description?: string;
+  [key: string]: unknown;
+}
+
+interface Props {
+  items: CatalogItem[];
+  badgeField?: string;
+  secondaryFields?: { field: string; prefix: string }[];
+  accentColor?: 'blue' | 'green' | 'purple';
+}
+
+const {
+  items = [],
+  badgeField,
+  secondaryFields = [],
+  accentColor = 'green',
+} = Astro.props as Props;
+
+function isKnownValue(value: unknown): boolean {
+  if (value === null || value === undefined) return false;
+  if (typeof value === 'string') {
+    const lowered = value.trim().toLowerCase();
+    return lowered.length > 0 && lowered !== 'unknown' && lowered !== 'na' && lowered !== 'other';
+  }
+  return true;
+}
+
+function displayValue(value: unknown): string {
+  if (!isKnownValue(value)) return '';
+  if (Array.isArray(value)) {
+    return value.filter(isKnownValue).map(String).join(', ');
+  }
+  return String(value);
+}
+
+function getFieldValue(item: CatalogItem, field?: string): string {
+  if (!field) return '';
+  return displayValue(item[field]);
+}
+
+function isGitHub(url?: string): boolean {
+  return typeof url === 'string' && url.toLowerCase().includes('github');
+}
+
+const colorMap = {
+  blue:   { dot: '#3b82f6', label: '#93c5fd', bg: 'rgba(59,130,246,0.12)' },
+  green:  { dot: '#22c55e', label: '#86efac', bg: 'rgba(34,197,94,0.12)' },
+  purple: { dot: '#a855f7', label: '#d8b4fe', bg: 'rgba(168,85,247,0.12)' },
+};
+const c = colorMap[accentColor] || colorMap.green;
+---
+
+<div class="catalog-chip-list">
+  {items.map((item) => {
+    const badge = getFieldValue(item, badgeField);
+    const secondaries = secondaryFields
+      .map((sf) => ({ prefix: sf.prefix, value: getFieldValue(item, sf.field) }))
+      .filter((s) => s.value);
+
+    return (
+      <a
+        class="catalog-chip"
+        href={item.url || undefined}
+        target={item.url ? '_blank' : undefined}
+        rel={item.url ? 'noopener noreferrer' : undefined}
+        style={`--chip-dot: ${c.dot}; --chip-label: ${c.label}; --chip-bg: ${c.bg};`}
+      >
+        <div class="chip-header">
+          <span class="chip-dot" />
+          <strong class="chip-name">{item.name}</strong>
+          {badge && <span class="chip-badge">{badge}</span>}
+          {item.url && (
+            <span class="chip-link">
+              {isGitHub(item.url) ? 'GitHub ↗' : 'Web ↗'}
+            </span>
+          )}
+        </div>
+        {item.description && (
+          <p class="chip-desc">{item.description}</p>
+        )}
+        {secondaries.length > 0 && (
+          <p class="chip-meta">
+            {secondaries.map((s) => `${s.prefix}: ${s.value}`).join(' · ')}
+          </p>
+        )}
+      </a>
+    );
+  })}
+</div>
+
+<style>
+  .catalog-chip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 0.25rem;
+  }
+
+  .catalog-chip {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: var(--sl-color-bg-nav);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .catalog-chip:hover {
+    border-color: var(--chip-dot);
+    background: var(--chip-bg);
+  }
+
+  .chip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--chip-dot);
+    flex-shrink: 0;
+  }
+
+  .chip-name {
+    font-size: 0.95rem;
+    color: var(--sl-color-white);
+  }
+
+  .catalog-chip:hover .chip-name {
+    color: var(--chip-label);
+  }
+
+  .chip-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--chip-bg);
+    color: var(--chip-label);
+    font-weight: 600;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .chip-link {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--sl-color-gray-5);
+    color: var(--sl-color-gray-3);
+    font-weight: 600;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .catalog-chip:hover .chip-link {
+    border-color: var(--chip-dot);
+    color: var(--chip-label);
+  }
+
+  .chip-desc {
+    margin: 6px 0 0 0;
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+    line-height: 1.4;
+    padding-left: 16px;
+  }
+
+  .chip-meta {
+    margin: 4px 0 0 0;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-4);
+    padding-left: 16px;
+  }
+</style>

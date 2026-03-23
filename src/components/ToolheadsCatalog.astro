@@ -1,6 +1,7 @@
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import toolheadsData from '../data/toolheads.json';
+import CatalogTileGrid from './CatalogTileGrid.astro';
 
 const toolheads = toolheadsData.toolheads;
 const fullSize = toolheads.filter(t => t.category === 'Full Size Printers');
@@ -9,18 +10,10 @@ const ants = toolheads.filter(t => t.category === 'Printers for Ants');
 
 <Tabs syncKey="Toolheads">
   <TabItem label="Full Size Printers">
-    <ul>
-      {fullSize.map(t => (
-        <li><a href={t.url} target="_blank" rel="noopener noreferrer">{t.name}</a> - {t.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={fullSize} accentColor="green" secondaryFields={[{ field: 'hotend_fan', prefix: 'Hotend Fan' }, { field: 'part_cooling_fan', prefix: 'Part Cooling' }]} />
   </TabItem>
 
   <TabItem label="Printers for Ants">
-    <ul>
-      {ants.map(t => (
-        <li><a href={t.url} target="_blank" rel="noopener noreferrer">{t.name}</a> - {t.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={ants} accentColor="green" secondaryFields={[{ field: 'hotend_fan', prefix: 'Hotend Fan' }, { field: 'part_cooling_fan', prefix: 'Part Cooling' }]} />
   </TabItem>
 </Tabs>

@@ -1,6 +1,7 @@
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import hotendsData from '../data/hotends.json';
+import CatalogTileGrid from './CatalogTileGrid.astro';
 
 const hotends = hotendsData.hotends;
 const sf = hotends.filter(h => h.hotend_type === 'SF');
@@ -10,26 +11,14 @@ const uhf = hotends.filter(h => h.hotend_type === 'UHF');
 
 <Tabs syncKey="hotends">
   <TabItem label="Standard Flow (SF)">
-    <ul>
-      {sf.map(h => (
-        <li><a href={h.url} target="_blank" rel="noopener noreferrer">{h.name}</a>{h.description ? ` - ${h.description}` : ''}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={sf} badgeField="hotend_type" accentColor="green" secondaryFields={[{ field: 'flow_rate', prefix: 'Flow' }, { field: 'mounting_pattern', prefix: 'Mount' }, { field: 'meltzone_length', prefix: 'Meltzone' }]} />
   </TabItem>
 
   <TabItem label="High Flow (HF)">
-    <ul>
-      {hf.map(h => (
-        <li><a href={h.url} target="_blank" rel="noopener noreferrer">{h.name}</a>{h.description ? ` - ${h.description}` : ''}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={hf} badgeField="hotend_type" accentColor="green" secondaryFields={[{ field: 'flow_rate', prefix: 'Flow' }, { field: 'mounting_pattern', prefix: 'Mount' }, { field: 'meltzone_length', prefix: 'Meltzone' }]} />
   </TabItem>
 
   <TabItem label="Ultra High Flow (UHF)">
-    <ul>
-      {uhf.map(h => (
-        <li><a href={h.url} target="_blank" rel="noopener noreferrer">{h.name}</a>{h.description ? ` - ${h.description}` : ''}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={uhf} badgeField="hotend_type" accentColor="green" secondaryFields={[{ field: 'flow_rate', prefix: 'Flow' }, { field: 'mounting_pattern', prefix: 'Mount' }, { field: 'meltzone_length', prefix: 'Meltzone' }]} />
   </TabItem>
 </Tabs>

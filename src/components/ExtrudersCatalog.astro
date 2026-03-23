@@ -1,6 +1,7 @@
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import extrudersData from '../data/extruders.json';
+import CatalogTileGrid from './CatalogTileGrid.astro';
 
 const extruders = extrudersData.extruders;
 const bmg = extruders.filter(e => e.gear_type === 'BMG');
@@ -13,50 +14,26 @@ const legacy = extruders.filter(e => e.category === 'Legacy Extruders');
 
 <Tabs syncKey="extruder">
   <TabItem label="BMG Extruders">
-    <ul>
-      {bmg.map(e => (
-        <li><a href={e.url} target="_blank" rel="noopener noreferrer">{e.name}</a> - {e.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={bmg} badgeField="gear_type" accentColor="blue" secondaryFields={[{ field: 'mounting_pattern', prefix: 'Mount' }]} />
   </TabItem>
 
   <TabItem label="HGX-lite Extruders">
-    <ul>
-      {hgxLite.map(e => (
-        <li><a href={e.url} target="_blank" rel="noopener noreferrer">{e.name}</a> - {e.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={hgxLite} badgeField="gear_type" accentColor="blue" secondaryFields={[{ field: 'mounting_pattern', prefix: 'Mount' }]} />
   </TabItem>
 
   <TabItem label="Galileo 2 Extruders">
-    <ul>
-      {galileo.map(e => (
-        <li><a href={e.url} target="_blank" rel="noopener noreferrer">{e.name}</a> - {e.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={galileo} badgeField="gear_type" accentColor="blue" secondaryFields={[{ field: 'mounting_pattern', prefix: 'Mount' }]} />
   </TabItem>
 
   <TabItem label="Pre-Assembled Extruders">
-    <ul>
-      {preAssembled.map(e => (
-        <li><a href={e.url} target="_blank" rel="noopener noreferrer">{e.name}</a> - {e.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={preAssembled} badgeField="gear_type" accentColor="blue" secondaryFields={[{ field: 'mounting_pattern', prefix: 'Mount' }]} />
   </TabItem>
 
   <TabItem label="Other Extruders">
-    <ul>
-      {other.map(e => (
-        <li><a href={e.url} target="_blank" rel="noopener noreferrer">{e.name}</a> - {e.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={other} badgeField="gear_type" accentColor="blue" secondaryFields={[{ field: 'mounting_pattern', prefix: 'Mount' }]} />
   </TabItem>
 
   <TabItem label="Legacy Extruders">
-    <ul>
-      {legacy.map(e => (
-        <li><a href={e.url} target="_blank" rel="noopener noreferrer">{e.name}</a> - {e.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={legacy} badgeField="gear_type" accentColor="blue" secondaryFields={[{ field: 'mounting_pattern', prefix: 'Mount' }]} />
   </TabItem>
 </Tabs>

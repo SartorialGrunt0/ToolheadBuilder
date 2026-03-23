@@ -655,6 +655,8 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
         <img
           src={toolhead.image}
           alt={toolhead.name}
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '220px',

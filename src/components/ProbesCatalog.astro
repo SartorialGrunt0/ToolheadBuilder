@@ -1,6 +1,7 @@
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import probesData from '../data/probes.json';
+import CatalogTileGrid from './CatalogTileGrid.astro';
 
 const probes = probesData.probes;
 const touch = probes.filter(p => p.type === 'touch');
@@ -12,42 +13,22 @@ const bedScanner = probes.filter(p => p.type === 'bed_scanner');
 
 <Tabs syncKey="Probes">
   <TabItem label="Touch Probes">
-    <ul>
-      {touch.map(p => (
-        <li><a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a> - {p.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={touch} badgeField="type" accentColor="purple" />
   </TabItem>
 
   <TabItem label="Touchless Probes">
-    <ul>
-      {touchless.map(p => (
-        <li><a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a> - {p.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={touchless} badgeField="type" accentColor="purple" />
   </TabItem>
 
   <TabItem label="Dockable Probes">
-    <ul>
-      {dockable.map(p => (
-        <li><a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a> - {p.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={dockable} badgeField="type" accentColor="purple" />
   </TabItem>
 
   <TabItem label="Nozzle Probes">
-    <ul>
-      {nozzle.map(p => (
-        <li><a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a> - {p.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={nozzle} badgeField="type" accentColor="purple" />
   </TabItem>
 
   <TabItem label="Bed Scanner Probes">
-    <ul>
-      {bedScanner.map(p => (
-        <li><a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a> - {p.description}</li>
-      ))}
-    </ul>
+    <CatalogTileGrid items={bedScanner} badgeField="type" accentColor="purple" />
   </TabItem>
 </Tabs>
