@@ -112,6 +112,11 @@ function getExpandedHotends(hotendNames) {
   return expanded;
 }
 
+function fanDisplayValue(value) {
+  if (!value) return '';
+  return Array.isArray(value) ? value.join(' / ') : value;
+}
+
 function isUnknownValue(value) {
   return typeof value === 'string' && value.trim().toLowerCase() === 'unknown';
 }
@@ -724,14 +729,14 @@ export default function ToolheadConfigurator() {
     if (toolheadEntry.hotend_fan && !isUnknownValue(toolheadEntry.hotend_fan)) {
       selectedHardwareRows.push({
         component: 'Hotend Fan',
-        selection: toolheadEntry.hotend_fan,
+        selection: fanDisplayValue(toolheadEntry.hotend_fan),
         url: null,
       });
     }
     if (toolheadEntry.part_cooling_fan && !isUnknownValue(toolheadEntry.part_cooling_fan)) {
       selectedHardwareRows.push({
         component: 'Part Cooling Fan',
-        selection: toolheadEntry.part_cooling_fan,
+        selection: fanDisplayValue(toolheadEntry.part_cooling_fan),
         url: null,
       });
     }
@@ -879,7 +884,7 @@ export default function ToolheadConfigurator() {
                         Hotend Fan
                       </p>
                       <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
-                        {toolheadEntry.hotend_fan}
+                        {fanDisplayValue(toolheadEntry.hotend_fan)}
                       </p>
                     </div>
                   )}
@@ -889,7 +894,7 @@ export default function ToolheadConfigurator() {
                         Part Cooling Fan
                       </p>
                       <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
-                        {toolheadEntry.part_cooling_fan}
+                        {fanDisplayValue(toolheadEntry.part_cooling_fan)}
                       </p>
                     </div>
                   )}

@@ -361,8 +361,8 @@ function ComponentSelector({ title, options, selected, onSelect, accentColor }) 
   );
 }
 
-const HOTEND_FAN_OPTIONS = ['3007', '3010', '4010'];
-const PART_COOLING_FAN_OPTIONS = ['4010', '4020', '5015', 'CPAP'];
+const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010'];
+const PART_COOLING_FAN_OPTIONS = ['3010', '3515', '3628', '4010', '4020', '5015', '5020', 'CPAP'];
 
 function FanFilter({ title, options, selected, onSelect, accentColor }) {
   const colors = {
@@ -420,7 +420,9 @@ function FanFilter({ title, options, selected, onSelect, accentColor }) {
                 fontSize: '0.85rem',
                 fontWeight: 600,
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease',
+                boxSizing: 'border-box',
+                lineHeight: '1.4',
               }}
             >
               {opt}
@@ -444,8 +446,18 @@ export default function ToolheadRebuilder() {
     if (selectedExtruder && !matchesComponent(th.extruders, selectedExtruder)) return false;
     if (selectedHotend && !matchesComponent(th.hotend, selectedHotend)) return false;
     if (selectedProbe && !matchesComponent(th.probe, selectedProbe)) return false;
-    if (selectedHotendFan && th.hotend_fan !== selectedHotendFan) return false;
-    if (selectedPartCoolingFan && th.part_cooling_fan !== selectedPartCoolingFan) return false;
+    if (selectedHotendFan) {
+      const hf = th.hotend_fan;
+      if (!hf || hf === 'unknown') return false;
+      const vals = Array.isArray(hf) ? hf : [hf];
+      if (!vals.includes(selectedHotendFan)) return false;
+    }
+    if (selectedPartCoolingFan) {
+      const pcf = th.part_cooling_fan;
+      if (!pcf || pcf === 'unknown') return false;
+      const vals = Array.isArray(pcf) ? pcf : [pcf];
+      if (!vals.includes(selectedPartCoolingFan)) return false;
+    }
     return true;
   });
 
