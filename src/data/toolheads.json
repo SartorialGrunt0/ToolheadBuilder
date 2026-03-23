@@ -678,7 +678,7 @@
     {
       "name": "Rainbow Dragon",
       "extruders": [
-        "Other",
+        "Other"
       ],
       "probe": "unknow",
       "hotend": "TaiChi",
