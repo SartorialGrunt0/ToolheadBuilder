@@ -373,9 +373,9 @@
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova/#hypernova-printhead",
       "description": "Toolhead for Voron 2.4 and Trident, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Hypernova",
-      "image": "",
+      "image": "/hypernova.png",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown"
@@ -405,7 +405,7 @@
       "category": "Full Size Printers",
       "configurator": true,
       "title": "Hypernova BSE",
-      "image": "/Hypernova.png",
+      "image": "/hypernova_bse.png",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown"
