@@ -7,7 +7,7 @@
       "url": "https://github.com/VoronDesign/Voron-Afterburner/releases",
       "description": "Direct drive extruder for the Voron Afterburner toolhead.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Clockwork2",
@@ -16,7 +16,7 @@
       "url": "https://github.com/VoronDesign/Voron-Stealthburner",
       "description": "Direct drive extruder for the Voron Stealthburner toolhead, IDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Pocket Watch",
@@ -25,7 +25,7 @@
       "url": "https://github.com/VoronDesign/Voron-0/tree/Voron0.0/VORON_Pocketwatch",
       "description": "Bowden extruder for Voron V0.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Pocket Watch Nema17",
@@ -34,7 +34,7 @@
       "url": "https://mods.vorondesign.com/details/1rw8IyTJO2hoMYllya1IgQ",
       "description": "Bowden extruder modeled from Clockwork1.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Night Watch",
@@ -43,7 +43,7 @@
       "url": "https://github.com/VoronDesign/Pocket-Watch/tree/main",
       "description": "Bowden extruder designed from Clockwork2 for Voron V0.2.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dual Nightwatch",
@@ -52,7 +52,7 @@
       "url": "https://github.com/hartk1213/MISC/tree/main/Voron%20Mods/Extruders/Dual_Nightwatch",
       "description": "Bowden extruder, variant of Night Watch, features dual extruder design.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "M4 Mobius",
@@ -61,7 +61,7 @@
       "url": "https://github.com/VoronDesign/Mobius-Extruder",
       "description": "Bowden belt driven extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mini14",
@@ -70,7 +70,7 @@
       "url": "https://github.com/hartk1213/MISC/tree/main/Voron%20Mods/Extruders/Mini14",
       "description": "Bowden belt driven extruder, variant of M4, features smaller size and nema14 motor.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Wristwatch BMG",
@@ -79,7 +79,7 @@
       "url": "https://github.com/bythorsthunder/Voron_Mods/tree/main/Wristwatch_Extruder_BMG",
       "description": "Direct drive standalone extruder, variant of Wristwatch G2, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "WWBMG IDGA",
@@ -88,7 +88,7 @@
       "url": "https://github.com/minilogique/ww-extruder-for-idga",
       "description": "Direct drive standalone extruder, variant of Wristwatch BMG, IDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sherpa Mini",
@@ -97,7 +97,7 @@
       "url": "https://github.com/Annex-Engineering/Sherpa_Mini-Extruder",
       "description": "Direct drive standalone extruder, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "Sherpa Micro",
@@ -106,7 +106,7 @@
       "url": "https://github.com/Annex-Engineering/Sherpa_Micro-Extruder",
       "description": "Direct drive standalone extruder, smaller and lighter Sherpa Mini, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sherpa Heavy",
@@ -115,7 +115,7 @@
       "url": "https://github.com/Annex-Engineering/Sherpa_Heavy-Extruder",
       "description": "Direct drive standalone extruder, variant of Sherpa Mini, uses a nema17 with pinion gear, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sherpa Extra Heavy",
@@ -124,7 +124,7 @@
       "url": "https://www.printables.com/model/549890-sherpa-extra-heavy-with-nema17-update-2",
       "description": "Direct drive standalone extruder, variant of Sherpa Heavy using a standard nema17, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sherpa Crew Mini",
@@ -133,7 +133,7 @@
       "url": "https://github.com/jrlomas/Sherpa-Crew-Mini",
       "description": "Direct drive standalone extruder, variant of Sherpa Mini, features two sets of BMG gears.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sherpa Zero",
@@ -142,7 +142,7 @@
       "url": "https://github.com/jrlomas/Sherpa-Zero",
       "description": "Direct drive standalone extruder, variant of Sherpa Mini, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Shepherd",
@@ -151,7 +151,7 @@
       "url": "https://github.com/odbee/shepherd/tree/main",
       "description": "Direct drive extruder for Archetype Breakneck part cooling duct, variant of Sherpa Mini.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Fz",
@@ -160,7 +160,7 @@
       "url": "https://github.com/FZaii/FZ-Extruder",
       "description": "Direct drive standalone extruder, variant of Sherpa Mini.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Miro",
@@ -169,7 +169,7 @@
       "url": "https://github.com/jrlomas/miro-extruder",
       "description": "Direct drive standalone extruder, features dual-drive gears.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sailfin",
@@ -178,7 +178,7 @@
       "url": "https://github.com/CroXY3D/Sailfin-Extruder",
       "description": "Direct drive standalone extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sharkfin",
@@ -187,7 +187,7 @@
       "url": "https://github.com/KayosMaker/Sharkfin_Extruder",
       "description": "Direct drive standalone extruder, variant of Sailfin, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Sharketype",
@@ -196,7 +196,7 @@
       "url": "https://github.com/Armchair-Heavy-Industries/Sharketype",
       "description": "Direct drive standalone extruder for Archetype toolhead, variant of Sharkfin, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "HextrudORT",
@@ -205,7 +205,7 @@
       "url": "https://github.com/MirageC79/HextrudORT",
       "description": "Direct drive standalone extruder for the HevORT toolhead.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Vorxtrudort",
@@ -214,7 +214,7 @@
       "url": "https://github.com/nhchiu/VoronMods/tree/main/Extruders/Vorxtrudort",
       "description": "Direct drive standalone extruder, variant of HextrudORT with mounting for Voron.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Vz HextrudORT",
@@ -223,7 +223,7 @@
       "url": "https://github.com/VzBoT3D/Vz-HextrudORT",
       "description": "Direct drive standalone extruder, variant of HextrudORT for VzBot.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "BoomBox",
@@ -232,7 +232,7 @@
       "url": "https://www.printables.com/model/1236812-boombox-the-best-bowden-extruder-on-earth",
       "description": "Bowden extruder, features dual-gears and dual-motors.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "RoundHouseBMG",
@@ -241,7 +241,7 @@
       "url": "https://github.com/chirpy2605/voron/tree/main/general/RoundHouse",
       "description": "Direct drive standalone extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Hummingbird",
@@ -250,7 +250,7 @@
       "url": "https://github.com/nhchiu/VoronMods/tree/main/Extruders/Hummingbird",
       "description": "Direct drive standalone extruder, features LGX-lite mounting.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Large Gear Clockwork2",
@@ -259,7 +259,7 @@
       "url": "https://github.com/nhchiu/VoronMods/tree/main/Extruders/Large_Gear_Clockwork2",
       "description": "Direct drive extruder for the Voron Stealthburner toolhead.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "ProtoXtruder",
@@ -268,7 +268,7 @@
       "url": "https://github.com/nhchiu/VoronMods/tree/main/Extruders/ProtoXtruder",
       "description": "Direct drive standalone extruder, features Sherpa Mini mounting.",
       "filament_sensor": "unknown",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "ProtoXtruder 2.0",
@@ -277,7 +277,7 @@
       "url": "https://github.com/nhchiu/3DPrinter-Designs/tree/main/ProtoXtruder_2.0",
       "description": "Direct drive standalone extruder, variant of ProtoXtruder for HGX-lite 2.0 gears.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "StealthProtoXtruder 2.0",
@@ -286,7 +286,7 @@
       "url": "https://www.printables.com/model/1372682-stealthprotoxtruder-20",
       "description": "Direct drive standalone extruder, variant of ProtoXtruder 2.0, features HGX-lite 2.0 gears, minor improvements and a low-poly design.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "ProtoXtruder NX",
@@ -295,7 +295,7 @@
       "url": "https://www.printables.com/model/1020272-protoxtruder-nx",
       "description": "Direct drive standalone extruder, variant of ProtoXtruder, features a latch arm based on the Prusa Nextruder design.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Papilio",
@@ -304,7 +304,7 @@
       "url": "https://github.com/kevinakasam/Papilio-Belt-Extruder",
       "description": "Direct drive standalone extruder, features using belts rather than gears to push filament.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Papilio Lite",
@@ -313,7 +313,7 @@
       "url": "https://github.com/kevinakasam/Papilio-Belt-Extruder",
       "description": "Direct drive standalone extruder, features using belts rather than gears to push filament.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Tsunami",
@@ -322,7 +322,7 @@
       "url": "https://www.printables.com/model/1175316-beta-tsunami-extruder",
       "description": "Direct drive standalone extruder, features dual drive gears.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Galileo 2",
@@ -331,7 +331,7 @@
       "url": "https://github.com/JaredC01/Galileo2/tree/main/galileo2_extruder",
       "description": "Direct drive extruder for the Voron Stealthburner toolhead.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Galileo 2 Standalone",
@@ -340,7 +340,7 @@
       "url": "https://github.com/JaredC01/Galileo2/tree/main/galileo2_standalone",
       "description": "Direct drive standalone extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Wristwatch G2",
@@ -349,7 +349,7 @@
       "url": "https://github.com/tetsu97/WristWatch-G2-Extruder",
       "description": "Direct drive standalone extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Escapement",
@@ -358,7 +358,7 @@
       "url": "https://github.com/Armchair-Heavy-Industries/Escapement",
       "description": "Direct drive standalone extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Micro-cosm",
@@ -367,7 +367,7 @@
       "url": "https://github.com/Okanoa/micro-cosm",
       "description": "Direct drive standalone extruder.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Orbiter 2",
@@ -377,7 +377,7 @@
       "description": "Direct drive standalone extruder, features a planetary gearbox, superceded by Orbiter 2.5.",
       "category": "Pre-Assembled Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Orbiter 2.5",
@@ -387,7 +387,7 @@
       "description": "Direct drive standalone extruder, features a planetary gearbox.",
       "category": "Pre-Assembled Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "BMG",
@@ -397,7 +397,7 @@
       "description": "Direct drive standalone extruder.",
       "category": "Pre-Assembled Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "LGX-Lite",
@@ -407,7 +407,7 @@
       "description": "Direct drive standalone extruder, features large drive gears.",
       "category": "Pre-Assembled Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "RoundAbout",
@@ -417,7 +417,7 @@
       "description": "Direct drive standalone extruder, features a planetary gearbox.",
       "category": "Other Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "RoundTrip",
@@ -427,7 +427,7 @@
       "description": "Direct drive standalone extruder, features support for Orbiter V1.5, LGX lite, TBG lite, and Orbiter V2 gears.",
       "category": "Other Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Lowboi Mk4",
@@ -437,7 +437,7 @@
       "description": "Direct drive standalone extruder, features a worm gear design with Creality K1 gears.",
       "category": "Other Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Waterweel",
@@ -447,7 +447,7 @@
       "description": "Direct drive standalone extruder, features a worm gear design with Bambu X/P series gears.",
       "category": "Other Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Orbiter 1.5",
@@ -457,7 +457,7 @@
       "description": "Direct drive standalone extruder, features a planetary gearbox, superceded by Orbiter 2/2.5.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Galileo 1",
@@ -467,7 +467,7 @@
       "description": "Direct drive extruder for the Voron Afterburner toolhead, features a planetary gearbox, superceded by Galileo 2.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Stargazer",
@@ -477,7 +477,7 @@
       "description": "Direct drive standalone extruder, features planetary gearbox.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Double Folded Ascender",
@@ -487,7 +487,7 @@
       "description": "Direct drive standalone extruder, features a worm gear design.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "NF-Cannon",
@@ -497,7 +497,7 @@
       "description": "Direct drive standalone extruder, features a worm gear design.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Zesty-Nimble V3",
@@ -507,7 +507,7 @@
       "description": "Worm gear extruder.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Titania",
@@ -517,7 +517,7 @@
       "description": "Direct drive standalone extruder, variant of Sherpa Mini, features E3D titan gears.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Cyclops",
@@ -527,7 +527,7 @@
       "description": "Direct drive extruder for the Creality K1 toolhead.",
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "top_pick": false
     }
   ]
 }

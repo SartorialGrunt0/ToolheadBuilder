@@ -14,7 +14,7 @@
       ],
       "url": "https://e3d-online.com/products/v6-all-metal-hotend",
       "description": "The OG hotend, supports V6 groove mount, V6 nozzles, max flow ~12 mm3/s.",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "Revo",
@@ -31,7 +31,7 @@
       ],
       "url": "https://e3d-online.com/pages/revo-configurator",
       "description": "The new and improved V6 hotend, has variants for V6 groove mount and Voron mount, features quick cold swap nozzles, ceramic heater, max flow ~12 mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Panda Revo",
@@ -47,7 +47,7 @@
       ],
       "url": "https://biqu.equipment/products/biqu-panda-hotend",
       "description": "Variant of E3D Revo, supports Bambu mounting.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragon SF",
@@ -63,7 +63,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/dragon-hotend-st",
       "description": "V6 style hotend, introduced dragon mounting, one-handed nozzle changes, max flow ~15 mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragonfly",
@@ -80,7 +80,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/dragonfly-hotend-bms",
       "description": "V6/Ender style hotend, supports groove or Ender mounting, max flow ~15 mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "CHC",
@@ -97,7 +97,7 @@
       ],
       "url": "https://trianglelab.net/products/tchc-td6s-hotend",
       "description": "V6 style hotend, supports groove mount, ceramic heater, single or two-piece nozzle and throat.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "NF-Crazy",
@@ -114,7 +114,7 @@
       ],
       "url": "https://3dmellow.com/products/nf-crazy-v2-hotend",
       "description": "Ender style hotend, supports Ender or V6 mounting, V6 or V6 Volcano nozzles, one-handed nozzle changes.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "NF-Crazy Volcano",
@@ -131,7 +131,7 @@
       ],
       "url": "https://3dmellow.com/products/nf-crazy-v2-hotend",
       "description": "Ender style hotend, supports Ender or V6 mounting, V6 or V6 Volcano nozzles, one-handed nozzle changes.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mosquito",
@@ -147,7 +147,7 @@
       ],
       "url": "https://www.sliceengineering.com/en-ca/products/the-mosquito-hotend",
       "description": "Premium hotend by Slice Engineering.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Rapido HF",
@@ -164,7 +164,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/rapido-hotend",
       "description": "V6 style hotend, supports groove or Dragon mounting, thermocouples, one-handed nozzle changes, max flow ~25 mm3/s, more with ultra high adapter.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragon HF",
@@ -181,7 +181,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/dragon-hotend-hf",
       "description": "V6 style hotend, supports groove or Dragon mount, one handed nozzle changes, max flow ~22 mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragonfly HIC",
@@ -197,7 +197,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/drangonfly-hotend-hic",
       "description": "Ender style hotend, supports Ender mounting, Volcano style nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Red Lizard K1 HF",
@@ -214,7 +214,7 @@
       ],
       "url": "",
       "description": "V6 style hotend, clone of Dragon HF, supports groove or Dragon mounting, one handed nozzle changes, max flow ~22 mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Bambu X1/P1",
@@ -230,7 +230,7 @@
       ],
       "url": "https://us.store.bambulab.com/products/bambu-hotend-x1c",
       "description": "Bambulabs hotend, supports X1/P1 style mounting, features a low price, max flow ~22 mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "TZ2.0",
@@ -248,7 +248,7 @@
       ],
       "url": "https://trianglelab.net/products/tz-20-hotend-for-bambu-lab-x1-p1p",
       "description": "Clone hotend with Bambulabs style heater block, available in Bambulabs, V6+Dragon, or Ender style heatbreak and mounting, features V6 nozzles, one handed nozzle changes, max flow ~22 mm3/s.",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "TZ 3.0/4.0",
@@ -266,7 +266,7 @@
       ],
       "url": "https://www.trianglelab.net/products/tz-40-hotend",
       "description": "Clone hotend with Bambulabs style heater block, variant of TZ 2.0, available in Bambulabs, V6+Dragon, or Ender style heatbreak and mounting, features single-piece throat+nozzle design, one handed nozzle changes.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "CHC Pro",
@@ -283,7 +283,7 @@
       ],
       "url": "https://trianglelab.net/products/chc-pro-hotend",
       "description": "V6 style hotend, supports groove mount, ceramic heater, variant of CHC hotend with extended ceramic heater.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "INo Trident",
@@ -299,7 +299,7 @@
       ],
       "url": "https://dev.plasmics.com/inotrident",
       "description": "V6 style hotend, supports dragon mounting, induction heater, custom nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Rapido UHF",
@@ -316,7 +316,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/rapido-plus-hotend",
       "description": "V6 style hotend, variant of Rapido, supports groove or Dragon mounting, thermocouples, ceramic heater, one handed nozzle changes.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Fluxheat",
@@ -334,7 +334,7 @@
       ],
       "url": "https://www.aliexpress.us/item/3256809993234845.html",
       "description": "V6 or Bambu style hotend, Dragon or Bambu mounting, one handed nozzle changes, support for an integrated nozzle probe, V6 nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Heatcore",
@@ -350,7 +350,7 @@
       ],
       "url": "https://3dmellow.com/products/mellow-heatcore-4-ultra high-alps-hotend-smart-leveling-nozzle-probe-for-voron-blv-vzbot-hevort-diy-3d-printer-high-flow-and-high-speed",
       "description": "V6 style hotend, Dragon mounting, one handed nozzle changes, support for an integrated nozzle probe, V6 nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Conch",
@@ -367,7 +367,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/conch-hotend-m6-x1-p1-series",
       "description": "Hotend in Bambulabs or AD5M style, ceramic heater, one-handed nozzle changes, V6 nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragon UHF",
@@ -384,7 +384,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/dragon-hotend-%C2%AE-ultra high",
       "description": "V6 style hotend, variant of Dragon HF, supports groove or Dragon mounting, ceramic heater, one handed nozzle changes.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragon Ace",
@@ -401,7 +401,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/dragon-hotend-%C2%AE-ultra high",
       "description": "V6 style hotend, variant of Dragon ultra high, supports groove or Dragon mount, ceramic heater, thermocouples, V6 nozzles.",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "Dragon Ace Volcano",
@@ -418,7 +418,7 @@
       ],
       "url": "https://trianglelab.net/products/dragon-ace-hotend",
       "description": "V6 style hotend, variant of Dragon ultra high, supports groove or Dragon mount, ceramic heater, thermocouples, V6 Volcano nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Red Lizard K1 UHF",
@@ -434,7 +434,7 @@
       ],
       "url": "",
       "description": "V6 style hotend, high flow variant of Red Lizard K1.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "V9",
@@ -450,7 +450,7 @@
       ],
       "url": "https://www.v9hotend.com",
       "description": "Ultra high flow hotend.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Lancer",
@@ -466,7 +466,7 @@
       ],
       "url": "https://peopoly.net/products/magneto-x-lancer-melt-zone",
       "description": "Ultra high flow hotend by Peopoly.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Tricorn",
@@ -482,7 +482,7 @@
       ],
       "url": "https://excit3dprints.com/tricorn-hotend",
       "description": "Ultra high flow hotend.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Takoto HE",
@@ -498,7 +498,7 @@
       ],
       "url": "https://advanced3dprinting.com/products/takoto-he50",
       "description": "Ultra high flow hotend.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "CHC XL",
@@ -514,7 +514,7 @@
       ],
       "url": "https://trianglelab.net/products/chc-xl-hotend",
       "description": "Dragon mount hotend, extreme high flow, wear resistant, air or water cooled.",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "STD6-LC",
@@ -531,7 +531,7 @@
       ],
       "url": "https://www.trianglelab.net/products/std6-lc",
       "description": "V6 style hotend, supports screw or groove mounting, ceramic heater, water cooling, V6 or V6 Volcano nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Chube",
@@ -547,7 +547,7 @@
       ],
       "url": "https://chubehotend.com",
       "description": "V6 style hotend, supports dragon mounting, V6 nozzles.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Goliath",
@@ -563,7 +563,7 @@
       ],
       "url": "https://github.com/VzBoT3D/Goliath",
       "description": "V6 style hotend, supports dragon mounting, nichrome wire heater, thermocouples, water or air cooling.",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Vesuvius",
@@ -579,7 +579,7 @@
       ],
       "url": "https://www.causalitymfg.com/vesuvius",
       "description": "Custom hotend, extreme flow rates targeting ~150mm3/s.",
-      "community_favorite": false
+      "top_pick": false
     }
   ]
 }

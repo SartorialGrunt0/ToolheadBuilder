@@ -323,7 +323,7 @@ function ToolheadCard({ toolhead, position, onClick }) {
           }}
         >
           {toolhead.title || toolhead.name}
-          {toolhead.community_favorite && (
+          {toolhead.top_pick && (
             <span
               style={{
                 fontSize: '0.65rem',
@@ -335,7 +335,7 @@ function ToolheadCard({ toolhead, position, onClick }) {
                 whiteSpace: 'nowrap',
               }}
             >
-              ⭐ Community Pick
+              ⭐ Top Pick
             </span>
           )}
         </h3>
@@ -414,7 +414,7 @@ function NoCompatibleCard() {
 }
 
 function ComponentOption({ item, isSelected, onClick, accentColor }) {
-  const isCommunityFavorite = item?.community_favorite === true;
+  const isTopPick = item?.top_pick === true;
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
     green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.13)' },
@@ -456,7 +456,7 @@ function ComponentOption({ item, isSelected, onClick, accentColor }) {
         >
           {item.name}
         </strong>
-        {isCommunityFavorite && (
+        {isTopPick && (
           <span
             style={{
               fontSize: '0.65rem',
@@ -468,7 +468,7 @@ function ComponentOption({ item, isSelected, onClick, accentColor }) {
               whiteSpace: 'nowrap',
             }}
           >
-            ⭐ Community Pick
+            ⭐ Top Pick
           </span>
         )}
         {badge && (

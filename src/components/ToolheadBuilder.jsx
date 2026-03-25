@@ -235,7 +235,7 @@ function getDisplayFlowRate(detail) {
 }
 
 function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
-  const isCommunityFavorite = detail?.community_favorite === true;
+  const isTopPick = detail?.top_pick === true;
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.08)' },
     green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.08)' },
@@ -297,7 +297,7 @@ function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
             name
           )}
         </strong>
-        {isCommunityFavorite && (
+        {isTopPick && (
           <span
             style={{
               fontSize: '0.65rem',
@@ -309,7 +309,7 @@ function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
               whiteSpace: 'nowrap',
             }}
           >
-            ⭐ Community Pick
+            ⭐ Top Pick
           </span>
         )}
         {hotendType && (
@@ -686,7 +686,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
           }}
         >
           {toolhead.title || toolhead.name}
-          {toolhead.community_favorite && (
+          {toolhead.top_pick && (
             <span
               style={{
                 fontSize: '0.65rem',
@@ -698,7 +698,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
                 whiteSpace: 'nowrap',
               }}
             >
-              ⭐ Community Pick
+              ⭐ Top Pick
             </span>
           )}
         </h3>

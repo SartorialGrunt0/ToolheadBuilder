@@ -37,7 +37,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "native",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "Afterburner",
@@ -55,7 +55,7 @@
       "hotend_fan": "4010",
       "part_cooling_fan": "4020",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Angry",
@@ -73,7 +73,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "AntHead",
@@ -105,7 +105,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "Archetype",
@@ -141,7 +141,7 @@
         "CPAP"
       ],
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Banantis",
@@ -159,7 +159,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Calamity",
@@ -177,7 +177,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Crown Cooler",
@@ -208,7 +208,7 @@
       "hotend_fan": "4028",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "DK's Monolith",
@@ -226,7 +226,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragon Brick",
@@ -244,7 +244,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Dragon Burner",
@@ -303,7 +303,7 @@
       ],
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": true
+      "top_pick": true
     },
     {
       "name": "EVA",
@@ -321,7 +321,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Fibre Steam",
@@ -344,7 +344,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Fibre Stream",
@@ -362,7 +362,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Gustav",
@@ -387,7 +387,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Hypernova",
@@ -423,7 +423,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Hypernova BSE",
@@ -456,7 +456,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Jabberwocky",
@@ -472,7 +472,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "3010",
       "filament_cutter": "native",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mailbox",
@@ -507,7 +507,7 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mantis",
@@ -543,7 +543,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Micro Saul2",
@@ -561,7 +561,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mini-Afterburner",
@@ -583,7 +583,7 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mini-Aftersherpa",
@@ -612,7 +612,7 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mini-Stealthburner",
@@ -636,7 +636,7 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Mini-Stealthdort",
@@ -673,7 +673,7 @@
       ],
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Omniburner",
@@ -697,7 +697,7 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Rapid Burner",
@@ -738,7 +738,7 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Rainbow Dragon",
@@ -756,7 +756,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Reaper",
@@ -794,7 +794,7 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Rx",
@@ -812,7 +812,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Spartacus",
@@ -830,7 +830,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Stealthburner",
@@ -863,7 +863,7 @@
       "hotend_fan": "4010",
       "part_cooling_fan": "5015",
       "filament_cutter": "mod",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "StovePipe",
@@ -894,7 +894,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Stormbreaker",
@@ -912,7 +912,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Takeoff",
@@ -939,7 +939,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "The Yokai",
@@ -964,7 +964,7 @@
         "CPAP"
       ],
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Trinity",
@@ -982,7 +982,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "UAP",
@@ -1000,7 +1000,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "V4",
@@ -1018,7 +1018,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "V5",
@@ -1036,7 +1036,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Xenomorph",
@@ -1054,7 +1054,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Xol",
@@ -1101,7 +1101,7 @@
         "CPAP"
       ],
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     },
     {
       "name": "Yavoth",
@@ -1134,7 +1134,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "top_pick": false
     }
   ]
 }
