@@ -506,52 +506,50 @@ function HardwareSection({ title, officialItems, expandedItems, catalog, accentC
           Compatibility data not yet available
         </p>
       ) : null}
-      {!selectedItem && visibleExpanded.length > 0 && (
-        <>
-          <button
-            onClick={() => setShowExpanded(!showExpanded)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              width: '100%',
-              padding: '8px 12px',
-              marginTop: '4px',
-              marginBottom: '8px',
-              border: `1px solid var(--sl-color-gray-5)`,
-              borderRadius: '6px',
-              backgroundColor: 'transparent',
-              color: 'var(--sl-color-gray-3)',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <span style={{
-              display: 'inline-block',
-              transition: 'transform 0.2s ease',
-              transform: showExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
-            }}>
-              ▶
-            </span>
-            {showExpanded ? 'Hide' : 'See'} {expandedList.length} more compatible options
-          </button>
-          {showExpanded && (
-            <div style={{ opacity: 0.85 }}>
-              {visibleExpanded.map((name) => (
-                <HardwareCard
-                  key={name}
-                  name={name}
-                  detail={findDetail(name, catalog)}
-                  accentColor={accentColor}
-                  isSelected={selectedItem === name}
-                  onSelect={onSelect}
-                />
-              ))}
-            </div>
-          )}
-        </>
+      {!selectedItem && expandedList.length > 0 && (
+        <button
+          onClick={() => setShowExpanded(!showExpanded)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            width: '100%',
+            padding: '8px 12px',
+            marginTop: '4px',
+            marginBottom: '8px',
+            border: `1px solid var(--sl-color-gray-5)`,
+            borderRadius: '6px',
+            backgroundColor: 'transparent',
+            color: 'var(--sl-color-gray-3)',
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          <span style={{
+            display: 'inline-block',
+            transition: 'transform 0.2s ease',
+            transform: showExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+          }}>
+            ▶
+          </span>
+          {showExpanded ? 'Hide' : 'See'} {expandedList.length} more compatible options
+        </button>
+      )}
+      {visibleExpanded.length > 0 && (selectedItem || showExpanded) && (
+        <div style={{ opacity: 0.85 }}>
+          {visibleExpanded.map((name) => (
+            <HardwareCard
+              key={name}
+              name={name}
+              detail={findDetail(name, catalog)}
+              accentColor={accentColor}
+              isSelected={selectedItem === name}
+              onSelect={onSelect}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
