@@ -3,6 +3,7 @@ import toolheadsData from '../data/toolheads.json';
 import hotendsData from '../data/hotends.json';
 import extrudersData from '../data/extruders.json';
 import probesData from '../data/probes.json';
+import { useSwipe } from './useSwipe';
 
 const activeToolheads = toolheadsData.toolheads.filter((t) => t.configurator);
 
@@ -645,6 +646,8 @@ export default function ToolheadRebuilder() {
   const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
   const goRight = () => setActiveIndex((prev) => (prev + 1) % total);
 
+  const swipeHandlers = useSwipe(goRight, goLeft);
+
   const leftIndex = total > 1 ? (safeIndex - 1 + total) % total : null;
   const rightIndex = total > 1 ? (safeIndex + 1) % total : null;
 
@@ -745,12 +748,14 @@ export default function ToolheadRebuilder() {
         <>
           {/* Toolhead carousel */}
           <div
+            {...swipeHandlers}
             style={{
               position: 'relative',
               height: '480px',
               marginBottom: '32px',
               overflow: 'hidden',
               padding: '0 40px',
+              touchAction: 'pan-y',
             }}
           >
             <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
