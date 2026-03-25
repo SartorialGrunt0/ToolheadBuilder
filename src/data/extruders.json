@@ -16,7 +16,7 @@
       "url": "https://github.com/VoronDesign/Voron-Stealthburner",
       "description": "Direct drive extruder for the Voron Stealthburner toolhead, IDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "Pocket Watch",
@@ -79,7 +79,7 @@
       "url": "https://github.com/bythorsthunder/Voron_Mods/tree/main/Wristwatch_Extruder_BMG",
       "description": "Direct drive standalone extruder, variant of Wristwatch G2, RIDGA supported.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "WWBMG IDGA",
@@ -268,7 +268,7 @@
       "url": "https://github.com/nhchiu/VoronMods/tree/main/Extruders/ProtoXtruder",
       "description": "Direct drive standalone extruder, features Sherpa Mini mounting.",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "ProtoXtruder 2.0",
@@ -331,7 +331,7 @@
       "url": "https://github.com/JaredC01/Galileo2/tree/main/galileo2_extruder",
       "description": "Direct drive extruder for the Voron Stealthburner toolhead.",
       "filament_sensor": "unknown",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "Galileo 2 Standalone",
@@ -387,7 +387,7 @@
       "description": "Direct drive standalone extruder, features a planetary gearbox.",
       "category": "Pre-Assembled Extruders",
       "filament_sensor": "unknown",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "BMG",

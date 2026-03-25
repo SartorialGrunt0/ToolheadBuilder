@@ -14,7 +14,7 @@
       ],
       "url": "https://e3d-online.com/products/v6-all-metal-hotend",
       "description": "The OG hotend, supports V6 groove mount, V6 nozzles, max flow ~12 mm3/s.",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "Revo",
@@ -164,7 +164,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/rapido-hotend",
       "description": "V6 style hotend, supports groove or Dragon mounting, thermocouples, one-handed nozzle changes, max flow ~25 mm3/s, more with ultra high adapter.",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "Dragon HF",
@@ -181,7 +181,7 @@
       ],
       "url": "https://www.phaetus.com/en-us/products/dragon-hotend-hf",
       "description": "V6 style hotend, supports groove or Dragon mount, one handed nozzle changes, max flow ~22 mm3/s.",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "Dragonfly HIC",
@@ -248,7 +248,7 @@
       ],
       "url": "https://trianglelab.net/products/tz-20-hotend-for-bambu-lab-x1-p1p",
       "description": "Clone hotend with Bambulabs style heater block, available in Bambulabs, V6+Dragon, or Ender style heatbreak and mounting, features V6 nozzles, one handed nozzle changes, max flow ~22 mm3/s.",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "TZ 3.0/4.0",
@@ -514,7 +514,7 @@
       ],
       "url": "https://trianglelab.net/products/chc-xl-hotend",
       "description": "Dragon mount hotend, extreme high flow, wear resistant, air or water cooled.",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "STD6-LC",

@@ -105,7 +105,7 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "Archetype",
@@ -303,7 +303,7 @@
       ],
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "EVA",
@@ -863,7 +863,7 @@
       "hotend_fan": "4010",
       "part_cooling_fan": "5015",
       "filament_cutter": "mod",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "StovePipe",
@@ -1101,7 +1101,7 @@
         "CPAP"
       ],
       "filament_cutter": "unknown",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "Yavoth",

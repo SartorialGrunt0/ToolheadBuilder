@@ -419,10 +419,8 @@ function ComponentOption({ item, isSelected, onClick, accentColor }) {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
     green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.13)' },
     purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.13)' },
-    gold: { border: '#d97706', bg: '#fffbeb', dot: '#d97706', label: '#b45309', bgAlpha: 'rgba(217,119,6,0.13)' },
   };
-  const effectiveColor = isCommunityFavorite ? 'gold' : accentColor;
-  const c = colors[effectiveColor] || colors.blue;
+  const c = colors[accentColor] || colors.blue;
 
   const badge = item.gear_type || item.hotend_type || item.type || null;
 

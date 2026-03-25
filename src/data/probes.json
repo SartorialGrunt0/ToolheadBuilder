@@ -47,7 +47,7 @@
       "type": "dockable",
       "url": "https://github.com/jlas1/Klicky-Probe",
       "description": "Dockable microswitch probe, features a mouse switch for probe, wide printer support, supports fixed docking.",
-      "community_favorite": false
+      "community_favorite": true
     },
     {
       "name": "Klicky PCB",
@@ -152,7 +152,7 @@
       "type": "bed_scanner",
       "url": "https://beacon3d.com/",
       "description": "Eddy current sensor bed scanner, supports USB.",
-      "community_favorite": true
+      "community_favorite": false
     },
     {
       "name": "Eddy",
