@@ -462,7 +462,7 @@
       "name": "Jabberwocky",
       "extruders": "other",
       "probe": "unknown",
-      "hotend": "Conch",
+      "hotend": ["Conch","Rapido HF","E3D V6","Revo"],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
       "description": "Toolhead for Voron 2.4 and Trident, features support for filament changers.",
       "category": "Full Size Printers",
