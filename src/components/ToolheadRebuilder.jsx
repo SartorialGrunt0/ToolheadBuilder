@@ -317,9 +317,27 @@ function ToolheadCard({ toolhead, position, onClick }) {
             fontWeight: 700,
             marginBottom: '8px',
             color: 'var(--sl-color-white)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}
         >
           {toolhead.title || toolhead.name}
+          {toolhead.community_favorite && (
+            <span
+              style={{
+                fontSize: '0.65rem',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                backgroundColor: '#fffbeb',
+                color: '#b45309',
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              ⭐ Community Pick
+            </span>
+          )}
         </h3>
         <p
           style={{
@@ -396,12 +414,15 @@ function NoCompatibleCard() {
 }
 
 function ComponentOption({ item, isSelected, onClick, accentColor }) {
+  const isCommunityFavorite = item?.community_favorite === true;
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
     green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.13)' },
     purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.13)' },
+    gold: { border: '#d97706', bg: '#fffbeb', dot: '#d97706', label: '#b45309', bgAlpha: 'rgba(217,119,6,0.13)' },
   };
-  const c = colors[accentColor] || colors.blue;
+  const effectiveColor = isCommunityFavorite ? 'gold' : accentColor;
+  const c = colors[effectiveColor] || colors.blue;
 
   const badge = item.gear_type || item.hotend_type || item.type || null;
 
@@ -437,6 +458,21 @@ function ComponentOption({ item, isSelected, onClick, accentColor }) {
         >
           {item.name}
         </strong>
+        {isCommunityFavorite && (
+          <span
+            style={{
+              fontSize: '0.65rem',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              backgroundColor: '#fffbeb',
+              color: '#b45309',
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            ⭐ Community Pick
+          </span>
+        )}
         {badge && (
           <span
             style={{

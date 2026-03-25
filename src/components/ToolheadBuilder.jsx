@@ -235,12 +235,15 @@ function getDisplayFlowRate(detail) {
 }
 
 function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
+  const isCommunityFavorite = detail?.community_favorite === true;
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.08)' },
     green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.08)' },
     purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.08)' },
+    gold: { border: '#d97706', bg: '#fffbeb', dot: '#d97706', label: '#b45309', bgAlpha: 'rgba(217,119,6,0.08)' },
   };
-  const c = colors[accentColor] || colors.blue;
+  const effectiveColor = isCommunityFavorite ? 'gold' : accentColor;
+  const c = colors[effectiveColor] || colors.blue;
   const nozzleCompatibility = toKnownList(detail?.nozzle_compatibility);
   const mountingPatterns = toKnownList(detail?.mounting_pattern);
   const hotendType = getDisplayHotendType(detail);
@@ -296,6 +299,21 @@ function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
             name
           )}
         </strong>
+        {isCommunityFavorite && (
+          <span
+            style={{
+              fontSize: '0.65rem',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              backgroundColor: '#fffbeb',
+              color: '#b45309',
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            ⭐ Community Pick
+          </span>
+        )}
         {hotendType && (
           <span
             style={{
@@ -630,14 +648,16 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
         style={{
           borderRadius: '12px',
           border: isSelected && isCenter
-            ? '3px solid #2E8B57'
+            ? `3px solid ${toolhead.community_favorite ? '#d97706' : '#2E8B57'}`
             : '2px solid var(--sl-color-gray-5)',
           padding: '16px',
           backgroundColor: isSelected && isCenter
             ? 'var(--sl-color-bg-nav)'
             : 'var(--sl-color-bg-sidebar)',
           boxShadow: isSelected && isCenter
-            ? '0 4px 12px rgba(46, 139, 87, 0.3)'
+            ? toolhead.community_favorite
+              ? '0 4px 12px rgba(217, 119, 6, 0.3)'
+              : '0 4px 12px rgba(46, 139, 87, 0.3)'
             : isCenter
               ? '0 2px 8px rgba(0,0,0,0.15)'
               : 'none',
@@ -664,9 +684,27 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
             fontWeight: 700,
             marginBottom: '8px',
             color: 'var(--sl-color-white)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}
         >
           {toolhead.title || toolhead.name}
+          {toolhead.community_favorite && (
+            <span
+              style={{
+                fontSize: '0.65rem',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                backgroundColor: '#fffbeb',
+                color: '#b45309',
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              ⭐ Community Pick
+            </span>
+          )}
         </h3>
         <p
           style={{
