@@ -29,7 +29,7 @@ export default defineConfig({
           label: 'Toolheads',
           items: [
             { label: 'Toolheads Overview', slug: 'toolheads/toolheads-overview' },
-            { label: 'Toolheads Community Picks', slug: 'toolheads/toolheads-community-picks' },
+            { label: 'Toolheads Top Picks', slug: 'toolheads/toolheads-top-picks' },
             { label: 'Toolheads Catalog', slug: 'toolheads/toolheads-catalog' },
           ],
         },
@@ -37,7 +37,7 @@ export default defineConfig({
           label: 'Extruders',
           items: [
             { label: 'Extruders Overview', slug: 'extruders/extruders-overview' },
-            { label: 'Extruders Community Picks', slug: 'extruders/extruders-community-picks' },
+            { label: 'Extruders Top Picks', slug: 'extruders/extruders-top-picks' },
             { label: 'Extruders Catalog', slug: 'extruders/extruders-catalog' },
           ],
         },
@@ -45,7 +45,7 @@ export default defineConfig({
           label: 'Hotends',
           items: [
             { label: 'Hotends Overview', slug: 'hotends/hotends-overview' },
-            { label: 'Hotends Community Picks', slug: 'hotends/hotends-community-picks' },
+            { label: 'Hotends Top Picks', slug: 'hotends/hotends-top-picks' },
             { label: 'Hotends Catalog', slug: 'hotends/hotends-catalog' },
           ],
         },
@@ -53,7 +53,7 @@ export default defineConfig({
           label: 'Probes',
           items: [
             { label: 'Probes Overview', slug: 'probes/probes-overview' },
-            { label: 'Probes Community Picks', slug: 'probes/probes-community-picks' },
+            { label: 'Probes Top Picks', slug: 'probes/probes-top-picks' },
             { label: 'Probes Catalog', slug: 'probes/probes-catalog' },
           ],
         },

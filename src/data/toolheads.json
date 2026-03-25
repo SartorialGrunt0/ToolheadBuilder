@@ -36,7 +36,8 @@
       "configurator": true,
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "native"
+      "filament_cutter": "native",
+      "top_pick": true
     },
     {
       "name": "Afterburner",
@@ -53,7 +54,8 @@
       "image": "",
       "hotend_fan": "4010",
       "part_cooling_fan": "4020",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Angry",
@@ -70,7 +72,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "AntHead",
@@ -101,7 +104,8 @@
       "configurator": true,
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": true
     },
     {
       "name": "Archetype",
@@ -136,7 +140,8 @@
         "5015",
         "CPAP"
       ],
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Banantis",
@@ -153,7 +158,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Calamity",
@@ -170,7 +176,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Crown Cooler",
@@ -200,7 +207,8 @@
       "image": "/crown_cooler.webp",
       "hotend_fan": "4028",
       "part_cooling_fan": "CPAP",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "DK's Monolith",
@@ -217,7 +225,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Dragon Brick",
@@ -234,7 +243,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Dragon Burner",
@@ -287,9 +297,13 @@
       "image": "/dragonburner.webp",
       "category": "Printers for Ants",
       "configurator": true,
-      "hotend_fan": ["3010","2510"],
+      "hotend_fan": [
+        "3010",
+        "2510"
+      ],
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": true
     },
     {
       "name": "EVA",
@@ -306,7 +320,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Fibre Steam",
@@ -328,7 +343,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Fibre Stream",
@@ -345,7 +361,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Gustav",
@@ -369,7 +386,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Hypernova",
@@ -404,7 +422,8 @@
       "image": "/hypernova.webp",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Hypernova BSE",
@@ -436,7 +455,8 @@
       "image": "/hypernova_bse.webp",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Jabberwocky",
@@ -451,7 +471,8 @@
       "image": "/Jabberwocky.webp",
       "hotend_fan": "2510",
       "part_cooling_fan": "3010",
-      "filament_cutter": "native"
+      "filament_cutter": "native",
+      "top_pick": false
     },
     {
       "name": "Mailbox",
@@ -485,7 +506,8 @@
       "image": "",
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Mantis",
@@ -520,7 +542,8 @@
       "image": "/mantis.webp",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Micro Saul2",
@@ -537,7 +560,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Mini-Afterburner",
@@ -558,7 +582,8 @@
       "image": "",
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Mini-Aftersherpa",
@@ -586,7 +611,8 @@
       "image": "",
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Mini-Stealthburner",
@@ -609,7 +635,8 @@
       "image": "",
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Mini-Stealthdort",
@@ -645,7 +672,8 @@
         "3010"
       ],
       "part_cooling_fan": "3010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Omniburner",
@@ -668,7 +696,8 @@
       "image": "/omniburner.webp",
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Rapid Burner",
@@ -708,7 +737,8 @@
       "image": "/rapidburner.webp",
       "hotend_fan": "3010",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Rainbow Dragon",
@@ -725,7 +755,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Reaper",
@@ -762,7 +793,8 @@
       "image": "/reaper.webp",
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Rx",
@@ -779,7 +811,8 @@
       "image": "/RX.webp",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Spartacus",
@@ -796,7 +829,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Stealthburner",
@@ -828,7 +862,8 @@
       "image": "/Stealthburner.webp",
       "hotend_fan": "4010",
       "part_cooling_fan": "5015",
-      "filament_cutter": "mod"
+      "filament_cutter": "mod",
+      "top_pick": false
     },
     {
       "name": "StovePipe",
@@ -858,7 +893,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Stormbreaker",
@@ -875,9 +911,10 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
-      {
+    {
       "name": "Takeoff",
       "extruders": [
         "unknown",
@@ -901,7 +938,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "The Yokai",
@@ -925,7 +963,8 @@
         "4010",
         "CPAP"
       ],
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Trinity",
@@ -942,7 +981,8 @@
       "image": "/Trinity.webp",
       "hotend_fan": "2510",
       "part_cooling_fan": "3628",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "UAP",
@@ -959,7 +999,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "V4",
@@ -976,7 +1017,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "V5",
@@ -993,7 +1035,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Xenomorph",
@@ -1010,7 +1053,8 @@
       "image": "",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Xol",
@@ -1056,7 +1100,8 @@
         "4010",
         "CPAP"
       ],
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     },
     {
       "name": "Yavoth",
@@ -1088,7 +1133,8 @@
       "image": "/yavoth.webp",
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "top_pick": false
     }
   ]
 }

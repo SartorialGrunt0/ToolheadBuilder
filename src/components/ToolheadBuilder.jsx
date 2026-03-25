@@ -235,6 +235,7 @@ function getDisplayFlowRate(detail) {
 }
 
 function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
+  const isTopPick = detail?.top_pick === true;
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.08)' },
     green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.08)' },
@@ -296,6 +297,21 @@ function HardwareCard({ name, detail, accentColor, isSelected, onSelect }) {
             name
           )}
         </strong>
+        {isTopPick && (
+          <span
+            style={{
+              fontSize: '0.65rem',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              backgroundColor: '#fffbeb',
+              color: '#b45309',
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            ⭐ Top Pick
+          </span>
+        )}
         {hotendType && (
           <span
             style={{
@@ -664,9 +680,27 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
             fontWeight: 700,
             marginBottom: '8px',
             color: 'var(--sl-color-white)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}
         >
           {toolhead.title || toolhead.name}
+          {toolhead.top_pick && (
+            <span
+              style={{
+                fontSize: '0.65rem',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                backgroundColor: '#fffbeb',
+                color: '#b45309',
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              ⭐ Top Pick
+            </span>
+          )}
         </h3>
         <p
           style={{
