@@ -489,7 +489,7 @@
         "Revo"
       ],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
-      "description": "Toolhead for Voron 2.4 and Trident, features support for filament changers.",
+      "description": "Toolhead for Voron 2.4, Trident, and Printers for Ants, features support for filament changers.",
       "category": ["Full Size Printers", "Printers for Ants"],
       "configurator": true,
       "title": "Jabberwocky",
@@ -573,18 +573,18 @@
     {
       "name": "Micro Saul2",
       "extruders": [
-        "unknown"
+        "Sherpa Mini"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": "NF-Crazy",
       "url": "https://www.printables.com/model/524765-micro-saul2",
       "description": "Toolhead for Voron V0.2, features support for dual 4010 fans and the mellow NF crazy hotend.",
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Micro Saul2",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false
     },
