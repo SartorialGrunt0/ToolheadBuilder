@@ -224,7 +224,7 @@
       "title": "DK's Monolith",
       "image": "",
       "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -369,14 +369,14 @@
       "extruders": [
         "Double Folded Ascender",
         "Wristwatch G2",
-        "Wristwatch BMG",
         "Micro-cosm"
       ],
       "probe": [
         "Beacon"
       ],
       "hotend": [
-        "Dragon Ace"
+        "Dragon Ace",
+        "Rapido UHF"
       ],
       "url": "https://github.com/RCI-Nicket/Gustav-Railway-Toolhead",
       "description": "Toolhead for Monolith gantry, features support for CPAP, UHF hotends, and beacon probe.",
@@ -385,7 +385,10 @@
       "title": "Gustav",
       "image": "",
       "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "part_cooling_fan": [
+        "5015",
+        "CPAP"
+      ],
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -466,6 +469,7 @@
         "Cartographer",
         "Beacon",
         "Klicky PCB"
+      ],
       "hotend": [
         "Conch",
         "Rapido HF",
@@ -657,7 +661,7 @@
         "Orbiter 1.5",
         "Orbiter 2",
         "LGX-Lite",
-        "HextrudORT"
+        "Vz HextrudORT"
       ],
       "probe": [
         "Klicky",
@@ -744,7 +748,10 @@
       "configurator": true,
       "title": "Rapid Burner",
       "image": "/rapidburner.webp",
-      "hotend_fan": "3010",
+      "hotend_fan": [
+        "3010",
+        "2510",
+      ]
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false
@@ -901,7 +908,10 @@
       "title": "StovePipe",
       "image": "",
       "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "part_cooling_fan": [
+        "CPAP",
+        "5015"
+      ]
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -1132,6 +1142,7 @@
         "Revo",
         "Dragon UHF",
         "Rapido UHF",
+        "Dragon Ace",
         "Chube"
       ],
       "url": "https://github.com/chirpy2605/voron/blob/main/V0/Yavoth",
