@@ -460,9 +460,18 @@
     },
     {
       "name": "Jabberwocky",
-      "extruders": "other",
-      "probe": "Jabberwocky Probe",
-      "hotend": ["Conch","Rapido HF","E3D V6","Revo"],
+      "extruders": "Integrated",
+      "probe": [
+        "Jabberwocky Probe",
+        "Cartographer",
+        "Beacon",
+        "Klicky PCB"
+      "hotend": [
+        "Conch",
+        "Rapido HF",
+        "E3D V6",
+        "Revo"
+      ],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
       "description": "Toolhead for Voron 2.4 and Trident, features support for filament changers.",
       "category": "Full Size Printers",
@@ -566,7 +575,7 @@
     {
       "name": "Mini-Afterburner",
       "extruders": [
-        "NA"
+        "Integrated"
       ],
       "probe": "ZeroClick",
       "hotend": [
@@ -617,7 +626,7 @@
     {
       "name": "Mini-Stealthburner",
       "extruders": [
-        "NA"
+        "Integrated"
       ],
       "probe": "ZeroClick",
       "hotend": [
@@ -799,7 +808,7 @@
     {
       "name": "Rx",
       "extruders": [
-        "other"
+        "Integrated"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -817,7 +826,7 @@
     {
       "name": "Spartacus",
       "extruders": [
-        "unknown"
+        "Integrated"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -1041,7 +1050,7 @@
     {
       "name": "Xenomorph",
       "extruders": [
-        "unknown"
+        "Integrated"
       ],
       "probe": "unknown",
       "hotend": "unknown",
