@@ -99,6 +99,13 @@
       "top_pick": false
     },
     {
+      "name": "Jabberwocky Probe",
+      "type": "dockable",
+      "url": "https://github.com/kinematicdigit/Jabberwocky-Probe",
+      "description": "Microswitch probe for Jabberwocky Toolhead",
+      "top_pick": false
+    },
+    {
       "name": "TAP",
       "type": "nozzle",
       "url": "https://github.com/VoronDesign/Voron-Tap",
