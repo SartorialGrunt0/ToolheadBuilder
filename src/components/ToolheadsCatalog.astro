@@ -4,8 +4,13 @@ import toolheadsData from '../data/toolheads.json';
 import CatalogTileGrid from './CatalogTileGrid.astro';
 
 const toolheads = toolheadsData.toolheads;
-const fullSize = toolheads.filter(t => t.category === 'Full Size Printers');
-const ants = toolheads.filter(t => t.category === 'Printers for Ants');
+function inCategory(categoryValue: string | string[] | undefined, targetCategory: string): boolean {
+  if (Array.isArray(categoryValue)) return categoryValue.includes(targetCategory);
+  return categoryValue === targetCategory;
+}
+
+const fullSize = toolheads.filter((t) => inCategory(t.category, 'Full Size Printers'));
+const ants = toolheads.filter((t) => inCategory(t.category, 'Printers for Ants'));
 ---
 
 <Tabs syncKey="Toolheads">

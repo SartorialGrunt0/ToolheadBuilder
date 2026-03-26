@@ -360,7 +360,7 @@
       ],
       "length": "unknown",
       "meltzone_length": "unknown",
-      "hotend_type": "UHF",
+      "hotend_type": "HF",
       "flow_rate": "Unknown",
       "nozzle_compatibility": [
         "V6"

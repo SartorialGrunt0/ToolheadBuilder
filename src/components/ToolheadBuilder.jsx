@@ -37,7 +37,8 @@ function getOfficialExtruders(extruderNames) {
 
   for (const name of formatted) {
     const lowerName = name.toLowerCase();
-    if (extruderNameSet.has(lowerName) && !seen.has(lowerName)) {
+    const isIntegrated = lowerName === 'integrated';
+    if ((extruderNameSet.has(lowerName) || isIntegrated) && !seen.has(lowerName)) {
       official.push(name);
       seen.add(lowerName);
     }
@@ -182,6 +183,11 @@ function getExpandedProbes(probeNames) {
 }
 
 function fanDisplayValue(value) {
+  if (!value) return '';
+  return Array.isArray(value) ? value.join(' / ') : value;
+}
+
+function categoryDisplayValue(value) {
   if (!value) return '';
   return Array.isArray(value) ? value.join(' / ') : value;
 }
@@ -811,12 +817,24 @@ export default function ToolheadBuilder() {
   const selectedHardwareRows = [];
 
   if (toolheadEntry) {
+    const hasIntegratedExtruder = getOfficialExtruders(toolheadEntry.extruders)
+      .some((name) => name.toLowerCase() === 'integrated');
+
     selectedHardwareRows.push({
       component: 'Toolhead',
       selection: toolheadEntry.title || toolheadEntry.name,
       url: toolheadEntry.url || null,
     });
-    if (selectedExtruder) {
+
+    if (hasIntegratedExtruder) {
+      selectedHardwareRows.push({
+        component: 'Extruder',
+        selection: selectedExtruder || 'Integrated (built-in)',
+        url: null,
+      });
+    }
+
+    if (selectedExtruder && !hasIntegratedExtruder) {
       const detail = findDetail(selectedExtruder, extrudersData.extruders);
       selectedHardwareRows.push({
         component: 'Extruder',
@@ -968,10 +986,11 @@ export default function ToolheadBuilder() {
 
           {/* Toolhead Info (static, non-selectable) */}
           {(() => {
+            const showCategory = toolheadEntry.category && !isUnknownValue(toolheadEntry.category);
             const showHotendFan = toolheadEntry.hotend_fan && !isUnknownValue(toolheadEntry.hotend_fan);
             const showCoolingFan = toolheadEntry.part_cooling_fan && !isUnknownValue(toolheadEntry.part_cooling_fan);
             const showCutter = toolheadEntry.filament_cutter && !isUnknownValue(toolheadEntry.filament_cutter);
-            if (!showHotendFan && !showCoolingFan && !showCutter) return null;
+            if (!showCategory && !showHotendFan && !showCoolingFan && !showCutter) return null;
             return (
               <div
                 style={{
@@ -995,6 +1014,16 @@ export default function ToolheadBuilder() {
                   Toolhead Info
                 </h2>
                 <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                  {showCategory && (
+                    <div style={{ minWidth: '200px' }}>
+                      <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Category
+                      </p>
+                      <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--sl-color-white)', fontWeight: 600 }}>
+                        {categoryDisplayValue(toolheadEntry.category)}
+                      </p>
+                    </div>
+                  )}
                   {showHotendFan && (
                     <div style={{ minWidth: '140px' }}>
                       <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--sl-color-gray-4)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>

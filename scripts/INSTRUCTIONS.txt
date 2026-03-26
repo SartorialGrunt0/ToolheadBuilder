@@ -1,0 +1,25 @@
+Scripts Quick Guide
+
+This folder currently contains:
+- install-deps.sh
+- optimize-images.mjs
+
+1) install-deps.sh
+Purpose: Install project dependencies (including Sharp used by image tooling).
+
+Run (macOS/Linux/Git Bash):
+  bash ./scripts/install-deps.sh
+
+Run (PowerShell, via Git Bash):
+  bash ./scripts/install-deps.sh
+
+2) optimize-images.mjs
+Purpose: Optimize image assets and converts images to .webp format.
+
+Run:
+  node ./scripts/optimize-images.mjs
+
+Notes:
+- Run from the repository root (same folder as package.json).
+- Make sure dependencies are installed first (npm install or install-deps.sh).
+- If "node" is not recognized, install Node.js and reopen your terminal.

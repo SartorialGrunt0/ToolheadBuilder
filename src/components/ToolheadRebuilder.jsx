@@ -261,7 +261,7 @@ function CarouselArrow({ direction, onClick, disabled }) {
   );
 }
 
-function ToolheadCard({ toolhead, position, onClick }) {
+function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
   const isCenter = position === 'center';
   const isLeft = position === 'left';
   const isRight = position === 'right';
@@ -285,15 +285,24 @@ function ToolheadCard({ toolhead, position, onClick }) {
         zIndex,
         transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
         cursor: 'pointer',
+        pointerEvents: isCenter ? 'auto' : 'auto',
       }}
     >
       <div
         style={{
           borderRadius: '12px',
-          border: '2px solid var(--sl-color-gray-5)',
+          border: isSelected && isCenter
+            ? '3px solid #2E8B57'
+            : '2px solid var(--sl-color-gray-5)',
           padding: '16px',
-          backgroundColor: 'var(--sl-color-bg-sidebar)',
-          boxShadow: isCenter ? '0 2px 8px rgba(0,0,0,0.15)' : 'none',
+          backgroundColor: isSelected && isCenter
+            ? 'var(--sl-color-bg-nav)'
+            : 'var(--sl-color-bg-sidebar)',
+          boxShadow: isSelected && isCenter
+            ? '0 4px 12px rgba(46, 139, 87, 0.3)'
+            : isCenter
+              ? '0 2px 8px rgba(0,0,0,0.15)'
+              : 'none',
         }}
       >
         <img
@@ -349,20 +358,39 @@ function ToolheadCard({ toolhead, position, onClick }) {
         >
           {toolhead.description}
         </p>
-        <a
-          href={toolhead.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: '#2E8B57',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            textDecoration: 'none',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {isGitHubUrl(toolhead.url) ? 'View on GitHub →' : 'View Webpage →'}
-        </a>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <a
+            href={toolhead.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: '#2E8B57',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {isGitHubUrl(toolhead.url) ? 'View on GitHub →' : 'View Webpage →'}
+          </a>
+          {isCenter && (
+            <span
+              onClick={(e) => { e.stopPropagation(); onSelect(); }}
+              style={{
+                fontSize: '0.8rem',
+                padding: '4px 12px',
+                borderRadius: '16px',
+                backgroundColor: isSelected ? '#2E8B57' : 'transparent',
+                color: isSelected ? '#fff' : 'var(--sl-color-gray-3)',
+                border: isSelected ? 'none' : '1px solid var(--sl-color-gray-5)',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              {isSelected ? '✓ Selected' : 'Click to select'}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -649,6 +677,7 @@ export default function ToolheadRebuilder() {
   const [selectedProbe, setSelectedProbe] = useState(null);
   const [selectedHotendFan, setSelectedHotendFan] = useState(null);
   const [selectedPartCoolingFan, setSelectedPartCoolingFan] = useState(null);
+  const [selectedToolheadName, setSelectedToolheadName] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const filteredToolheads = activeToolheads.filter((th) => {
@@ -676,6 +705,12 @@ export default function ToolheadRebuilder() {
     setActiveIndex(0);
   }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
 
+  useEffect(() => {
+    if (!selectedToolheadName) return;
+    const stillAvailable = filteredToolheads.some((th) => th.name === selectedToolheadName);
+    if (!stillAvailable) setSelectedToolheadName(null);
+  }, [filteredToolheads, selectedToolheadName]);
+
   const safeIndex = total > 0 ? Math.min(activeIndex, total - 1) : 0;
   const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
   const goRight = () => setActiveIndex((prev) => (prev + 1) % total);
@@ -686,8 +721,77 @@ export default function ToolheadRebuilder() {
   const rightIndex = total > 1 ? (safeIndex + 1) % total : null;
 
   const handleCardClick = (index) => {
-    if (index !== safeIndex) setActiveIndex(index);
+    if (index === safeIndex) {
+      const name = filteredToolheads[safeIndex].name;
+      setSelectedToolheadName((prev) => (prev === name ? null : name));
+    } else {
+      setActiveIndex(index);
+    }
   };
+
+  const handleToolheadSelect = (toolheadName) => {
+    setSelectedToolheadName((prev) => (prev === toolheadName ? null : toolheadName));
+  };
+
+  const selectedToolheadEntry = selectedToolheadName
+    ? filteredToolheads.find((th) => th.name === selectedToolheadName)
+    : null;
+
+  const selectedHardwareRows = [];
+  if (selectedToolheadEntry) {
+    selectedHardwareRows.push({
+      component: 'Toolhead',
+      selection: selectedToolheadEntry.title || selectedToolheadEntry.name,
+      url: selectedToolheadEntry.url || null,
+    });
+
+    if (selectedExtruder) {
+      const detail = findDetail(selectedExtruder, extrudersData.extruders);
+      selectedHardwareRows.push({
+        component: 'Extruder',
+        selection: selectedExtruder,
+        url: detail?.url || null,
+      });
+    }
+
+    if (selectedHotend) {
+      const detail = findDetail(selectedHotend, hotendsData.hotends);
+      selectedHardwareRows.push({
+        component: 'Hotend',
+        selection: selectedHotend,
+        url: detail?.url || null,
+      });
+    }
+
+    if (selectedProbe) {
+      const detail = findDetail(selectedProbe, probesData.probes);
+      selectedHardwareRows.push({
+        component: 'Probe',
+        selection: selectedProbe,
+        url: detail?.url || null,
+      });
+    }
+
+    if (selectedToolheadEntry.hotend_fan && selectedToolheadEntry.hotend_fan !== 'unknown') {
+      selectedHardwareRows.push({
+        component: 'Hotend Fan',
+        selection: Array.isArray(selectedToolheadEntry.hotend_fan)
+          ? selectedToolheadEntry.hotend_fan.join(' / ')
+          : selectedToolheadEntry.hotend_fan,
+        url: null,
+      });
+    }
+
+    if (selectedToolheadEntry.part_cooling_fan && selectedToolheadEntry.part_cooling_fan !== 'unknown') {
+      selectedHardwareRows.push({
+        component: 'Part Cooling Fan',
+        selection: Array.isArray(selectedToolheadEntry.part_cooling_fan)
+          ? selectedToolheadEntry.part_cooling_fan.join(' / ')
+          : selectedToolheadEntry.part_cooling_fan,
+        url: null,
+      });
+    }
+  }
 
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
@@ -780,6 +884,10 @@ export default function ToolheadRebuilder() {
         <NoCompatibleCard />
       ) : (
         <>
+          <p style={{ color: 'var(--sl-color-gray-3)', marginTop: '-4px', marginBottom: '14px', fontSize: '0.9rem' }}>
+            Select a toolhead from the carousel to generate your final hardware table.
+          </p>
+
           {/* Toolhead carousel */}
           <div
             {...swipeHandlers}
@@ -807,6 +915,8 @@ export default function ToolheadRebuilder() {
                   key={toolhead.name}
                   toolhead={toolhead}
                   position={position}
+                  isSelected={selectedToolheadName === toolhead.name}
+                  onSelect={() => handleToolheadSelect(toolhead.name)}
                   onClick={() => handleCardClick(i)}
                 />
               );
@@ -832,6 +942,86 @@ export default function ToolheadRebuilder() {
                   }}
                 />
               ))}
+            </div>
+          )}
+
+          {selectedHardwareRows.length > 0 && (
+            <div
+              style={{
+                padding: '24px',
+                borderRadius: '12px',
+                border: '1px solid var(--sl-color-gray-5)',
+                backgroundColor: 'var(--sl-color-bg-sidebar)',
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 700,
+                  marginBottom: '16px',
+                  color: 'var(--sl-color-white)',
+                  borderBottom: '2px solid #2E8B57',
+                  paddingBottom: '6px',
+                }}
+              >
+                Selected Hardware
+              </h2>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                <thead>
+                  <tr>
+                    {['Component', 'Selection', 'Link'].map((col) => (
+                      <th
+                        key={col}
+                        style={{
+                          textAlign: 'left',
+                          padding: '8px 12px',
+                          borderBottom: '1px solid var(--sl-color-gray-5)',
+                          color: 'var(--sl-color-gray-3)',
+                          fontWeight: 700,
+                          fontSize: '0.8rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                        }}
+                      >
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedHardwareRows.map((row, idx) => (
+                    <tr
+                      key={row.component}
+                      style={{
+                        backgroundColor: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.03)',
+                      }}
+                    >
+                      <td style={{ padding: '10px 12px', color: 'var(--sl-color-gray-3)', fontWeight: 600 }}>
+                        {row.component}
+                      </td>
+                      <td style={{ padding: '10px 12px', color: 'var(--sl-color-white)', fontWeight: 500 }}>
+                        {row.selection}
+                      </td>
+                      <td style={{ padding: '10px 12px' }}>
+                        {row.url ? (
+                          <a
+                            href={row.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#2E8B57', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}
+                          >
+                            View →
+                          </a>
+                        ) : (
+                          <span style={{ color: 'var(--sl-color-gray-5)', fontStyle: 'italic', fontSize: '0.85rem' }}>
+                            No Link Available
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </>

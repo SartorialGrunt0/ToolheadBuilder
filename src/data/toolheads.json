@@ -42,16 +42,26 @@
     {
       "name": "Afterburner",
       "extruders": [
-        "Clockwork 1"
+        "Clockwork1"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": [
+        "Omron",
+        "Klicky",
+        "Eddy"
+      ],
+      "hotend": [
+        "E3D V6",
+        "Dragonfly",
+        "Revo",
+        "Rapido HF",
+        "Mosquito"
+      ],
       "url": "https://github.com/VoronDesign/Voron-Afterburner",
       "description": "Toolhead for Voron 2.4 R1 and Trident, designed for Clockwork1 extruder.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Afterburner",
-      "image": "",
+      "image": "/afterburner.webp",
       "hotend_fan": "4010",
       "part_cooling_fan": "4020",
       "filament_cutter": "unknown",
@@ -146,7 +156,7 @@
     {
       "name": "Banantis",
       "extruders": [
-        "unknown"
+        "Integrated"
       ],
       "probe": "unknown",
       "hotend": "unknown",
@@ -156,18 +166,19 @@
       "configurator": false,
       "title": "Banantis",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
       "top_pick": false
     },
     {
       "name": "Calamity",
       "extruders": [
-        "unknown"
+        "LGX-Lite",
+        "Sherpa Mini"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": "Chube",
       "url": "https://github.com/lukeslaboratory/Calamity-Toolhead",
       "description": "Toolhead for Voron 2.4 and Trident.",
       "category": "Full Size Printers",
@@ -175,7 +186,7 @@
       "title": "Calamity",
       "image": "",
       "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -326,7 +337,8 @@
     {
       "name": "Fibre Steam",
       "extruders": [
-        "Galileo 2"
+        "Galileo 2 Standalone",
+        "NF-Cannon"
       ],
       "probe": "Beacon",
       "hotend": [
@@ -381,9 +393,9 @@
       "url": "https://github.com/RCI-Nicket/Gustav-Railway-Toolhead",
       "description": "Toolhead for Monolith gantry, features support for CPAP, UHF hotends, and beacon probe.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Gustav",
-      "image": "",
+      "image": "/gustav.webp",
       "hotend_fan": "unknown",
       "part_cooling_fan": [
         "5015",
@@ -478,7 +490,7 @@
       ],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
       "description": "Toolhead for Voron 2.4 and Trident, features support for filament changers.",
-      "category": "Full Size Printers",
+      "category": ["Full Size Printers", "Printers for Ants"],
       "configurator": true,
       "title": "Jabberwocky",
       "image": "/Jabberwocky.webp",
@@ -550,7 +562,7 @@
       "url": "https://github.com/Armchair-Heavy-Industries/Mantis-Xol",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
       "category": "Full Size Printers",
-      "configurator": true,
+      "configurator": false,
       "title": "Mantis",
       "image": "/mantis.webp",
       "hotend_fan": "2510",
@@ -817,17 +829,24 @@
       "extruders": [
         "Integrated"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": [
+        "Eddy",
+        "MicroProbe",
+        "Cartographer",
+        "Beacon"
+      ],
+      "hotend": [
+        "Bambu A1/P2/H2"
+      ],
       "url": "https://makerworld.com/models/2125971",
       "description": "Toolhead for Voron 2.4 and Trident, based on Bambulab A1 toolhead, features A1/H2 motor, gears, and hotend, CPAP or 5015 cooling.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Rx",
       "image": "/RX.webp",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
-      "filament_cutter": "unknown",
+      "hotend_fan": "2510",
+      "part_cooling_fan": ["5015", "CPAP"],
+      "filament_cutter": "native",
       "top_pick": false
     },
     {
@@ -836,15 +855,19 @@
         "Integrated"
       ],
       "probe": "unknown",
-      "hotend": "unknown",
+      "hotend": [
+        "Rapido HF",
+        "E3D V6",
+        "Revo"
+      ],
       "url": "https://www.printables.com/model/745412-spartacus-the-toolhead",
       "description": "Toolhead for Voron 0, variant of miniAB, features superior modularity.",
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Spartacus",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -906,30 +929,42 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "StovePipe",
-      "image": "",
-      "hotend_fan": "unknown",
+      "image": "/stovepipe.webp",
+      "hotend_fan": "3010",
       "part_cooling_fan": [
         "CPAP",
         "5015"
-      ]
+      ],
       "filament_cutter": "unknown",
       "top_pick": false
     },
     {
       "name": "Stormbreaker",
       "extruders": [
-        "unknown"
+        "LGX-Lite",
+        "Sherpa Micro",
+        "Sherpa Mini"
       ],
-      "probe": "unknown",
-      "hotend": "unknown",
+      "probe": [
+        "Beacon",
+        "Eddy",
+        "Klicky",
+        "Klicky PCB"
+      ],
+      "hotend": [
+        "Mosquito",
+        "Dragon HF",
+        "Dragon SF",
+        "Rapido HF"
+      ],
       "url": "https://github.com/Gr33n5murf/Stormbreaker-Toolhead",
       "description": "Toolhead for Monolith gantry.",
       "category": "Full Size Printers",
       "configurator": false,
       "title": "Stormbreaker",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -956,7 +991,7 @@
       "title": "Takeoff",
       "image": "",
       "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -967,7 +1002,11 @@
         "Sherpa Micro",
         "Orbiter 2"
       ],
-      "probe": "unknown",
+      "probe": [
+        "Eddy",
+        "Cartographer",
+        "Beacon"
+      ],
       "hotend": [
         "Rapido UHF"
       ],
@@ -982,7 +1021,7 @@
         "4010",
         "CPAP"
       ],
-      "filament_cutter": "unknown",
+      "filament_cutter": "native",
       "top_pick": false
     },
     {
@@ -1017,16 +1056,21 @@
       "title": "UAP",
       "image": "",
       "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
       "top_pick": false
     },
     {
       "name": "V4",
       "extruders": [
-        "unknown"
+        "integrated"
       ],
-      "probe": "unknown",
+      "probe": [
+        "Eddy",
+        "Klicky",
+        "MicroProbe",
+        "Cartographer"
+      ],
       "hotend": "unknown",
       "url": "https://www.printables.com/model/1133951-v4-toolhead-ideal-for-mmu-for-sv08-and-any-voron-g",
       "description": "Toolhead for Voron 2.4, Trident, and Sovol SV08, features MMU support.",
@@ -1034,15 +1078,16 @@
       "configurator": false,
       "title": "V4",
       "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "5020",
       "filament_cutter": "unknown",
       "top_pick": false
     },
     {
       "name": "V5",
       "extruders": [
-        "unknown"
+        "Orbiter 2",
+        "Orbiter 2.5"
       ],
       "probe": "unknown",
       "hotend": "unknown",
