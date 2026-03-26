@@ -750,8 +750,8 @@
       "image": "/rapidburner.webp",
       "hotend_fan": [
         "3010",
-        "2510",
-      ]
+        "2510"
+      ],
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false
