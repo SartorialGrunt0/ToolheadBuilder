@@ -490,7 +490,10 @@
       ],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
       "description": "Toolhead for Voron 2.4, Trident, and Printers for Ants, features support for filament changers.",
-      "category": ["Full Size Printers", "Printers for Ants"],
+      "category": [
+        "Full Size Printers",
+        "Printers for Ants"
+      ],
       "configurator": true,
       "title": "Jabberwocky",
       "image": "/Jabberwocky.webp",
@@ -725,6 +728,24 @@
       "top_pick": false
     },
     {
+      "name": "Rainbow Dragon",
+      "extruders": [
+        "Other"
+      ],
+      "probe": "unknow",
+      "hotend": "TaiChi",
+      "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
+      "description": "Lightweight toolhead for Printers for Ants, features support for dual filament paths.",
+      "category": "Printers for Ants",
+      "configurator": false,
+      "title": "Rainbow Dragon",
+      "image": "",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown",
+      "top_pick": false
+    },
+    {
       "name": "Rapid Burner",
       "extruders": [
         "Sherpa Mini",
@@ -765,24 +786,6 @@
         "2510"
       ],
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown",
-      "top_pick": false
-    },
-    {
-      "name": "Rainbow Dragon",
-      "extruders": [
-        "Other"
-      ],
-      "probe": "unknow",
-      "hotend": "TaiChi",
-      "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
-      "description": "Lightweight toolhead for Printers for Ants, features support for dual filament paths.",
-      "category": "Printers for Ants",
-      "configurator": false,
-      "title": "Rainbow Dragon",
-      "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -845,7 +848,10 @@
       "title": "Rx",
       "image": "/RX.webp",
       "hotend_fan": "2510",
-      "part_cooling_fan": ["5015", "CPAP"],
+      "part_cooling_fan": [
+        "5015",
+        "CPAP"
+      ],
       "filament_cutter": "native",
       "top_pick": false
     },
@@ -870,6 +876,28 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false
+    },
+    {
+      "name": "Sphinx",
+      "title": "Sphinx",
+      "url": "https://github.com/riley-github/Sphinx-Toolhead/tree/main",
+      "description": "High performance toolhead for full size printers, focuses on support for CPAP and UHF hotends.",
+      "category": "Full Size Printers",
+      "image": "",
+      "configurator": false,
+      "extruders": "Orbiter 2",
+      "hotend": [
+        "Goliath",
+        "Rapido UHF"
+      ],
+      "probe": [
+        "Beacon",
+        "Cartographer"
+      ],
+      "boards": "unknown",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "CPAP",
+      "filament_cutter": "unknown"
     },
     {
       "name": "Stealthburner",
@@ -905,6 +933,36 @@
       "top_pick": false
     },
     {
+      "name": "Stormbreaker",
+      "extruders": [
+        "LGX-Lite",
+        "Sherpa Micro",
+        "Sherpa Mini"
+      ],
+      "probe": [
+        "Beacon",
+        "Eddy",
+        "Klicky",
+        "Klicky PCB"
+      ],
+      "hotend": [
+        "Mosquito",
+        "Dragon HF",
+        "Dragon SF",
+        "Rapido HF"
+      ],
+      "url": "https://github.com/Gr33n5murf/Stormbreaker-Toolhead",
+      "description": "Toolhead for Monolith gantry.",
+      "category": "Full Size Printers",
+      "configurator": false,
+      "title": "Stormbreaker",
+      "image": "",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "5015",
+      "filament_cutter": "unknown",
+      "top_pick": false
+    },
+    {
       "name": "StovePipe",
       "extruders": [
         "Orbiter 1.5",
@@ -935,36 +993,6 @@
         "CPAP",
         "5015"
       ],
-      "filament_cutter": "unknown",
-      "top_pick": false
-    },
-    {
-      "name": "Stormbreaker",
-      "extruders": [
-        "LGX-Lite",
-        "Sherpa Micro",
-        "Sherpa Mini"
-      ],
-      "probe": [
-        "Beacon",
-        "Eddy",
-        "Klicky",
-        "Klicky PCB"
-      ],
-      "hotend": [
-        "Mosquito",
-        "Dragon HF",
-        "Dragon SF",
-        "Rapido HF"
-      ],
-      "url": "https://github.com/Gr33n5murf/Stormbreaker-Toolhead",
-      "description": "Toolhead for Monolith gantry.",
-      "category": "Full Size Printers",
-      "configurator": false,
-      "title": "Stormbreaker",
-      "image": "",
-      "hotend_fan": "3010",
-      "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
       "top_pick": false
     },
