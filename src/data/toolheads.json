@@ -489,8 +489,8 @@
         "Revo"
       ],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
-      "description": "Toolhead for Voron 2.4, Trident, and Printers for Ants, features support for filament changers.",
-      "category": ["Full Size Printers", "Printers for Ants"],
+      "description": "Toolhead for Printers for Ants, Voron Switchwire, and Sovol SV08, features support for filament changers.",
+      "category": "Printers for Ants",
       "configurator": true,
       "title": "Jabberwocky",
       "image": "/Jabberwocky.webp",
@@ -725,6 +725,22 @@
       "top_pick": false
     },
     {
+      "name": "Rainbow Dragon",
+      "extruders": "unknown",
+      "probe": "unknow",
+      "hotend": "TaiChi",
+      "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
+      "description": "Lightweight toolhead for Printers for Ants, features support for dual filament paths.",
+      "category": "Printers for Ants",
+      "configurator": false,
+      "title": "Rainbow Dragon",
+      "image": "/rainbow_dragon.png",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "unknown",
+      "filament_cutter": "unknown",
+      "top_pick": false
+    },
+    {
       "name": "Rapid Burner",
       "extruders": [
         "Sherpa Mini",
@@ -765,24 +781,6 @@
         "2510"
       ],
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown",
-      "top_pick": false
-    },
-    {
-      "name": "Rainbow Dragon",
-      "extruders": [
-        "Other"
-      ],
-      "probe": "unknow",
-      "hotend": "TaiChi",
-      "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
-      "description": "Lightweight toolhead for Printers for Ants, features support for dual filament paths.",
-      "category": "Printers for Ants",
-      "configurator": false,
-      "title": "Rainbow Dragon",
-      "image": "",
-      "hotend_fan": "unknown",
-      "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false
     },
@@ -845,7 +843,10 @@
       "title": "Rx",
       "image": "/RX.webp",
       "hotend_fan": "2510",
-      "part_cooling_fan": ["5015", "CPAP"],
+      "part_cooling_fan": [
+        "5015",
+        "CPAP"
+      ],
       "filament_cutter": "native",
       "top_pick": false
     },
@@ -905,6 +906,36 @@
       "top_pick": false
     },
     {
+      "name": "Stormbreaker",
+      "extruders": [
+        "LGX-Lite",
+        "Sherpa Micro",
+        "Sherpa Mini"
+      ],
+      "probe": [
+        "Beacon",
+        "Eddy",
+        "Klicky",
+        "Klicky PCB"
+      ],
+      "hotend": [
+        "Mosquito",
+        "Dragon HF",
+        "Dragon SF",
+        "Rapido HF"
+      ],
+      "url": "https://github.com/Gr33n5murf/Stormbreaker-Toolhead",
+      "description": "Toolhead for Monolith gantry.",
+      "category": "Full Size Printers",
+      "configurator": false,
+      "title": "Stormbreaker",
+      "image": "",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "5015",
+      "filament_cutter": "unknown",
+      "top_pick": false
+    },
+    {
       "name": "StovePipe",
       "extruders": [
         "Orbiter 1.5",
@@ -939,39 +970,8 @@
       "top_pick": false
     },
     {
-      "name": "Stormbreaker",
-      "extruders": [
-        "LGX-Lite",
-        "Sherpa Micro",
-        "Sherpa Mini"
-      ],
-      "probe": [
-        "Beacon",
-        "Eddy",
-        "Klicky",
-        "Klicky PCB"
-      ],
-      "hotend": [
-        "Mosquito",
-        "Dragon HF",
-        "Dragon SF",
-        "Rapido HF"
-      ],
-      "url": "https://github.com/Gr33n5murf/Stormbreaker-Toolhead",
-      "description": "Toolhead for Monolith gantry.",
-      "category": "Full Size Printers",
-      "configurator": false,
-      "title": "Stormbreaker",
-      "image": "",
-      "hotend_fan": "3010",
-      "part_cooling_fan": "5015",
-      "filament_cutter": "unknown",
-      "top_pick": false
-    },
-    {
       "name": "Takeoff",
       "extruders": [
-        "unknown",
         "Vz HextrudORT",
         "Sherpa Micro",
         "Sherpa Mini",
@@ -987,9 +987,9 @@
       "url": "https://github.com/Kizime123/Takeoff-Toolhead",
       "description": "Toolhead for Voron 2.4 and Trident, features an SLM design and large 3628 fans.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Takeoff",
-      "image": "",
+      "image": "/takeoff.jpeg",
       "hotend_fan": "unknown",
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
