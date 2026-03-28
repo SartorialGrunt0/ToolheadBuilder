@@ -367,10 +367,16 @@ function DetailCard({ item, accentColor, type }) {
     if (item.filament_sensor && item.filament_sensor !== 'unknown') specs.push({ label: 'Sensor', value: item.filament_sensor });
   } else if (type === 'hotend') {
     if (item.hotend_type && item.hotend_type !== 'unknown') specs.push({ label: 'Type', value: item.hotend_type });
-    if (item.flow_rate && item.flow_rate !== 'Unknown') specs.push({ label: 'Flow', value: item.flow_rate });
+    if (item.flow_rate && item.flow_rate.toLowerCase() !== 'unknown') specs.push({ label: 'Flow', value: item.flow_rate });
     if (item.length && item.length !== 'unknown') specs.push({ label: 'Length', value: item.length });
-    if (item.mounting_pattern) specs.push({ label: 'Mount', value: Array.isArray(item.mounting_pattern) ? item.mounting_pattern.join(', ') : item.mounting_pattern });
-    if (item.nozzle_compatibility) specs.push({ label: 'Nozzles', value: Array.isArray(item.nozzle_compatibility) ? item.nozzle_compatibility.join(', ') : item.nozzle_compatibility });
+    if (item.mounting_pattern) {
+      const mounts = (Array.isArray(item.mounting_pattern) ? item.mounting_pattern : [item.mounting_pattern]).filter((m) => m && m !== 'unknown');
+      if (mounts.length > 0) specs.push({ label: 'Mount', value: mounts.join(', ') });
+    }
+    if (item.nozzle_compatibility) {
+      const nozzles = (Array.isArray(item.nozzle_compatibility) ? item.nozzle_compatibility : [item.nozzle_compatibility]).filter((n) => n && n.toLowerCase() !== 'unknown');
+      if (nozzles.length > 0) specs.push({ label: 'Nozzles', value: nozzles.join(', ') });
+    }
   } else if (type === 'probe') {
     if (item.type) specs.push({ label: 'Type', value: item.type });
   }

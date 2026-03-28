@@ -240,7 +240,7 @@
       "length": "unknown",
       "meltzone_length": "unknown",
       "hotend_type": "unknown",
-      "flow_rate": "Unknown",
+      "flow_rate": "unknown",
       "nozzle_compatibility": [
         "unknown"
       ],
