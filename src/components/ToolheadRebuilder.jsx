@@ -249,7 +249,7 @@ function getViableFanValues(toolheads, fanField) {
 const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010'];
 const PART_COOLING_FAN_OPTIONS = ['3010', '3515', '3628', '4010', '4020', '5015', '5020', 'CPAP'];
 
-function CompactTile({ name, isSelected, isViable, onClick, accentColor }) {
+function CompactTile({ name, isSelected, onClick, accentColor }) {
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', text: '#2563eb' },
     green: { border: '#22c55e', bg: '#f0fdf4', text: '#16a34a' },
@@ -262,24 +262,20 @@ function CompactTile({ name, isSelected, isViable, onClick, accentColor }) {
   return (
     <button
       onClick={onClick}
-      disabled={!isViable}
       style={{
-        padding: '3px 8px',
+        padding: '4px 8px',
         borderRadius: '5px',
         border: isSelected ? `2px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
         backgroundColor: isSelected ? c.bg : 'var(--sl-color-bg-nav)',
-        color: isSelected ? c.text : isViable ? 'var(--sl-color-white)' : 'var(--sl-color-gray-5)',
+        color: isSelected ? c.text : 'var(--sl-color-white)',
         fontSize: '0.75rem',
         fontWeight: isSelected ? 700 : 500,
-        cursor: isViable ? 'pointer' : 'default',
+        cursor: 'pointer',
         transition: 'all 0.15s ease',
-        opacity: isViable ? 1 : 0.4,
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
         lineHeight: '1.3',
         margin: 0,
         textAlign: 'left',
+        wordBreak: 'break-word',
       }}
     >
       {name}
@@ -415,15 +411,15 @@ function ComponentColumn({ title, items, viableNames, selected, onSelect, accent
         {items.map((item) => {
           const isViable = viableNames.has(item.name.toLowerCase());
           const isSel = selected === item.name;
+          if (!isViable && !isSel) return null;
           return (
             <CompactTile
               key={item.name}
               name={item.name}
               isSelected={isSel}
-              isViable={isViable || isSel}
               onClick={() => {
                 if (isSel) onSelect(null);
-                else if (isViable) onSelect(item.name);
+                else onSelect(item.name);
               }}
               accentColor={accentColor}
             />
@@ -482,25 +478,24 @@ function FanColumn({ title, options, viableValues, selected, onSelect, accentCol
         {options.map((opt) => {
           const isActive = selected === opt;
           const isViable = viableValues.has(opt);
+          if (!isViable && !isActive) return null;
           return (
             <button
               key={opt}
               onClick={() => {
                 if (isActive) onSelect(null);
-                else if (isViable) onSelect(opt);
+                else onSelect(opt);
               }}
-              disabled={!isViable && !isActive}
               style={{
-                padding: '3px 8px',
+                padding: '4px 8px',
                 borderRadius: '5px',
                 border: isActive ? `2px solid ${c.active}` : '1px solid var(--sl-color-gray-5)',
                 backgroundColor: isActive ? c.activeBg : 'var(--sl-color-bg-nav)',
-                color: isActive ? c.activeText : isViable ? 'var(--sl-color-gray-3)' : 'var(--sl-color-gray-5)',
+                color: isActive ? c.activeText : 'var(--sl-color-gray-3)',
                 fontSize: '0.75rem',
                 fontWeight: 600,
-                cursor: isViable || isActive ? 'pointer' : 'default',
+                cursor: 'pointer',
                 transition: 'all 0.15s ease',
-                opacity: isViable || isActive ? 1 : 0.4,
                 lineHeight: '1.3',
                 margin: 0,
                 textAlign: 'left',
@@ -904,6 +899,7 @@ export default function ToolheadRebuilder() {
           border: '1px solid var(--sl-color-gray-5)',
           backgroundColor: 'var(--sl-color-bg-sidebar)',
           marginBottom: '24px',
+          overflowX: 'auto',
         }}
       >
         <h2
@@ -918,7 +914,7 @@ export default function ToolheadRebuilder() {
         </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+          gridTemplateColumns: 'repeat(5, 1fr)',
           gap: '12px',
           alignItems: 'start',
         }}>
