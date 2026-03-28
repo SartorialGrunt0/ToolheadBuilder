@@ -183,11 +183,39 @@ const allAvailableProbes = probesData.probes
   .filter((p) => probeNamesInToolheads.has(p.name.toLowerCase()))
   .sort((a, b) => a.name.localeCompare(b.name));
 
-const EXTRUDER_GEAR_TYPES = [...new Set(allAvailableExtruders.map((e) => e.gear_type))].sort();
-const EXTRUDER_MOUNT_TYPES = [...new Set(allAvailableExtruders.map((e) => e.mounting_pattern))].sort();
-const HOTEND_FLOW_TYPES = ['SF', 'HF', 'UHF'];
-const HOTEND_MOUNT_TYPES = [...new Set(allAvailableHotends.flatMap((h) => h.mounting_pattern || []))].filter(Boolean).sort();
-const PROBE_TYPES = [...new Set(allAvailableProbes.map((p) => p.type))].filter(Boolean).sort();
+const EXCLUDED_FILTER_VALUES = new Set(['other', 'integrated', 'unknown', 'na', 'other']);
+
+function isFilterableValue(val) {
+  return val && !EXCLUDED_FILTER_VALUES.has(val.toLowerCase());
+}
+
+function getFieldValues(items, field) {
+  const set = new Set();
+  for (const item of items) {
+    const val = item[field];
+    if (Array.isArray(val)) {
+      for (const v of val) if (isFilterableValue(v)) set.add(v);
+    } else {
+      if (isFilterableValue(val)) set.add(val);
+    }
+  }
+  return [...set].sort();
+}
+
+function itemPassesFilterGroups(item, filterGroups, skipIndex) {
+  for (let i = 0; i < filterGroups.length; i++) {
+    if (i === skipIndex) continue;
+    const group = filterGroups[i];
+    if (group.activeFilters.size === 0) continue;
+    const val = item[group.filterField];
+    if (Array.isArray(val)) {
+      if (!val.some((v) => group.activeFilters.has(v))) return false;
+    } else {
+      if (!val || !group.activeFilters.has(val)) return false;
+    }
+  }
+  return true;
+}
 
 function matchesComponent(list, name) {
   const nameList = Array.isArray(list) ? list : list ? [list] : [];
@@ -432,20 +460,24 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
 
   const hasActiveFilter = filterGroups && filterGroups.some((g) => g.activeFilters.size > 0);
 
-  const filteredItems = filterGroups
-    ? items.filter((item) => {
-        for (const group of filterGroups) {
-          if (group.activeFilters.size > 0) {
-            const val = item[group.filterField];
-            if (Array.isArray(val)) {
-              if (!val.some((v) => group.activeFilters.has(v))) return false;
-            } else {
-              if (!val || !group.activeFilters.has(val)) return false;
-            }
-          }
-        }
-        return true;
+  /* Items viable from cross-filtering (other component categories) */
+  const viableItems = items.filter((item) => viableNames.has(item.name.toLowerCase()));
+
+  /* For each filter group, compute available options from viable items that pass all OTHER filter groups.
+     Always include currently active filter values so user can deselect them. */
+  const dynamicFilterGroups = filterGroups
+    ? filterGroups.map((group, gi) => {
+        const candidateItems = viableItems.filter((item) => itemPassesFilterGroups(item, filterGroups, gi));
+        const dynamicOptions = getFieldValues(candidateItems, group.filterField);
+        const optionSet = new Set(dynamicOptions);
+        for (const val of group.activeFilters) optionSet.add(val);
+        return { ...group, options: [...optionSet].sort() };
       })
+    : null;
+
+  /* Items that pass all filter groups */
+  const filteredItems = filterGroups
+    ? items.filter((item) => itemPassesFilterGroups(item, filterGroups, -1))
     : items;
 
   return (
@@ -465,7 +497,7 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
           <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
             {title}
           </h3>
-          {filterGroups && (
+          {dynamicFilterGroups && dynamicFilterGroups.some((g) => g.options.length > 0) && (
             <button
               onClick={() => setShowFilter((prev) => !prev)}
               style={{
@@ -507,9 +539,9 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
             </button>
           )}
         </div>
-        {showFilter && filterGroups && (
+        {showFilter && dynamicFilterGroups && (
           <FilterPopup
-            filterGroups={filterGroups}
+            filterGroups={dynamicFilterGroups.filter((g) => g.options.length > 0)}
             onClose={() => setShowFilter(false)}
             accentColor={accentColor}
           />
@@ -862,6 +894,7 @@ export default function ToolheadRebuilder() {
   const [probeFilters, setProbeFilters] = useState(new Set());
   const [extruderMountFilters, setExtruderMountFilters] = useState(new Set());
   const [hotendMountFilters, setHotendMountFilters] = useState(new Set());
+  const [hotendNozzleFilters, setHotendNozzleFilters] = useState(new Set());
 
   const toggleFilter = (setter) => (value) => {
     setter((prev) => {
@@ -1045,8 +1078,8 @@ export default function ToolheadRebuilder() {
             type="extruder"
             detailCatalog={extrudersData.extruders}
             filterGroups={[
-              { label: 'Gear Type', options: EXTRUDER_GEAR_TYPES, activeFilters: extruderFilters, onToggle: toggleFilter(setExtruderFilters), filterField: 'gear_type' },
-              { label: 'Mount', options: EXTRUDER_MOUNT_TYPES, activeFilters: extruderMountFilters, onToggle: toggleFilter(setExtruderMountFilters), filterField: 'mounting_pattern' },
+              { label: 'Gear Type', activeFilters: extruderFilters, onToggle: toggleFilter(setExtruderFilters), filterField: 'gear_type' },
+              { label: 'Mount', activeFilters: extruderMountFilters, onToggle: toggleFilter(setExtruderMountFilters), filterField: 'mounting_pattern' },
             ]}
           />
           <ComponentRow
@@ -1059,8 +1092,9 @@ export default function ToolheadRebuilder() {
             type="hotend"
             detailCatalog={hotendsData.hotends}
             filterGroups={[
-              { label: 'Flow Type', options: HOTEND_FLOW_TYPES, activeFilters: hotendFilters, onToggle: toggleFilter(setHotendFilters), filterField: 'hotend_type' },
-              { label: 'Mount', options: HOTEND_MOUNT_TYPES, activeFilters: hotendMountFilters, onToggle: toggleFilter(setHotendMountFilters), filterField: 'mounting_pattern' },
+              { label: 'Flow Type', activeFilters: hotendFilters, onToggle: toggleFilter(setHotendFilters), filterField: 'hotend_type' },
+              { label: 'Mount', activeFilters: hotendMountFilters, onToggle: toggleFilter(setHotendMountFilters), filterField: 'mounting_pattern' },
+              { label: 'Nozzle', activeFilters: hotendNozzleFilters, onToggle: toggleFilter(setHotendNozzleFilters), filterField: 'nozzle_compatibility' },
             ]}
           />
           <ComponentRow
@@ -1073,7 +1107,7 @@ export default function ToolheadRebuilder() {
             type="probe"
             detailCatalog={probesData.probes}
             filterGroups={[
-              { label: 'Probe Type', options: PROBE_TYPES, activeFilters: probeFilters, onToggle: toggleFilter(setProbeFilters), filterField: 'type' },
+              { label: 'Probe Type', activeFilters: probeFilters, onToggle: toggleFilter(setProbeFilters), filterField: 'type' },
             ]}
           />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
