@@ -183,7 +183,7 @@ const allAvailableProbes = probesData.probes
   .filter((p) => probeNamesInToolheads.has(p.name.toLowerCase()))
   .sort((a, b) => a.name.localeCompare(b.name));
 
-const EXCLUDED_FILTER_VALUES = new Set(['other', 'integrated', 'unknown', 'na', 'other']);
+const EXCLUDED_FILTER_VALUES = new Set(['other', 'integrated', 'unknown', 'na']);
 
 function isFilterableValue(val) {
   return val && !EXCLUDED_FILTER_VALUES.has(val.toLowerCase());
