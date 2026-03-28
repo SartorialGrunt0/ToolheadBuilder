@@ -173,15 +173,19 @@ const extruderNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.
 const hotendNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.hotend, getExpandedHotends);
 const probeNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.probe, getExpandedProbes);
 
-const allAvailableExtruders = extrudersData.extruders.filter((e) =>
-  extruderNamesInToolheads.has(e.name.toLowerCase())
-);
-const allAvailableHotends = hotendsData.hotends.filter((h) =>
-  hotendNamesInToolheads.has(h.name.toLowerCase())
-);
-const allAvailableProbes = probesData.probes.filter((p) =>
-  probeNamesInToolheads.has(p.name.toLowerCase())
-);
+const allAvailableExtruders = extrudersData.extruders
+  .filter((e) => extruderNamesInToolheads.has(e.name.toLowerCase()))
+  .sort((a, b) => a.name.localeCompare(b.name));
+const allAvailableHotends = hotendsData.hotends
+  .filter((h) => hotendNamesInToolheads.has(h.name.toLowerCase()))
+  .sort((a, b) => a.name.localeCompare(b.name));
+const allAvailableProbes = probesData.probes
+  .filter((p) => probeNamesInToolheads.has(p.name.toLowerCase()))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const EXTRUDER_GEAR_TYPES = [...new Set(allAvailableExtruders.map((e) => e.gear_type))].sort();
+const HOTEND_FLOW_TYPES = ['SF', 'HF', 'UHF'];
+const PROBE_TYPES = [...new Set(allAvailableProbes.map((p) => p.type))].filter(Boolean).sort();
 
 function matchesComponent(list, name) {
   const nameList = Array.isArray(list) ? list : list ? [list] : [];
@@ -283,6 +287,77 @@ function CompactTile({ name, isSelected, onClick, accentColor }) {
   );
 }
 
+function FilterPopup({ options, activeFilters, onToggle, onClose, accentColor }) {
+  const colors = {
+    blue: { border: '#3b82f6', bg: '#eff6ff', text: '#2563eb' },
+    green: { border: '#22c55e', bg: '#f0fdf4', text: '#16a34a' },
+    purple: { border: '#a855f7', bg: '#faf5ff', text: '#9333ea' },
+  };
+  const c = colors[accentColor] || colors.blue;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        zIndex: 50,
+        marginTop: '4px',
+        padding: '6px',
+        borderRadius: '8px',
+        border: `1px solid ${c.border}`,
+        backgroundColor: 'var(--sl-color-bg-sidebar)',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        minWidth: '120px',
+      }}
+    >
+      {options.map((opt) => {
+        const isActive = activeFilters.has(opt);
+        return (
+          <button
+            key={opt}
+            onClick={() => onToggle(opt)}
+            style={{
+              display: 'block',
+              width: '100%',
+              padding: '3px 8px',
+              borderRadius: '4px',
+              border: 'none',
+              backgroundColor: isActive ? c.bg : 'transparent',
+              color: isActive ? c.text : 'var(--sl-color-gray-3)',
+              fontSize: '0.7rem',
+              fontWeight: isActive ? 700 : 500,
+              cursor: 'pointer',
+              textAlign: 'left',
+              margin: '1px 0',
+            }}
+          >
+            {opt}
+          </button>
+        );
+      })}
+      <button
+        onClick={onClose}
+        style={{
+          display: 'block',
+          width: '100%',
+          padding: '3px 8px',
+          borderRadius: '4px',
+          border: 'none',
+          backgroundColor: 'transparent',
+          color: 'var(--sl-color-gray-4)',
+          fontSize: '0.65rem',
+          cursor: 'pointer',
+          textAlign: 'center',
+          marginTop: '4px',
+        }}
+      >
+        Close
+      </button>
+    </div>
+  );
+}
+
 function DetailCard({ item, accentColor, type }) {
   const colors = {
     blue: { border: '#3b82f6', bg: 'rgba(59,130,246,0.08)', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
@@ -361,7 +436,8 @@ function DetailCard({ item, accentColor, type }) {
   );
 }
 
-function ComponentColumn({ title, items, viableNames, selected, onSelect, accentColor, type, detailCatalog }) {
+function ComponentColumn({ title, items, viableNames, selected, onSelect, accentColor, type, detailCatalog, filterOptions, activeFilters, onToggleFilter, filterField }) {
+  const [showFilter, setShowFilter] = useState(false);
   const colors = {
     blue: { border: '#3b82f6' },
     green: { border: '#22c55e' },
@@ -373,6 +449,13 @@ function ComponentColumn({ title, items, viableNames, selected, onSelect, accent
 
   const selectedDetail = selected ? findDetail(selected, detailCatalog) : null;
 
+  const filteredItems = filterOptions && activeFilters && activeFilters.size > 0
+    ? items.filter((item) => {
+        const val = item[filterField];
+        return val && activeFilters.has(val);
+      })
+    : items;
+
   return (
     <div style={{ minWidth: 0 }}>
       <div
@@ -383,11 +466,34 @@ function ComponentColumn({ title, items, viableNames, selected, onSelect, accent
           marginBottom: '8px',
           borderBottom: `2px solid ${c.border}`,
           paddingBottom: '4px',
+          position: 'relative',
         }}
       >
-        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
-          {title}
-        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+            {title}
+          </h3>
+          {filterOptions && (
+            <button
+              onClick={() => setShowFilter((prev) => !prev)}
+              style={{
+                fontSize: '0.65rem',
+                padding: '1px 5px',
+                borderRadius: '4px',
+                border: activeFilters && activeFilters.size > 0 ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
+                backgroundColor: activeFilters && activeFilters.size > 0 ? c.border + '22' : 'transparent',
+                color: activeFilters && activeFilters.size > 0 ? c.border : 'var(--sl-color-gray-4)',
+                cursor: 'pointer',
+                fontWeight: 600,
+                margin: 0,
+                lineHeight: 1,
+              }}
+              title="Filter"
+            >
+              &#9662;
+            </button>
+          )}
+        </div>
         {selected && (
           <button
             onClick={() => onSelect(null)}
@@ -406,9 +512,18 @@ function ComponentColumn({ title, items, viableNames, selected, onSelect, accent
             ✕
           </button>
         )}
+        {showFilter && filterOptions && (
+          <FilterPopup
+            options={filterOptions}
+            activeFilters={activeFilters || new Set()}
+            onToggle={onToggleFilter}
+            onClose={() => setShowFilter(false)}
+            accentColor={accentColor}
+          />
+        )}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', maxHeight: '320px', overflowY: 'auto' }}>
-        {items.map((item) => {
+        {filteredItems.map((item) => {
           const isViable = viableNames.has(item.name.toLowerCase());
           const isSel = selected === item.name;
           if (!isViable && !isSel) return null;
@@ -749,6 +864,18 @@ export default function ToolheadRebuilder() {
   const [selectedPartCoolingFan, setSelectedPartCoolingFan] = useState(null);
   const [selectedToolheadName, setSelectedToolheadName] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [extruderFilters, setExtruderFilters] = useState(new Set());
+  const [hotendFilters, setHotendFilters] = useState(new Set());
+  const [probeFilters, setProbeFilters] = useState(new Set());
+
+  const toggleFilter = (setter) => (value) => {
+    setter((prev) => {
+      const next = new Set(prev);
+      if (next.has(value)) next.delete(value);
+      else next.add(value);
+      return next;
+    });
+  };
 
   const filteredToolheads = useMemo(() => getViableToolheads({
     extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
@@ -914,7 +1041,7 @@ export default function ToolheadRebuilder() {
         </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
+          gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '12px',
           alignItems: 'start',
         }}>
@@ -927,6 +1054,10 @@ export default function ToolheadRebuilder() {
             accentColor="blue"
             type="extruder"
             detailCatalog={extrudersData.extruders}
+            filterOptions={EXTRUDER_GEAR_TYPES}
+            activeFilters={extruderFilters}
+            onToggleFilter={toggleFilter(setExtruderFilters)}
+            filterField="gear_type"
           />
           <ComponentColumn
             title="Hotend"
@@ -937,6 +1068,10 @@ export default function ToolheadRebuilder() {
             accentColor="green"
             type="hotend"
             detailCatalog={hotendsData.hotends}
+            filterOptions={HOTEND_FLOW_TYPES}
+            activeFilters={hotendFilters}
+            onToggleFilter={toggleFilter(setHotendFilters)}
+            filterField="hotend_type"
           />
           <ComponentColumn
             title="Probe"
@@ -947,23 +1082,29 @@ export default function ToolheadRebuilder() {
             accentColor="purple"
             type="probe"
             detailCatalog={probesData.probes}
+            filterOptions={PROBE_TYPES}
+            activeFilters={probeFilters}
+            onToggleFilter={toggleFilter(setProbeFilters)}
+            filterField="type"
           />
-          <FanColumn
-            title="Hotend Fan"
-            options={HOTEND_FAN_OPTIONS}
-            viableValues={viableHotendFanValues}
-            selected={selectedHotendFan}
-            onSelect={setSelectedHotendFan}
-            accentColor="orange"
-          />
-          <FanColumn
-            title="Part Cooling"
-            options={PART_COOLING_FAN_OPTIONS}
-            viableValues={viablePartCoolingFanValues}
-            selected={selectedPartCoolingFan}
-            onSelect={setSelectedPartCoolingFan}
-            accentColor="teal"
-          />
+          <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <FanColumn
+              title="Hotend Fan"
+              options={HOTEND_FAN_OPTIONS}
+              viableValues={viableHotendFanValues}
+              selected={selectedHotendFan}
+              onSelect={setSelectedHotendFan}
+              accentColor="orange"
+            />
+            <FanColumn
+              title="Part Cooling"
+              options={PART_COOLING_FAN_OPTIONS}
+              viableValues={viablePartCoolingFanValues}
+              selected={selectedPartCoolingFan}
+              onSelect={setSelectedPartCoolingFan}
+              accentColor="teal"
+            />
+          </div>
         </div>
       </div>
 
