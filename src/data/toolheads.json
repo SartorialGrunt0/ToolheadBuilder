@@ -489,11 +489,8 @@
         "Revo"
       ],
       "url": "https://github.com/kinematicdigit/Jabberwocky",
-      "description": "Toolhead for Voron 2.4, Trident, and Printers for Ants, features support for filament changers.",
-      "category": [
-        "Full Size Printers",
-        "Printers for Ants"
-      ],
+      "description": "Toolhead for Printers for Ants, Switchwire, and Sovol SV08, features support for filament changers.",
+      "category": "Printers for Ants",
       "configurator": true,
       "title": "Jabberwocky",
       "image": "/Jabberwocky.webp",
@@ -529,9 +526,9 @@
       "url": "https://github.com/chirpy2605/voron/blob/main/V0/Mailbox",
       "description": "Toolhead for Voron 0, features support for enhanced 5015 fan cooling.",
       "category": "Printers for Ants",
-      "configurator": false,
+      "configurator": true,
       "title": "Mailbox",
-      "image": "",
+      "image": "/Mailbox.webp",
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
@@ -583,7 +580,7 @@
       "url": "https://www.printables.com/model/524765-micro-saul2",
       "description": "Toolhead for Voron V0.2, features support for dual 4010 fans and the mellow NF crazy hotend.",
       "category": "Printers for Ants",
-      "configurator": false,
+      "configurator": true,
       "title": "Micro Saul2",
       "image": "/Micro_Saul2.webp",
       "hotend_fan": "2510",
@@ -729,9 +726,7 @@
     },
     {
       "name": "Rainbow Dragon",
-      "extruders": [
-        "Other"
-      ],
+      "extruders": "unknown",
       "probe": "unknow",
       "hotend": "TaiChi",
       "url": "https://github.com/chirpy2605/voron/tree/main/V0/Rainbow_Dragon",
@@ -739,7 +734,7 @@
       "category": "Printers for Ants",
       "configurator": false,
       "title": "Rainbow Dragon",
-      "image": "",
+      "image": "/Rainbow_Dragon.webp",
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
