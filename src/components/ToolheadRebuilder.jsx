@@ -755,43 +755,48 @@ export default function ToolheadRebuilder() {
   const [selectedToolheadName, setSelectedToolheadName] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const allSelections = {
-    extruder: selectedExtruder,
-    hotend: selectedHotend,
-    probe: selectedProbe,
-    hotendFan: selectedHotendFan,
-    partCoolingFan: selectedPartCoolingFan,
-  };
-
-  const filteredToolheads = useMemo(() => getViableToolheads(allSelections), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+  const filteredToolheads = useMemo(() => getViableToolheads({
+    extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
+    hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+  }), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
 
   const viableExtruderNames = useMemo(() => {
-    const selectionsWithout = { ...allSelections, extruder: null };
-    const ths = getViableToolheads(selectionsWithout);
+    const ths = getViableToolheads({
+      extruder: null, hotend: selectedHotend, probe: selectedProbe,
+      hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+    });
     return getViableNames(ths, (t) => t.extruders, getExpandedExtruders);
   }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
 
   const viableHotendNames = useMemo(() => {
-    const selectionsWithout = { ...allSelections, hotend: null };
-    const ths = getViableToolheads(selectionsWithout);
+    const ths = getViableToolheads({
+      extruder: selectedExtruder, hotend: null, probe: selectedProbe,
+      hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+    });
     return getViableNames(ths, (t) => t.hotend, getExpandedHotends);
   }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
 
   const viableProbeNames = useMemo(() => {
-    const selectionsWithout = { ...allSelections, probe: null };
-    const ths = getViableToolheads(selectionsWithout);
+    const ths = getViableToolheads({
+      extruder: selectedExtruder, hotend: selectedHotend, probe: null,
+      hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+    });
     return getViableNames(ths, (t) => t.probe, getExpandedProbes);
   }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan]);
 
   const viableHotendFanValues = useMemo(() => {
-    const selectionsWithout = { ...allSelections, hotendFan: null };
-    const ths = getViableToolheads(selectionsWithout);
+    const ths = getViableToolheads({
+      extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
+      hotendFan: null, partCoolingFan: selectedPartCoolingFan,
+    });
     return getViableFanValues(ths, 'hotend_fan');
   }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan]);
 
   const viablePartCoolingFanValues = useMemo(() => {
-    const selectionsWithout = { ...allSelections, partCoolingFan: null };
-    const ths = getViableToolheads(selectionsWithout);
+    const ths = getViableToolheads({
+      extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
+      hotendFan: selectedHotendFan, partCoolingFan: null,
+    });
     return getViableFanValues(ths, 'part_cooling_fan');
   }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan]);
 
@@ -911,7 +916,12 @@ export default function ToolheadRebuilder() {
         >
           Select Your Components
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr 2fr 1fr 1fr', gap: '12px', alignItems: 'start' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+          gap: '12px',
+          alignItems: 'start',
+        }}>
           <ComponentColumn
             title="Extruder"
             items={allAvailableExtruders}
