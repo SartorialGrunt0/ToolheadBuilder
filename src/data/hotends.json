@@ -233,6 +233,22 @@
       "top_pick": false
     },
     {
+      "name": "Bambu A1/P2/H1",
+      "mounting_pattern": [
+        "Bambu"
+      ],
+      "length": "unknown",
+      "meltzone_length": "unknown",
+      "hotend_type": "unknown",
+      "flow_rate": "Unknown",
+      "nozzle_compatibility": [
+        "unknown"
+      ],
+      "url": "",
+      "description": "Bambulabs hotend for A1, P2, and H1 series printers.",
+      "top_pick": false
+    },
+    {
       "name": "TZ2.0",
       "mounting_pattern": [
         "Groove",

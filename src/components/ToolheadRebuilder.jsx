@@ -184,7 +184,9 @@ const allAvailableProbes = probesData.probes
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const EXTRUDER_GEAR_TYPES = [...new Set(allAvailableExtruders.map((e) => e.gear_type))].sort();
+const EXTRUDER_MOUNT_TYPES = [...new Set(allAvailableExtruders.map((e) => e.mounting_pattern))].sort();
 const HOTEND_FLOW_TYPES = ['SF', 'HF', 'UHF'];
+const HOTEND_MOUNT_TYPES = [...new Set(allAvailableHotends.flatMap((h) => h.mounting_pattern || []))].filter(Boolean).sort();
 const PROBE_TYPES = [...new Set(allAvailableProbes.map((p) => p.type))].filter(Boolean).sort();
 
 function matchesComponent(list, name) {
@@ -287,7 +289,7 @@ function CompactTile({ name, isSelected, onClick, accentColor }) {
   );
 }
 
-function FilterPopup({ options, activeFilters, onToggle, onClose, accentColor }) {
+function FilterPopup({ filterGroups, onClose, accentColor }) {
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', text: '#2563eb' },
     green: { border: '#22c55e', bg: '#f0fdf4', text: '#16a34a' },
@@ -300,60 +302,48 @@ function FilterPopup({ options, activeFilters, onToggle, onClose, accentColor })
       style={{
         position: 'absolute',
         top: '100%',
-        left: 0,
+        right: 0,
         zIndex: 50,
         marginTop: '4px',
-        padding: '6px',
+        padding: '8px',
         borderRadius: '8px',
         border: `1px solid ${c.border}`,
         backgroundColor: 'var(--sl-color-bg-sidebar)',
         boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-        minWidth: '120px',
+        minWidth: '140px',
       }}
     >
-      {options.map((opt) => {
-        const isActive = activeFilters.has(opt);
-        return (
-          <button
-            key={opt}
-            onClick={() => onToggle(opt)}
-            style={{
-              display: 'block',
-              width: '100%',
-              padding: '3px 8px',
-              borderRadius: '4px',
-              border: 'none',
-              backgroundColor: isActive ? c.bg : 'transparent',
-              color: isActive ? c.text : 'var(--sl-color-gray-3)',
-              fontSize: '0.7rem',
-              fontWeight: isActive ? 700 : 500,
-              cursor: 'pointer',
-              textAlign: 'left',
-              margin: '1px 0',
-            }}
-          >
-            {opt}
-          </button>
-        );
-      })}
-      <button
-        onClick={onClose}
-        style={{
-          display: 'block',
-          width: '100%',
-          padding: '3px 8px',
-          borderRadius: '4px',
-          border: 'none',
-          backgroundColor: 'transparent',
-          color: 'var(--sl-color-gray-4)',
-          fontSize: '0.65rem',
-          cursor: 'pointer',
-          textAlign: 'center',
-          marginTop: '4px',
-        }}
-      >
-        Close
-      </button>
+      {filterGroups.map((group, gi) => (
+        <div key={group.label} style={{ marginBottom: gi < filterGroups.length - 1 ? '6px' : 0 }}>
+          <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            {group.label}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+            {group.options.map((opt) => {
+              const isActive = group.activeFilters.has(opt);
+              return (
+                <button
+                  key={opt}
+                  onClick={() => group.onToggle(opt)}
+                  style={{
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    border: isActive ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
+                    backgroundColor: isActive ? c.bg : 'transparent',
+                    color: isActive ? c.text : 'var(--sl-color-gray-3)',
+                    fontSize: '0.65rem',
+                    fontWeight: isActive ? 700 : 500,
+                    cursor: 'pointer',
+                    margin: 0,
+                  }}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -368,7 +358,6 @@ function DetailCard({ item, accentColor, type }) {
 
   if (!item) return null;
 
-  const badge = item.gear_type || item.hotend_type || item.type || null;
   const isTopPick = item?.top_pick === true;
 
   const specs = [];
@@ -377,9 +366,10 @@ function DetailCard({ item, accentColor, type }) {
     if (item.gear_type) specs.push({ label: 'Gear', value: item.gear_type });
     if (item.filament_sensor && item.filament_sensor !== 'unknown') specs.push({ label: 'Sensor', value: item.filament_sensor });
   } else if (type === 'hotend') {
-    if (item.hotend_type) specs.push({ label: 'Type', value: item.hotend_type });
-    if (item.flow_rate) specs.push({ label: 'Flow', value: item.flow_rate });
-    if (item.length) specs.push({ label: 'Length', value: item.length });
+    if (item.hotend_type && item.hotend_type !== 'unknown') specs.push({ label: 'Type', value: item.hotend_type });
+    if (item.flow_rate && item.flow_rate !== 'Unknown') specs.push({ label: 'Flow', value: item.flow_rate });
+    if (item.length && item.length !== 'unknown') specs.push({ label: 'Length', value: item.length });
+    if (item.mounting_pattern) specs.push({ label: 'Mount', value: Array.isArray(item.mounting_pattern) ? item.mounting_pattern.join(', ') : item.mounting_pattern });
     if (item.nozzle_compatibility) specs.push({ label: 'Nozzles', value: Array.isArray(item.nozzle_compatibility) ? item.nozzle_compatibility.join(', ') : item.nozzle_compatibility });
   } else if (type === 'probe') {
     if (item.type) specs.push({ label: 'Type', value: item.type });
@@ -388,55 +378,40 @@ function DetailCard({ item, accentColor, type }) {
   return (
     <div
       style={{
-        marginTop: '8px',
-        padding: '10px 12px',
-        borderRadius: '8px',
+        marginTop: '6px',
+        padding: '6px 10px',
+        borderRadius: '6px',
         border: `1px solid ${c.border}`,
         backgroundColor: c.bg,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px', flexWrap: 'wrap' }}>
-        <strong style={{ fontSize: '0.9rem', color: c.label }}>{item.name}</strong>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
         {isTopPick && (
           <span style={{ fontSize: '0.6rem', padding: '1px 5px', borderRadius: '4px', backgroundColor: '#fffbeb', color: '#b45309', fontWeight: 700 }}>
             ⭐ Top Pick
           </span>
         )}
-        {badge && (
-          <span style={{ fontSize: '0.65rem', padding: '1px 5px', borderRadius: '4px', backgroundColor: c.bgAlpha, color: c.label, fontWeight: 600 }}>
-            {badge}
+        {specs.map((s) => (
+          <span key={s.label} style={{ fontSize: '0.68rem', color: 'var(--sl-color-gray-3)' }}>
+            <strong style={{ color: 'var(--sl-color-gray-2)' }}>{s.label}:</strong> {s.value}
           </span>
-        )}
+        ))}
       </div>
-      {item.description && (
-        <p style={{ margin: '0 0 6px 0', fontSize: '0.75rem', color: 'var(--sl-color-gray-3)', lineHeight: 1.4 }}>
-          {item.description}
-        </p>
-      )}
-      {specs.length > 0 && (
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
-          {specs.map((s) => (
-            <span key={s.label} style={{ fontSize: '0.68rem', color: 'var(--sl-color-gray-3)' }}>
-              <strong style={{ color: 'var(--sl-color-gray-2)' }}>{s.label}:</strong> {s.value}
-            </span>
-          ))}
-        </div>
-      )}
       {item.url && (
         <a
           href={item.url}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: c.label, fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none' }}
+          style={{ color: c.label, fontSize: '0.7rem', fontWeight: 600, textDecoration: 'none' }}
         >
-          {isGitHubUrl(item.url) ? 'View on GitHub →' : 'View Webpage →'}
+          {isGitHubUrl(item.url) ? 'GitHub →' : 'Webpage →'}
         </a>
       )}
     </div>
   );
 }
 
-function ComponentColumn({ title, items, viableNames, selected, onSelect, accentColor, type, detailCatalog, filterOptions, activeFilters, onToggleFilter, filterField }) {
+function ComponentRow({ title, items, viableNames, selected, onSelect, accentColor, type, detailCatalog, filterGroups }) {
   const [showFilter, setShowFilter] = useState(false);
   const colors = {
     blue: { border: '#3b82f6' },
@@ -449,80 +424,92 @@ function ComponentColumn({ title, items, viableNames, selected, onSelect, accent
 
   const selectedDetail = selected ? findDetail(selected, detailCatalog) : null;
 
-  const filteredItems = filterOptions && activeFilters && activeFilters.size > 0
+  const hasActiveFilter = filterGroups && filterGroups.some((g) => g.activeFilters.size > 0);
+
+  const filteredItems = filterGroups
     ? items.filter((item) => {
-        const val = item[filterField];
-        return val && activeFilters.has(val);
+        for (const group of filterGroups) {
+          if (group.activeFilters.size > 0) {
+            const val = item[group.filterField];
+            if (Array.isArray(val)) {
+              if (!val.some((v) => group.activeFilters.has(v))) return false;
+            } else {
+              if (!val || !group.activeFilters.has(val)) return false;
+            }
+          }
+        }
+        return true;
       })
     : items;
 
   return (
-    <div style={{ minWidth: 0 }}>
+    <div style={{ marginBottom: '12px' }}>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: '8px',
+          marginBottom: '6px',
           borderBottom: `2px solid ${c.border}`,
           paddingBottom: '4px',
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
           <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
             {title}
           </h3>
-          {filterOptions && (
+          {filterGroups && (
             <button
               onClick={() => setShowFilter((prev) => !prev)}
               style={{
-                fontSize: '0.65rem',
-                padding: '1px 5px',
-                borderRadius: '4px',
-                border: activeFilters && activeFilters.size > 0 ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
-                backgroundColor: activeFilters && activeFilters.size > 0 ? c.border + '22' : 'transparent',
-                color: activeFilters && activeFilters.size > 0 ? c.border : 'var(--sl-color-gray-4)',
+                fontSize: '0.7rem',
+                padding: '2px 8px',
+                borderRadius: '0 4px 4px 0',
+                border: hasActiveFilter ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
+                borderLeft: 'none',
+                backgroundColor: hasActiveFilter ? c.border + '22' : 'transparent',
+                color: hasActiveFilter ? c.border : 'var(--sl-color-gray-4)',
                 cursor: 'pointer',
                 fontWeight: 600,
                 margin: 0,
-                lineHeight: 1,
+                lineHeight: 1.4,
               }}
               title="Filter"
             >
-              &#9662;
+              {hasActiveFilter ? '▾ Filter ✓' : '▾ Filter'}
             </button>
           )}
         </div>
-        {selected && (
-          <button
-            onClick={() => onSelect(null)}
-            style={{
-              fontSize: '0.65rem',
-              padding: '1px 6px',
-              borderRadius: '10px',
-              border: '1px solid var(--sl-color-gray-5)',
-              backgroundColor: 'transparent',
-              color: 'var(--sl-color-gray-3)',
-              cursor: 'pointer',
-              fontWeight: 600,
-              margin: 0,
-            }}
-          >
-            ✕
-          </button>
-        )}
-        {showFilter && filterOptions && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {selected && (
+            <button
+              onClick={() => onSelect(null)}
+              style={{
+                fontSize: '0.65rem',
+                padding: '1px 6px',
+                borderRadius: '10px',
+                border: '1px solid var(--sl-color-gray-5)',
+                backgroundColor: 'transparent',
+                color: 'var(--sl-color-gray-3)',
+                cursor: 'pointer',
+                fontWeight: 600,
+                margin: 0,
+              }}
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        {showFilter && filterGroups && (
           <FilterPopup
-            options={filterOptions}
-            activeFilters={activeFilters || new Set()}
-            onToggle={onToggleFilter}
+            filterGroups={filterGroups}
             onClose={() => setShowFilter(false)}
             accentColor={accentColor}
           />
         )}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', maxHeight: '320px', overflowY: 'auto' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px' }}>
         {filteredItems.map((item) => {
           const isViable = viableNames.has(item.name.toLowerCase());
           const isSel = selected === item.name;
@@ -548,7 +535,7 @@ function ComponentColumn({ title, items, viableNames, selected, onSelect, accent
   );
 }
 
-function FanColumn({ title, options, viableValues, selected, onSelect, accentColor }) {
+function FanRow({ title, options, viableValues, selected, onSelect, accentColor }) {
   const colors = {
     orange: { border: '#f97316', active: '#f97316', activeBg: 'rgba(249,115,22,0.13)', activeText: '#ea580c' },
     teal: { border: '#14b8a6', active: '#14b8a6', activeBg: 'rgba(20,184,166,0.13)', activeText: '#0d9488' },
@@ -556,13 +543,13 @@ function FanColumn({ title, options, viableValues, selected, onSelect, accentCol
   const c = colors[accentColor] || colors.orange;
 
   return (
-    <div style={{ minWidth: 0 }}>
+    <div style={{ marginBottom: '12px' }}>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: '8px',
+          marginBottom: '6px',
           borderBottom: `2px solid ${c.border}`,
           paddingBottom: '4px',
         }}
@@ -589,7 +576,7 @@ function FanColumn({ title, options, viableValues, selected, onSelect, accentCol
           </button>
         )}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px' }}>
         {options.map((opt) => {
           const isActive = selected === opt;
           const isViable = viableValues.has(opt);
@@ -867,6 +854,8 @@ export default function ToolheadRebuilder() {
   const [extruderFilters, setExtruderFilters] = useState(new Set());
   const [hotendFilters, setHotendFilters] = useState(new Set());
   const [probeFilters, setProbeFilters] = useState(new Set());
+  const [extruderMountFilters, setExtruderMountFilters] = useState(new Set());
+  const [hotendMountFilters, setHotendMountFilters] = useState(new Set());
 
   const toggleFilter = (setter) => (value) => {
     setter((prev) => {
@@ -1039,13 +1028,8 @@ export default function ToolheadRebuilder() {
         >
           Select Your Components
         </h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '12px',
-          alignItems: 'start',
-        }}>
-          <ComponentColumn
+        <div>
+          <ComponentRow
             title="Extruder"
             items={allAvailableExtruders}
             viableNames={viableExtruderNames}
@@ -1054,12 +1038,12 @@ export default function ToolheadRebuilder() {
             accentColor="blue"
             type="extruder"
             detailCatalog={extrudersData.extruders}
-            filterOptions={EXTRUDER_GEAR_TYPES}
-            activeFilters={extruderFilters}
-            onToggleFilter={toggleFilter(setExtruderFilters)}
-            filterField="gear_type"
+            filterGroups={[
+              { label: 'Gear Type', options: EXTRUDER_GEAR_TYPES, activeFilters: extruderFilters, onToggle: toggleFilter(setExtruderFilters), filterField: 'gear_type' },
+              { label: 'Mount', options: EXTRUDER_MOUNT_TYPES, activeFilters: extruderMountFilters, onToggle: toggleFilter(setExtruderMountFilters), filterField: 'mounting_pattern' },
+            ]}
           />
-          <ComponentColumn
+          <ComponentRow
             title="Hotend"
             items={allAvailableHotends}
             viableNames={viableHotendNames}
@@ -1068,12 +1052,12 @@ export default function ToolheadRebuilder() {
             accentColor="green"
             type="hotend"
             detailCatalog={hotendsData.hotends}
-            filterOptions={HOTEND_FLOW_TYPES}
-            activeFilters={hotendFilters}
-            onToggleFilter={toggleFilter(setHotendFilters)}
-            filterField="hotend_type"
+            filterGroups={[
+              { label: 'Flow Type', options: HOTEND_FLOW_TYPES, activeFilters: hotendFilters, onToggle: toggleFilter(setHotendFilters), filterField: 'hotend_type' },
+              { label: 'Mount', options: HOTEND_MOUNT_TYPES, activeFilters: hotendMountFilters, onToggle: toggleFilter(setHotendMountFilters), filterField: 'mounting_pattern' },
+            ]}
           />
-          <ComponentColumn
+          <ComponentRow
             title="Probe"
             items={allAvailableProbes}
             viableNames={viableProbeNames}
@@ -1082,13 +1066,12 @@ export default function ToolheadRebuilder() {
             accentColor="purple"
             type="probe"
             detailCatalog={probesData.probes}
-            filterOptions={PROBE_TYPES}
-            activeFilters={probeFilters}
-            onToggleFilter={toggleFilter(setProbeFilters)}
-            filterField="type"
+            filterGroups={[
+              { label: 'Probe Type', options: PROBE_TYPES, activeFilters: probeFilters, onToggle: toggleFilter(setProbeFilters), filterField: 'type' },
+            ]}
           />
-          <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <FanColumn
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <FanRow
               title="Hotend Fan"
               options={HOTEND_FAN_OPTIONS}
               viableValues={viableHotendFanValues}
@@ -1096,7 +1079,7 @@ export default function ToolheadRebuilder() {
               onSelect={setSelectedHotendFan}
               accentColor="orange"
             />
-            <FanColumn
+            <FanRow
               title="Part Cooling"
               options={PART_COOLING_FAN_OPTIONS}
               viableValues={viablePartCoolingFanValues}

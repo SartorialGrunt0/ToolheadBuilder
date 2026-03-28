@@ -528,6 +528,15 @@
       "category": "Legacy Extruders",
       "filament_sensor": "unknown",
       "top_pick": false
+    },
+    {
+      "name": "Integrated",
+      "mounting_pattern": "Integrated",
+      "gear_type": "Integrated",
+      "url": "",
+      "description": "Integrated extruder built into the toolhead.",
+      "filament_sensor": "unknown",
+      "top_pick": false
     }
   ]
 }
