@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import toolheadsData from '../data/toolheads.json';
 import hotendsData from '../data/hotends.json';
 import extrudersData from '../data/extruders.json';
@@ -70,7 +70,6 @@ function getExpandedHotends(hotendNames) {
   const expanded = [];
   const seen = new Set([...officialLower]);
 
-  // Only expand Bambu-mount hotends when Bambu X1/P1 is explicitly listed.
   const hasBambuX1P1 = officialLower.has('bambu x1/p1');
 
   if (hasBambuX1P1) {
@@ -152,21 +151,6 @@ function getExpandedProbes(probeNames) {
   return expanded;
 }
 
-function buildNameSet(toolheads, fieldGetter) {
-  const set = new Set();
-  for (const th of toolheads) {
-    const val = fieldGetter(th);
-    const list = Array.isArray(val) ? val : val ? [val] : [];
-    for (const name of list) {
-      if (typeof name === 'string' && name.toLowerCase() !== 'unknown' && name.toLowerCase() !== 'na') {
-        set.add(name.toLowerCase());
-      }
-    }
-  }
-  return set;
-}
-
-// Build extended name sets: include both direct + extended list items
 function buildExtendedNameSet(toolheads, fieldGetter, getExpandedFn) {
   const set = new Set();
   for (const th of toolheads) {
@@ -177,7 +161,6 @@ function buildExtendedNameSet(toolheads, fieldGetter, getExpandedFn) {
         set.add(name.toLowerCase());
       }
     }
-    // Also add extended items
     const expanded = getExpandedFn(list);
     for (const name of expanded) {
       set.add(name.toLowerCase());
@@ -190,13 +173,13 @@ const extruderNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.
 const hotendNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.hotend, getExpandedHotends);
 const probeNamesInToolheads = buildExtendedNameSet(activeToolheads, (t) => t.probe, getExpandedProbes);
 
-const availableExtruders = extrudersData.extruders.filter((e) =>
+const allAvailableExtruders = extrudersData.extruders.filter((e) =>
   extruderNamesInToolheads.has(e.name.toLowerCase())
 );
-const availableHotends = hotendsData.hotends.filter((h) =>
+const allAvailableHotends = hotendsData.hotends.filter((h) =>
   hotendNamesInToolheads.has(h.name.toLowerCase())
 );
-const availableProbes = probesData.probes.filter((p) =>
+const allAvailableProbes = probesData.probes.filter((p) =>
   probeNamesInToolheads.has(p.name.toLowerCase())
 );
 
@@ -210,6 +193,326 @@ function matchesComponentExtended(list, name, getExpandedFn) {
   if (matchesComponent(list, name)) return true;
   const expanded = getExpandedFn(list);
   return expanded.some((item) => item.toLowerCase() === name.toLowerCase());
+}
+
+function matchesFan(fanField, fanValue) {
+  if (!fanField || fanField === 'unknown') return false;
+  const vals = Array.isArray(fanField) ? fanField : [fanField];
+  return vals.includes(fanValue);
+}
+
+/* ------- Cross-filtering: compute viable items per column ------- */
+function getViableToolheads(selections) {
+  return activeToolheads.filter((th) => {
+    if (selections.extruder && !matchesComponentExtended(th.extruders, selections.extruder, getExpandedExtruders)) return false;
+    if (selections.hotend && !matchesComponentExtended(th.hotend, selections.hotend, getExpandedHotends)) return false;
+    if (selections.probe && !matchesComponentExtended(th.probe, selections.probe, getExpandedProbes)) return false;
+    if (selections.hotendFan && !matchesFan(th.hotend_fan, selections.hotendFan)) return false;
+    if (selections.partCoolingFan && !matchesFan(th.part_cooling_fan, selections.partCoolingFan)) return false;
+    return true;
+  });
+}
+
+function getViableNames(toolheads, fieldGetter, getExpandedFn) {
+  const set = new Set();
+  for (const th of toolheads) {
+    const val = fieldGetter(th);
+    const list = Array.isArray(val) ? val : val ? [val] : [];
+    for (const name of list) {
+      if (typeof name === 'string' && name.toLowerCase() !== 'unknown' && name.toLowerCase() !== 'na') {
+        set.add(name.toLowerCase());
+      }
+    }
+    if (getExpandedFn) {
+      const expanded = getExpandedFn(list);
+      for (const name of expanded) {
+        set.add(name.toLowerCase());
+      }
+    }
+  }
+  return set;
+}
+
+function getViableFanValues(toolheads, fanField) {
+  const set = new Set();
+  for (const th of toolheads) {
+    const val = th[fanField];
+    if (!val || val === 'unknown') continue;
+    const vals = Array.isArray(val) ? val : [val];
+    for (const v of vals) set.add(v);
+  }
+  return set;
+}
+
+/* ------- UI Sub-components ------- */
+
+const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010'];
+const PART_COOLING_FAN_OPTIONS = ['3010', '3515', '3628', '4010', '4020', '5015', '5020', 'CPAP'];
+
+function CompactTile({ name, isSelected, isViable, onClick, accentColor }) {
+  const colors = {
+    blue: { border: '#3b82f6', bg: '#eff6ff', text: '#2563eb' },
+    green: { border: '#22c55e', bg: '#f0fdf4', text: '#16a34a' },
+    purple: { border: '#a855f7', bg: '#faf5ff', text: '#9333ea' },
+    orange: { border: '#f97316', bg: '#fff7ed', text: '#ea580c' },
+    teal: { border: '#14b8a6', bg: '#f0fdfa', text: '#0d9488' },
+  };
+  const c = colors[accentColor] || colors.blue;
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={!isViable}
+      style={{
+        padding: '3px 8px',
+        borderRadius: '5px',
+        border: isSelected ? `2px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
+        backgroundColor: isSelected ? c.bg : 'var(--sl-color-bg-nav)',
+        color: isSelected ? c.text : isViable ? 'var(--sl-color-white)' : 'var(--sl-color-gray-5)',
+        fontSize: '0.75rem',
+        fontWeight: isSelected ? 700 : 500,
+        cursor: isViable ? 'pointer' : 'default',
+        transition: 'all 0.15s ease',
+        opacity: isViable ? 1 : 0.4,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        lineHeight: '1.3',
+        margin: 0,
+        textAlign: 'left',
+      }}
+    >
+      {name}
+    </button>
+  );
+}
+
+function DetailCard({ item, accentColor, type }) {
+  const colors = {
+    blue: { border: '#3b82f6', bg: 'rgba(59,130,246,0.08)', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
+    green: { border: '#22c55e', bg: 'rgba(34,197,94,0.08)', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.13)' },
+    purple: { border: '#a855f7', bg: 'rgba(168,85,247,0.08)', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.13)' },
+  };
+  const c = colors[accentColor] || colors.blue;
+
+  if (!item) return null;
+
+  const badge = item.gear_type || item.hotend_type || item.type || null;
+  const isTopPick = item?.top_pick === true;
+
+  const specs = [];
+  if (type === 'extruder') {
+    if (item.mounting_pattern) specs.push({ label: 'Mount', value: item.mounting_pattern });
+    if (item.gear_type) specs.push({ label: 'Gear', value: item.gear_type });
+    if (item.filament_sensor && item.filament_sensor !== 'unknown') specs.push({ label: 'Sensor', value: item.filament_sensor });
+  } else if (type === 'hotend') {
+    if (item.hotend_type) specs.push({ label: 'Type', value: item.hotend_type });
+    if (item.flow_rate) specs.push({ label: 'Flow', value: item.flow_rate });
+    if (item.length) specs.push({ label: 'Length', value: item.length });
+    if (item.nozzle_compatibility) specs.push({ label: 'Nozzles', value: Array.isArray(item.nozzle_compatibility) ? item.nozzle_compatibility.join(', ') : item.nozzle_compatibility });
+  } else if (type === 'probe') {
+    if (item.type) specs.push({ label: 'Type', value: item.type });
+  }
+
+  return (
+    <div
+      style={{
+        marginTop: '8px',
+        padding: '10px 12px',
+        borderRadius: '8px',
+        border: `1px solid ${c.border}`,
+        backgroundColor: c.bg,
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px', flexWrap: 'wrap' }}>
+        <strong style={{ fontSize: '0.9rem', color: c.label }}>{item.name}</strong>
+        {isTopPick && (
+          <span style={{ fontSize: '0.6rem', padding: '1px 5px', borderRadius: '4px', backgroundColor: '#fffbeb', color: '#b45309', fontWeight: 700 }}>
+            ⭐ Top Pick
+          </span>
+        )}
+        {badge && (
+          <span style={{ fontSize: '0.65rem', padding: '1px 5px', borderRadius: '4px', backgroundColor: c.bgAlpha, color: c.label, fontWeight: 600 }}>
+            {badge}
+          </span>
+        )}
+      </div>
+      {item.description && (
+        <p style={{ margin: '0 0 6px 0', fontSize: '0.75rem', color: 'var(--sl-color-gray-3)', lineHeight: 1.4 }}>
+          {item.description}
+        </p>
+      )}
+      {specs.length > 0 && (
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+          {specs.map((s) => (
+            <span key={s.label} style={{ fontSize: '0.68rem', color: 'var(--sl-color-gray-3)' }}>
+              <strong style={{ color: 'var(--sl-color-gray-2)' }}>{s.label}:</strong> {s.value}
+            </span>
+          ))}
+        </div>
+      )}
+      {item.url && (
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: c.label, fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none' }}
+        >
+          {isGitHubUrl(item.url) ? 'View on GitHub →' : 'View Webpage →'}
+        </a>
+      )}
+    </div>
+  );
+}
+
+function ComponentColumn({ title, items, viableNames, selected, onSelect, accentColor, type, detailCatalog }) {
+  const colors = {
+    blue: { border: '#3b82f6' },
+    green: { border: '#22c55e' },
+    purple: { border: '#a855f7' },
+    orange: { border: '#f97316' },
+    teal: { border: '#14b8a6' },
+  };
+  const c = colors[accentColor] || colors.blue;
+
+  const selectedDetail = selected ? findDetail(selected, detailCatalog) : null;
+
+  return (
+    <div style={{ minWidth: 0 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '8px',
+          borderBottom: `2px solid ${c.border}`,
+          paddingBottom: '4px',
+        }}
+      >
+        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+          {title}
+        </h3>
+        {selected && (
+          <button
+            onClick={() => onSelect(null)}
+            style={{
+              fontSize: '0.65rem',
+              padding: '1px 6px',
+              borderRadius: '10px',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: 'transparent',
+              color: 'var(--sl-color-gray-3)',
+              cursor: 'pointer',
+              fontWeight: 600,
+              margin: 0,
+            }}
+          >
+            ✕
+          </button>
+        )}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', maxHeight: '320px', overflowY: 'auto' }}>
+        {items.map((item) => {
+          const isViable = viableNames.has(item.name.toLowerCase());
+          const isSel = selected === item.name;
+          return (
+            <CompactTile
+              key={item.name}
+              name={item.name}
+              isSelected={isSel}
+              isViable={isViable || isSel}
+              onClick={() => {
+                if (isSel) onSelect(null);
+                else if (isViable) onSelect(item.name);
+              }}
+              accentColor={accentColor}
+            />
+          );
+        })}
+      </div>
+      {selectedDetail && (
+        <DetailCard item={selectedDetail} accentColor={accentColor} type={type} />
+      )}
+    </div>
+  );
+}
+
+function FanColumn({ title, options, viableValues, selected, onSelect, accentColor }) {
+  const colors = {
+    orange: { border: '#f97316', active: '#f97316', activeBg: 'rgba(249,115,22,0.13)', activeText: '#ea580c' },
+    teal: { border: '#14b8a6', active: '#14b8a6', activeBg: 'rgba(20,184,166,0.13)', activeText: '#0d9488' },
+  };
+  const c = colors[accentColor] || colors.orange;
+
+  return (
+    <div style={{ minWidth: 0 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '8px',
+          borderBottom: `2px solid ${c.border}`,
+          paddingBottom: '4px',
+        }}
+      >
+        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+          {title}
+        </h3>
+        {selected && (
+          <button
+            onClick={() => onSelect(null)}
+            style={{
+              fontSize: '0.65rem',
+              padding: '1px 6px',
+              borderRadius: '10px',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: 'transparent',
+              color: 'var(--sl-color-gray-3)',
+              cursor: 'pointer',
+              fontWeight: 600,
+              margin: 0,
+            }}
+          >
+            ✕
+          </button>
+        )}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        {options.map((opt) => {
+          const isActive = selected === opt;
+          const isViable = viableValues.has(opt);
+          return (
+            <button
+              key={opt}
+              onClick={() => {
+                if (isActive) onSelect(null);
+                else if (isViable) onSelect(opt);
+              }}
+              disabled={!isViable && !isActive}
+              style={{
+                padding: '3px 8px',
+                borderRadius: '5px',
+                border: isActive ? `2px solid ${c.active}` : '1px solid var(--sl-color-gray-5)',
+                backgroundColor: isActive ? c.activeBg : 'var(--sl-color-bg-nav)',
+                color: isActive ? c.activeText : isViable ? 'var(--sl-color-gray-3)' : 'var(--sl-color-gray-5)',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                cursor: isViable || isActive ? 'pointer' : 'default',
+                transition: 'all 0.15s ease',
+                opacity: isViable || isActive ? 1 : 0.4,
+                lineHeight: '1.3',
+                margin: 0,
+                textAlign: 'left',
+              }}
+            >
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function CarouselArrow({ direction, onClick, disabled }) {
@@ -285,7 +588,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
         zIndex,
         transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
         cursor: 'pointer',
-        pointerEvents: isCenter ? 'auto' : 'auto',
+        pointerEvents: 'auto',
       }}
     >
       <div
@@ -441,235 +744,7 @@ function NoCompatibleCard() {
   );
 }
 
-function ComponentOption({ item, isSelected, onClick, accentColor }) {
-  const isTopPick = item?.top_pick === true;
-  const colors = {
-    blue: { border: '#3b82f6', bg: '#eff6ff', dot: '#3b82f6', label: '#2563eb', bgAlpha: 'rgba(59,130,246,0.13)' },
-    green: { border: '#22c55e', bg: '#f0fdf4', dot: '#22c55e', label: '#16a34a', bgAlpha: 'rgba(34,197,94,0.13)' },
-    purple: { border: '#a855f7', bg: '#faf5ff', dot: '#a855f7', label: '#9333ea', bgAlpha: 'rgba(168,85,247,0.13)' },
-  };
-  const c = colors[accentColor] || colors.blue;
-
-  const badge = item.gear_type || item.hotend_type || item.type || null;
-
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        border: isSelected ? `2px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
-        borderRadius: '8px',
-        padding: '10px 14px',
-        marginBottom: '8px',
-        backgroundColor: isSelected ? c.bg : 'var(--sl-color-bg-nav)',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <span
-          style={{
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            backgroundColor: isSelected ? c.dot : 'var(--sl-color-gray-5)',
-            flexShrink: 0,
-            transition: 'background-color 0.2s ease',
-          }}
-        />
-        <strong
-          style={{
-            fontSize: '0.95rem',
-            color: isSelected ? c.label : 'var(--sl-color-white)',
-          }}
-        >
-          {item.name}
-        </strong>
-        {isTopPick && (
-          <span
-            style={{
-              fontSize: '0.65rem',
-              padding: '2px 6px',
-              borderRadius: '4px',
-              backgroundColor: '#fffbeb',
-              color: '#b45309',
-              fontWeight: 700,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            ⭐ Top Pick
-          </span>
-        )}
-        {badge && (
-          <span
-            style={{
-              fontSize: '0.7rem',
-              padding: '2px 6px',
-              borderRadius: '4px',
-              backgroundColor: isSelected ? c.bgAlpha : 'var(--sl-color-gray-6)',
-              color: isSelected ? c.label : 'var(--sl-color-gray-3)',
-              fontWeight: 600,
-              marginLeft: 'auto',
-            }}
-          >
-            {badge}
-          </span>
-        )}
-      </div>
-      {item.description && (
-        <p
-          style={{
-            margin: '4px 0 0 0',
-            fontSize: '0.78rem',
-            color: 'var(--sl-color-gray-3)',
-            lineHeight: 1.4,
-            paddingLeft: '16px',
-          }}
-        >
-          {item.description}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function ComponentSelector({ title, options, selected, onSelect, accentColor }) {
-  const colors = {
-    blue: { border: '#3b82f6' },
-    green: { border: '#22c55e' },
-    purple: { border: '#a855f7' },
-  };
-  const c = colors[accentColor] || colors.blue;
-
-  const visibleOptions = selected
-    ? options.filter((o) => o.name === selected)
-    : options;
-
-  return (
-    <div style={{ flex: '1', minWidth: '280px' }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '12px',
-          borderBottom: `2px solid ${c.border}`,
-          paddingBottom: '6px',
-        }}
-      >
-        <h3
-          style={{
-            fontSize: '1.1rem',
-            fontWeight: 700,
-            color: 'var(--sl-color-white)',
-            margin: 0,
-          }}
-        >
-          {title}
-        </h3>
-        {selected && (
-          <button
-            onClick={() => onSelect(null)}
-            style={{
-              fontSize: '0.75rem',
-              padding: '2px 8px',
-              borderRadius: '12px',
-              border: `1px solid var(--sl-color-gray-5)`,
-              backgroundColor: 'transparent',
-              color: 'var(--sl-color-gray-3)',
-              cursor: 'pointer',
-              fontWeight: 600,
-            }}
-          >
-            ✕ Clear
-          </button>
-        )}
-      </div>
-      {visibleOptions.map((item) => (
-        <ComponentOption
-          key={item.name}
-          item={item}
-          isSelected={selected === item.name}
-          onClick={() => onSelect(selected === item.name ? null : item.name)}
-          accentColor={accentColor}
-        />
-      ))}
-    </div>
-  );
-}
-
-const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010'];
-const PART_COOLING_FAN_OPTIONS = ['3010', '3515', '3628', '4010', '4020', '5015', '5020', 'CPAP'];
-
-function FanFilter({ title, options, selected, onSelect, accentColor }) {
-  const colors = {
-    orange: { border: '#f97316', active: '#f97316', activeBg: 'rgba(249,115,22,0.13)', activeText: '#ea580c' },
-    teal: { border: '#14b8a6', active: '#14b8a6', activeBg: 'rgba(20,184,166,0.13)', activeText: '#0d9488' },
-  };
-  const c = colors[accentColor] || colors.orange;
-
-  return (
-    <div style={{ flex: '1', minWidth: '220px' }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '12px',
-          borderBottom: `2px solid ${c.border}`,
-          paddingBottom: '6px',
-        }}
-      >
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
-          {title}
-        </h3>
-        {selected && (
-          <button
-            onClick={() => onSelect(null)}
-            style={{
-              fontSize: '0.75rem',
-              padding: '2px 8px',
-              borderRadius: '12px',
-              border: '1px solid var(--sl-color-gray-5)',
-              backgroundColor: 'transparent',
-              color: 'var(--sl-color-gray-3)',
-              cursor: 'pointer',
-              fontWeight: 600,
-            }}
-          >
-            ✕ Clear
-          </button>
-        )}
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-        {options.map((opt) => {
-          const isActive = selected === opt;
-          return (
-            <button
-              key={opt}
-              onClick={() => onSelect(isActive ? null : opt)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: '20px',
-                border: isActive ? `2px solid ${c.active}` : '2px solid var(--sl-color-gray-5)',
-                backgroundColor: isActive ? c.activeBg : 'var(--sl-color-bg-nav)',
-                color: isActive ? c.activeText : 'var(--sl-color-gray-3)',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease',
-                boxSizing: 'border-box',
-                lineHeight: '1.4',
-                margin: 0,
-              }}
-            >
-              {opt}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+/* ------- Main component ------- */
 
 export default function ToolheadRebuilder() {
   const [selectedExtruder, setSelectedExtruder] = useState(null);
@@ -680,24 +755,45 @@ export default function ToolheadRebuilder() {
   const [selectedToolheadName, setSelectedToolheadName] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const filteredToolheads = activeToolheads.filter((th) => {
-    if (selectedExtruder && !matchesComponentExtended(th.extruders, selectedExtruder, getExpandedExtruders)) return false;
-    if (selectedHotend && !matchesComponentExtended(th.hotend, selectedHotend, getExpandedHotends)) return false;
-    if (selectedProbe && !matchesComponentExtended(th.probe, selectedProbe, getExpandedProbes)) return false;
-    if (selectedHotendFan) {
-      const hf = th.hotend_fan;
-      if (!hf || hf === 'unknown') return false;
-      const vals = Array.isArray(hf) ? hf : [hf];
-      if (!vals.includes(selectedHotendFan)) return false;
-    }
-    if (selectedPartCoolingFan) {
-      const pcf = th.part_cooling_fan;
-      if (!pcf || pcf === 'unknown') return false;
-      const vals = Array.isArray(pcf) ? pcf : [pcf];
-      if (!vals.includes(selectedPartCoolingFan)) return false;
-    }
-    return true;
-  });
+  const allSelections = {
+    extruder: selectedExtruder,
+    hotend: selectedHotend,
+    probe: selectedProbe,
+    hotendFan: selectedHotendFan,
+    partCoolingFan: selectedPartCoolingFan,
+  };
+
+  const filteredToolheads = useMemo(() => getViableToolheads(allSelections), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+
+  const viableExtruderNames = useMemo(() => {
+    const selectionsWithout = { ...allSelections, extruder: null };
+    const ths = getViableToolheads(selectionsWithout);
+    return getViableNames(ths, (t) => t.extruders, getExpandedExtruders);
+  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+
+  const viableHotendNames = useMemo(() => {
+    const selectionsWithout = { ...allSelections, hotend: null };
+    const ths = getViableToolheads(selectionsWithout);
+    return getViableNames(ths, (t) => t.hotend, getExpandedHotends);
+  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+
+  const viableProbeNames = useMemo(() => {
+    const selectionsWithout = { ...allSelections, probe: null };
+    const ths = getViableToolheads(selectionsWithout);
+    return getViableNames(ths, (t) => t.probe, getExpandedProbes);
+  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan]);
+
+  const viableHotendFanValues = useMemo(() => {
+    const selectionsWithout = { ...allSelections, hotendFan: null };
+    const ths = getViableToolheads(selectionsWithout);
+    return getViableFanValues(ths, 'hotend_fan');
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan]);
+
+  const viablePartCoolingFanValues = useMemo(() => {
+    const selectionsWithout = { ...allSelections, partCoolingFan: null };
+    const ths = getViableToolheads(selectionsWithout);
+    return getViableFanValues(ths, 'part_cooling_fan');
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan]);
 
   const total = filteredToolheads.length;
 
@@ -795,60 +891,69 @@ export default function ToolheadRebuilder() {
 
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-      {/* Component selectors */}
+      {/* Component columns */}
       <div
         style={{
-          padding: '24px',
+          padding: '16px',
           borderRadius: '12px',
           border: '1px solid var(--sl-color-gray-5)',
           backgroundColor: 'var(--sl-color-bg-sidebar)',
-          marginBottom: '32px',
+          marginBottom: '24px',
         }}
       >
         <h2
           style={{
-            fontSize: '1.4rem',
+            fontSize: '1.2rem',
             fontWeight: 700,
-            marginBottom: '24px',
+            marginBottom: '16px',
             color: 'var(--sl-color-white)',
           }}
         >
           Select Your Components
         </h2>
-        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-          <ComponentSelector
+        <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr 2fr 1fr 1fr', gap: '12px', alignItems: 'start' }}>
+          <ComponentColumn
             title="Extruder"
-            options={availableExtruders}
+            items={allAvailableExtruders}
+            viableNames={viableExtruderNames}
             selected={selectedExtruder}
             onSelect={setSelectedExtruder}
             accentColor="blue"
+            type="extruder"
+            detailCatalog={extrudersData.extruders}
           />
-          <ComponentSelector
+          <ComponentColumn
             title="Hotend"
-            options={availableHotends}
+            items={allAvailableHotends}
+            viableNames={viableHotendNames}
             selected={selectedHotend}
             onSelect={setSelectedHotend}
             accentColor="green"
+            type="hotend"
+            detailCatalog={hotendsData.hotends}
           />
-          <ComponentSelector
+          <ComponentColumn
             title="Probe"
-            options={availableProbes}
+            items={allAvailableProbes}
+            viableNames={viableProbeNames}
             selected={selectedProbe}
             onSelect={setSelectedProbe}
             accentColor="purple"
+            type="probe"
+            detailCatalog={probesData.probes}
           />
-        </div>
-        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--sl-color-gray-5)' }}>
-          <FanFilter
+          <FanColumn
             title="Hotend Fan"
             options={HOTEND_FAN_OPTIONS}
+            viableValues={viableHotendFanValues}
             selected={selectedHotendFan}
             onSelect={setSelectedHotendFan}
             accentColor="orange"
           />
-          <FanFilter
-            title="Part Cooling Fan"
+          <FanColumn
+            title="Part Cooling"
             options={PART_COOLING_FAN_OPTIONS}
+            viableValues={viablePartCoolingFanValues}
             selected={selectedPartCoolingFan}
             onSelect={setSelectedPartCoolingFan}
             accentColor="teal"
@@ -859,9 +964,9 @@ export default function ToolheadRebuilder() {
       {/* Compatible toolheads label */}
       <h2
         style={{
-          fontSize: '1.4rem',
+          fontSize: '1.2rem',
           fontWeight: 700,
-          marginBottom: '16px',
+          marginBottom: '12px',
           color: 'var(--sl-color-white)',
         }}
       >
