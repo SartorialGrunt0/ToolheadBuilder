@@ -62,7 +62,7 @@ export function useDragCarousel(total, activeIndex, setActiveIndex, itemWidth = 
         setActiveIndex((prev) => (prev + itemsToSkip) % total);
       } else {
         // Dragged right → go left (prev)
-        setActiveIndex((prev) => (prev - itemsToSkip + total) % total);
+        setActiveIndex((prev) => ((prev - itemsToSkip) % total + total) % total);
       }
     }
 
