@@ -283,6 +283,7 @@ function getViableFanValues(toolheads, fanField) {
 
 const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010'];
 const PART_COOLING_FAN_OPTIONS = ['3010', '3515', '3628', '4010', '4020', '5015', '5020', 'CPAP'];
+const CAROUSEL_ITEM_WIDTH = 460;
 
 function CompactTile({ name, isSelected, onClick, accentColor }) {
   const colors = {
@@ -494,7 +495,7 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
             {title}
           </h3>
@@ -711,7 +712,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
   const zIndex = isCenter ? 5 : 2;
 
   // Convert dragOffset pixels to percentage of container
-  const dragPercent = (dragOffset / 460) * 60;
+  const dragPercent = (dragOffset / CAROUSEL_ITEM_WIDTH) * 60;
 
   return (
     <div
@@ -1061,7 +1062,7 @@ export default function ToolheadRebuilder() {
   const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
   const goRight = () => setActiveIndex((prev) => (prev + 1) % total);
 
-  const { dragOffset, isDragging, handlers: dragHandlers } = useDragCarousel(total, safeIndex, setActiveIndex);
+  const { dragOffset, isDragging, handlers: dragHandlers } = useDragCarousel(total, safeIndex, setActiveIndex, CAROUSEL_ITEM_WIDTH);
 
   const leftIndex = total > 1 ? (safeIndex - 1 + total) % total : null;
   const rightIndex = total > 1 ? (safeIndex + 1) % total : null;
@@ -1259,7 +1260,7 @@ export default function ToolheadRebuilder() {
 
       {/* Compatible toolheads header with filter + view toggle */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', position: 'relative' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
             Compatible Toolheads
             {total > 0 && (

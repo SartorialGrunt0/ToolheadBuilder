@@ -6,6 +6,7 @@ import probesData from '../data/probes.json';
 import { useDragCarousel } from './useDragCarousel';
 
 const communityPicks = toolheadsData.toolheads.filter((t) => t.configurator);
+const CAROUSEL_ITEM_WIDTH = 460;
 
 function findDetail(name, catalog, nameKey = 'name') {
   const lower = name.toLowerCase();
@@ -631,7 +632,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
   const opacity = isCenter ? 1 : 0.4;
   const zIndex = isCenter ? 5 : 2;
 
-  const dragPercent = (dragOffset / 460) * 60;
+  const dragPercent = (dragOffset / CAROUSEL_ITEM_WIDTH) * 60;
 
   return (
     <div
@@ -785,7 +786,7 @@ export default function ToolheadBuilder() {
   const { dragOffset, isDragging, handlers: dragHandlers } = useDragCarousel(total, activeIndex, (fnOrVal) => {
     setActiveIndex(fnOrVal);
     clearComponentSelections();
-  });
+  }, CAROUSEL_ITEM_WIDTH);
 
   const leftIndex = (activeIndex - 1 + total) % total;
   const rightIndex = (activeIndex + 1) % total;
