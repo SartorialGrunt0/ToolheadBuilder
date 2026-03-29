@@ -235,6 +235,23 @@ function matchesFan(fanField, fanValue) {
   return vals.includes(fanValue);
 }
 
+/* Normalize a field to an array */
+function toArray(val) {
+  return Array.isArray(val) ? val : val ? [val] : [];
+}
+
+/* Check if a toolhead has at least one component (from a given field) that passes filter groups.
+   expandFn expands the component list, catalog is the data catalog to look up details. */
+function toolheadHasFilteredComponent(thField, expandFn, catalog, filterGroups) {
+  const raw = toArray(thField);
+  const expanded = expandFn(raw);
+  const allNames = [...new Set([...raw, ...expanded])];
+  return allNames.some((name) => {
+    const detail = catalog.find((item) => item.name.toLowerCase() === name.toLowerCase());
+    return detail && itemPassesFilterGroups(detail, filterGroups, -1);
+  });
+}
+
 /* ------- Cross-filtering: compute viable items per column ------- */
 function getViableToolheads(selections) {
   return activeToolheads.filter((th) => {
@@ -1137,36 +1154,9 @@ export default function ToolheadRebuilder() {
     if (!hasExtruderFilter && !hasHotendFilter && !hasProbeFilter) return componentFilteredToolheads;
 
     return componentFilteredToolheads.filter((th) => {
-      // Check if toolhead has at least one compatible extruder that passes extruder filters
-      if (hasExtruderFilter) {
-        const expandedExtNames = getExpandedExtruders(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []);
-        const allExtNames = [...new Set([...(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []), ...expandedExtNames])];
-        const hasMatch = allExtNames.some((name) => {
-          const ext = extrudersData.extruders.find((e) => e.name.toLowerCase() === name.toLowerCase());
-          return ext && itemPassesFilterGroups(ext, extruderFilterGroups, -1);
-        });
-        if (!hasMatch) return false;
-      }
-      // Check if toolhead has at least one compatible hotend that passes hotend filters
-      if (hasHotendFilter) {
-        const expandedHotNames = getExpandedHotends(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []);
-        const allHotNames = [...new Set([...(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []), ...expandedHotNames])];
-        const hasMatch = allHotNames.some((name) => {
-          const hot = hotendsData.hotends.find((h) => h.name.toLowerCase() === name.toLowerCase());
-          return hot && itemPassesFilterGroups(hot, hotendFilterGroups, -1);
-        });
-        if (!hasMatch) return false;
-      }
-      // Check if toolhead has at least one compatible probe that passes probe filters
-      if (hasProbeFilter) {
-        const expandedProbeNames = getExpandedProbes(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []);
-        const allProbeNames = [...new Set([...(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []), ...expandedProbeNames])];
-        const hasMatch = allProbeNames.some((name) => {
-          const prb = probesData.probes.find((p) => p.name.toLowerCase() === name.toLowerCase());
-          return prb && itemPassesFilterGroups(prb, probeFilterGroups, -1);
-        });
-        if (!hasMatch) return false;
-      }
+      if (hasExtruderFilter && !toolheadHasFilteredComponent(th.extruders, getExpandedExtruders, extrudersData.extruders, extruderFilterGroups)) return false;
+      if (hasHotendFilter && !toolheadHasFilteredComponent(th.hotend, getExpandedHotends, hotendsData.hotends, hotendFilterGroups)) return false;
+      if (hasProbeFilter && !toolheadHasFilteredComponent(th.probe, getExpandedProbes, probesData.probes, probeFilterGroups)) return false;
       return true;
     });
   }, [componentFilteredToolheads, extruderFilterGroups, hotendFilterGroups, probeFilterGroups]);
@@ -1178,21 +1168,9 @@ export default function ToolheadRebuilder() {
     const hasProFilter = skipCategory !== 'probe' && probeFilterGroups.some((g) => g.activeFilters.size > 0);
     if (!hasExtFilter && !hasHotFilter && !hasProFilter) return ths;
     return ths.filter((th) => {
-      if (hasExtFilter) {
-        const names = getExpandedExtruders(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []);
-        const allNames = [...new Set([...(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []), ...names])];
-        if (!allNames.some((n) => { const e = extrudersData.extruders.find((x) => x.name.toLowerCase() === n.toLowerCase()); return e && itemPassesFilterGroups(e, extruderFilterGroups, -1); })) return false;
-      }
-      if (hasHotFilter) {
-        const names = getExpandedHotends(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []);
-        const allNames = [...new Set([...(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []), ...names])];
-        if (!allNames.some((n) => { const h = hotendsData.hotends.find((x) => x.name.toLowerCase() === n.toLowerCase()); return h && itemPassesFilterGroups(h, hotendFilterGroups, -1); })) return false;
-      }
-      if (hasProFilter) {
-        const names = getExpandedProbes(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []);
-        const allNames = [...new Set([...(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []), ...names])];
-        if (!allNames.some((n) => { const p = probesData.probes.find((x) => x.name.toLowerCase() === n.toLowerCase()); return p && itemPassesFilterGroups(p, probeFilterGroups, -1); })) return false;
-      }
+      if (hasExtFilter && !toolheadHasFilteredComponent(th.extruders, getExpandedExtruders, extrudersData.extruders, extruderFilterGroups)) return false;
+      if (hasHotFilter && !toolheadHasFilteredComponent(th.hotend, getExpandedHotends, hotendsData.hotends, hotendFilterGroups)) return false;
+      if (hasProFilter && !toolheadHasFilteredComponent(th.probe, getExpandedProbes, probesData.probes, probeFilterGroups)) return false;
       return true;
     });
   }, [extruderFilterGroups, hotendFilterGroups, probeFilterGroups]);
