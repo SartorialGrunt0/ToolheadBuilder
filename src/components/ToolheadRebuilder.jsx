@@ -788,38 +788,15 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
             fontWeight: 700,
             marginBottom: '8px',
             color: 'var(--sl-color-white)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
           }}
         >
           {toolhead.title || toolhead.name}
-          {toolhead.top_pick && (
-            <span
-              style={{
-                fontSize: '0.65rem',
-                padding: '2px 8px',
-                borderRadius: '4px',
-                backgroundColor: '#fffbeb',
-                color: '#b45309',
-                fontWeight: 700,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              ⭐ Top Pick
-            </span>
-          )}
         </h3>
-        <p
-          style={{
-            fontSize: '0.9rem',
-            color: 'var(--sl-color-gray-3)',
-            marginBottom: '8px',
-            lineHeight: 1.5,
-          }}
-        >
-          {toolhead.description}
-        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '0.75rem', color: 'var(--sl-color-gray-3)', marginBottom: '8px' }}>
+          {toolhead.category && <span><strong>Category:</strong> {toolhead.category}</span>}
+          {toolhead.filament_cutter && <span><strong>Cutter:</strong> {toolhead.filament_cutter}</span>}
+          {toolhead.top_pick && <span style={{ color: '#b45309', fontWeight: 700 }}>⭐ Top Pick</span>}
+        </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <a
             href={toolhead.url}
@@ -945,7 +922,6 @@ function ToolheadGridTile({ toolhead, isSelected, onClick }) {
         gap: '3px',
       }}>
         {toolhead.title || toolhead.name}
-        {toolhead.top_pick && <span style={{ fontSize: '0.55rem' }}>⭐</span>}
       </div>
     </button>
   );
@@ -986,7 +962,7 @@ function CarouselIcon() {
   );
 }
 
-function ToolheadCompactTile({ name, isSelected, onClick, topPick }) {
+function ToolheadCompactTile({ name, isSelected, onClick }) {
   return (
     <button
       onClick={onClick}
@@ -1004,13 +980,9 @@ function ToolheadCompactTile({ name, isSelected, onClick, topPick }) {
         margin: 0,
         textAlign: 'left',
         wordBreak: 'break-word',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '3px',
       }}
     >
       {name}
-      {topPick && <span style={{ fontSize: '0.55rem' }}>⭐</span>}
     </button>
   );
 }
@@ -1316,18 +1288,37 @@ export default function ToolheadRebuilder() {
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
 
       {/* ===== Toolheads section (moved to top) ===== */}
-
-      {/* Compatible toolheads header with filter + view toggle */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', position: 'relative' }}>
+      <div
+        style={{
+          padding: '16px',
+          borderRadius: '12px',
+          border: '1px solid var(--sl-color-gray-5)',
+          backgroundColor: 'var(--sl-color-bg-sidebar)',
+          marginBottom: '24px',
+          overflowX: 'auto',
+        }}
+      >
+      {/* Toolheads header: label + filter + view toggle with colored line */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '6px',
+          borderBottom: '2px solid #2E8B57',
+          paddingBottom: '4px',
+          position: 'relative',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+          <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
             Toolheads
             {total > 0 && (
-              <span style={{ marginLeft: '8px', fontSize: '1rem', fontWeight: 400, color: 'var(--sl-color-gray-3)' }}>
-                ({total} found)
+              <span style={{ marginLeft: '6px', fontSize: '0.75rem', fontWeight: 400, color: 'var(--sl-color-gray-3)' }}>
+                ({total})
               </span>
             )}
-          </h2>
+          </h3>
           {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0) && (
             <div ref={toolheadFilterRef} style={{ position: 'relative' }}>
               <button
@@ -1493,14 +1484,6 @@ export default function ToolheadRebuilder() {
         <NoCompatibleCard />
       ) : (
         <>
-          <p style={{ color: 'var(--sl-color-gray-3)', marginTop: '-4px', marginBottom: '14px', fontSize: '0.9rem' }}>
-            {toolheadView === 'compact'
-              ? 'Click a toolhead to select it. Selected toolheads filter the components below.'
-              : toolheadView === 'grid'
-                ? 'Click a toolhead tile to select it and filter compatible components below.'
-                : 'Select a toolhead from the carousel to filter compatible components below.'}
-          </p>
-
           {toolheadView === 'carousel' ? (
             <>
               {/* Toolhead carousel */}
@@ -1566,20 +1549,24 @@ export default function ToolheadRebuilder() {
             </>
           ) : toolheadView === 'grid' ? (
             /* Grid view with images */
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-              gap: '6px',
-              marginBottom: '32px',
-            }}>
-              {filteredToolheads.map((toolhead) => (
-                <ToolheadGridTile
-                  key={toolhead.name}
-                  toolhead={toolhead}
-                  isSelected={selectedToolheadName === toolhead.name}
-                  onClick={() => handleToolheadSelect(toolhead.name)}
-                />
-              ))}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+                gap: '6px',
+              }}>
+                {filteredToolheads.map((toolhead) => (
+                  <ToolheadGridTile
+                    key={toolhead.name}
+                    toolhead={toolhead}
+                    isSelected={selectedToolheadName === toolhead.name}
+                    onClick={() => handleToolheadSelect(toolhead.name)}
+                  />
+                ))}
+              </div>
+              {selectedToolheadEntry && (
+                <ToolheadDetailCard toolhead={selectedToolheadEntry} />
+              )}
             </div>
           ) : (
             /* Compact name-only view */
@@ -1591,7 +1578,6 @@ export default function ToolheadRebuilder() {
                     name={toolhead.title || toolhead.name}
                     isSelected={selectedToolheadName === toolhead.name}
                     onClick={() => handleToolheadSelect(toolhead.name)}
-                    topPick={toolhead.top_pick}
                   />
                 ))}
               </div>
@@ -1602,6 +1588,7 @@ export default function ToolheadRebuilder() {
           )}
         </>
       )}
+      </div>
 
       {/* ===== Component selection section ===== */}
       <div
