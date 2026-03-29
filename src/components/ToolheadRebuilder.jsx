@@ -319,13 +319,27 @@ function CompactTile({ name, isSelected, onClick, accentColor }) {
   );
 }
 
-function FilterPopup({ filterGroups, onClose, accentColor }) {
+function FilterPopup({ filterGroups, onClose, accentColor, containerRef }) {
   const colors = {
     blue: { border: '#3b82f6', bg: '#eff6ff', text: '#2563eb' },
     green: { border: '#22c55e', bg: '#f0fdf4', text: '#16a34a' },
     purple: { border: '#a855f7', bg: '#faf5ff', text: '#9333ea' },
   };
   const c = colors[accentColor] || colors.blue;
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (containerRef?.current && !containerRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
+    };
+  }, [onClose, containerRef]);
 
   return (
     <div
@@ -449,6 +463,7 @@ function DetailCard({ item, accentColor, type }) {
 
 function ComponentRow({ title, items, viableNames, selected, onSelect, accentColor, type, detailCatalog, filterGroups }) {
   const [showFilter, setShowFilter] = useState(false);
+  const filterContainerRef = useRef(null);
   const colors = {
     blue: { border: '#3b82f6' },
     green: { border: '#22c55e' },
@@ -500,25 +515,35 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
             {title}
           </h3>
           {dynamicFilterGroups && dynamicFilterGroups.some((g) => g.options.length > 0) && (
-            <button
-              onClick={() => setShowFilter((prev) => !prev)}
-              style={{
-                fontSize: '0.7rem',
-                padding: '2px 8px',
-                borderRadius: '0 4px 4px 0',
-                border: hasActiveFilter ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
-                borderLeft: 'none',
-                backgroundColor: hasActiveFilter ? c.border + '22' : 'transparent',
-                color: hasActiveFilter ? c.border : 'var(--sl-color-gray-4)',
-                cursor: 'pointer',
-                fontWeight: 600,
-                margin: 0,
-                lineHeight: 1.4,
-              }}
-              title="Filter"
-            >
-              {hasActiveFilter ? '▾ Filter ✓' : '▾ Filter'}
-            </button>
+            <div ref={filterContainerRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => setShowFilter((prev) => !prev)}
+                style={{
+                  fontSize: '0.7rem',
+                  padding: '2px 8px',
+                  borderRadius: '0 4px 4px 0',
+                  border: hasActiveFilter ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
+                  borderLeft: 'none',
+                  backgroundColor: hasActiveFilter ? c.border + '22' : 'transparent',
+                  color: hasActiveFilter ? c.border : 'var(--sl-color-gray-4)',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  margin: 0,
+                  lineHeight: 1.4,
+                }}
+                title="Filter"
+              >
+                {hasActiveFilter ? '▾ Filter ✓' : '▾ Filter'}
+              </button>
+              {showFilter && dynamicFilterGroups && (
+                <FilterPopup
+                  filterGroups={dynamicFilterGroups.filter((g) => g.options.length > 0)}
+                  onClose={() => setShowFilter(false)}
+                  accentColor={accentColor}
+                  containerRef={filterContainerRef}
+                />
+              )}
+            </div>
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -541,13 +566,6 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
             </button>
           )}
         </div>
-        {showFilter && dynamicFilterGroups && (
-          <FilterPopup
-            filterGroups={dynamicFilterGroups.filter((g) => g.options.length > 0)}
-            onClose={() => setShowFilter(false)}
-            accentColor={accentColor}
-          />
-        )}
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px' }}>
         {filteredItems.map((item) => {
@@ -944,11 +962,118 @@ function GridIcon() {
   );
 }
 
+function DenseGridIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="0.5" y="0.5" width="3.5" height="3.5" rx="0.5" />
+      <rect x="6.25" y="0.5" width="3.5" height="3.5" rx="0.5" />
+      <rect x="12" y="0.5" width="3.5" height="3.5" rx="0.5" />
+      <rect x="0.5" y="6.25" width="3.5" height="3.5" rx="0.5" />
+      <rect x="6.25" y="6.25" width="3.5" height="3.5" rx="0.5" />
+      <rect x="12" y="6.25" width="3.5" height="3.5" rx="0.5" />
+      <rect x="0.5" y="12" width="3.5" height="3.5" rx="0.5" />
+      <rect x="6.25" y="12" width="3.5" height="3.5" rx="0.5" />
+      <rect x="12" y="12" width="3.5" height="3.5" rx="0.5" />
+    </svg>
+  );
+}
+
 function CarouselIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
       <rect x="2" y="2" width="12" height="12" rx="2" />
     </svg>
+  );
+}
+
+function ToolheadCompactTile({ name, isSelected, onClick, topPick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: '4px 8px',
+        borderRadius: '5px',
+        border: isSelected ? '2px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+        backgroundColor: isSelected ? 'rgba(46,139,87,0.08)' : 'var(--sl-color-bg-nav)',
+        color: isSelected ? '#2E8B57' : 'var(--sl-color-white)',
+        fontSize: '0.75rem',
+        fontWeight: isSelected ? 700 : 500,
+        cursor: 'pointer',
+        transition: 'all 0.15s ease',
+        lineHeight: '1.3',
+        margin: 0,
+        textAlign: 'left',
+        wordBreak: 'break-word',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '3px',
+      }}
+    >
+      {name}
+      {topPick && <span style={{ fontSize: '0.55rem' }}>⭐</span>}
+    </button>
+  );
+}
+
+function ToolheadDetailCard({ toolhead }) {
+  if (!toolhead) return null;
+  return (
+    <div
+      style={{
+        marginTop: '8px',
+        padding: '12px',
+        borderRadius: '10px',
+        border: '2px solid #2E8B57',
+        backgroundColor: 'rgba(46,139,87,0.06)',
+      }}
+    >
+      <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <img
+          src={toolhead.image}
+          alt={toolhead.name}
+          loading="lazy"
+          decoding="async"
+          style={{
+            width: '160px',
+            height: '120px',
+            objectFit: 'contain',
+            objectPosition: 'center',
+            backgroundColor: 'var(--sl-color-bg-nav)',
+            borderRadius: '6px',
+            flexShrink: 0,
+          }}
+        />
+        <div style={{ flex: 1, minWidth: '180px' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 4px 0', color: 'var(--sl-color-white)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            {toolhead.title || toolhead.name}
+            {toolhead.top_pick && (
+              <span style={{ fontSize: '0.6rem', padding: '1px 6px', borderRadius: '4px', backgroundColor: '#fffbeb', color: '#b45309', fontWeight: 700 }}>
+                ⭐ Top Pick
+              </span>
+            )}
+          </h3>
+          {toolhead.description && (
+            <p style={{ fontSize: '0.8rem', color: 'var(--sl-color-gray-3)', marginBottom: '6px', lineHeight: 1.4 }}>
+              {toolhead.description}
+            </p>
+          )}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', fontSize: '0.7rem', color: 'var(--sl-color-gray-3)' }}>
+            {toolhead.category && <span><strong>Category:</strong> {toolhead.category}</span>}
+            {toolhead.filament_cutter && <span><strong>Cutter:</strong> {toolhead.filament_cutter}</span>}
+          </div>
+          {toolhead.url && (
+            <a
+              href={toolhead.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#2E8B57', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginTop: '4px' }}
+            >
+              {isGitHubUrl(toolhead.url) ? 'View on GitHub →' : 'View →'}
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -968,10 +1093,26 @@ export default function ToolheadRebuilder() {
   const [extruderMountFilters, setExtruderMountFilters] = useState(new Set());
   const [hotendMountFilters, setHotendMountFilters] = useState(new Set());
   const [hotendNozzleFilters, setHotendNozzleFilters] = useState(new Set());
-  const [toolheadView, setToolheadView] = useState('carousel'); // 'carousel' or 'grid'
+  const [toolheadView, setToolheadView] = useState('carousel'); // 'carousel', 'grid', or 'compact'
   const [toolheadCategoryFilters, setToolheadCategoryFilters] = useState(new Set());
   const [toolheadCutterFilters, setToolheadCutterFilters] = useState(new Set());
   const [showToolheadFilter, setShowToolheadFilter] = useState(false);
+  const toolheadFilterRef = useRef(null);
+
+  useEffect(() => {
+    if (!showToolheadFilter) return;
+    const handler = (e) => {
+      if (toolheadFilterRef.current && !toolheadFilterRef.current.contains(e.target)) {
+        setShowToolheadFilter(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
+    };
+  }, [showToolheadFilter]);
 
   const toggleFilter = (setter) => (value) => {
     setter((prev) => {
@@ -1173,7 +1314,296 @@ export default function ToolheadRebuilder() {
 
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-      {/* Component columns */}
+
+      {/* ===== Toolheads section (moved to top) ===== */}
+
+      {/* Compatible toolheads header with filter + view toggle */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+            Toolheads
+            {total > 0 && (
+              <span style={{ marginLeft: '8px', fontSize: '1rem', fontWeight: 400, color: 'var(--sl-color-gray-3)' }}>
+                ({total} found)
+              </span>
+            )}
+          </h2>
+          {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0) && (
+            <div ref={toolheadFilterRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => setShowToolheadFilter((prev) => !prev)}
+                style={{
+                  fontSize: '0.7rem',
+                  padding: '2px 8px',
+                  borderRadius: '0 4px 4px 0',
+                  border: hasActiveToolheadFilter ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                  borderLeft: 'none',
+                  backgroundColor: hasActiveToolheadFilter ? 'rgba(46,139,87,0.13)' : 'transparent',
+                  color: hasActiveToolheadFilter ? '#2E8B57' : 'var(--sl-color-gray-4)',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  margin: 0,
+                  lineHeight: 1.4,
+                }}
+                title="Filter toolheads"
+              >
+                {hasActiveToolheadFilter ? '▾ Filter ✓' : '▾ Filter'}
+              </button>
+              {showToolheadFilter && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    zIndex: 50,
+                    marginTop: '4px',
+                    padding: '8px',
+                    borderRadius: '8px',
+                    border: '1px solid #2E8B57',
+                    backgroundColor: 'var(--sl-color-bg-sidebar)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    minWidth: '140px',
+                  }}
+                >
+                  {toolheadCategoryOptions.length > 0 && (
+                    <div style={{ marginBottom: toolheadCutterOptions.length > 0 ? '6px' : 0 }}>
+                      <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Category
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                        {toolheadCategoryOptions.map((opt) => {
+                          const isActive = toolheadCategoryFilters.has(opt);
+                          return (
+                            <button
+                              key={opt}
+                              onClick={() => toggleFilter(setToolheadCategoryFilters)(opt)}
+                              style={{
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                                backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
+                                color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
+                                fontSize: '0.65rem',
+                                fontWeight: isActive ? 700 : 500,
+                                cursor: 'pointer',
+                                margin: 0,
+                              }}
+                            >
+                              {opt}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {toolheadCutterOptions.length > 0 && (
+                    <div>
+                      <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Filament Cutter
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                        {toolheadCutterOptions.map((opt) => {
+                          const isActive = toolheadCutterFilters.has(opt);
+                          return (
+                            <button
+                              key={opt}
+                              onClick={() => toggleFilter(setToolheadCutterFilters)(opt)}
+                              style={{
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                                backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
+                                color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
+                                fontSize: '0.65rem',
+                                fontWeight: isActive ? 700 : 500,
+                                cursor: 'pointer',
+                                margin: 0,
+                              }}
+                            >
+                              {opt}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button
+            onClick={() => setToolheadView('carousel')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '4px 0 0 4px',
+              border: '1px solid var(--sl-color-gray-5)',
+              borderRight: 'none',
+              backgroundColor: toolheadView === 'carousel' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'carousel' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Carousel view"
+          >
+            <CarouselIcon />
+          </button>
+          <button
+            onClick={() => setToolheadView('grid')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '0',
+              border: '1px solid var(--sl-color-gray-5)',
+              borderRight: 'none',
+              backgroundColor: toolheadView === 'grid' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'grid' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Grid view"
+          >
+            <GridIcon />
+          </button>
+          <button
+            onClick={() => setToolheadView('compact')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '0 4px 4px 0',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: toolheadView === 'compact' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'compact' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Compact view"
+          >
+            <DenseGridIcon />
+          </button>
+        </div>
+      </div>
+
+      {total === 0 ? (
+        <NoCompatibleCard />
+      ) : (
+        <>
+          <p style={{ color: 'var(--sl-color-gray-3)', marginTop: '-4px', marginBottom: '14px', fontSize: '0.9rem' }}>
+            {toolheadView === 'compact'
+              ? 'Click a toolhead to select it. Selected toolheads filter the components below.'
+              : toolheadView === 'grid'
+                ? 'Click a toolhead tile to select it and filter compatible components below.'
+                : 'Select a toolhead from the carousel to filter compatible components below.'}
+          </p>
+
+          {toolheadView === 'carousel' ? (
+            <>
+              {/* Toolhead carousel */}
+              <div
+                {...dragHandlers}
+                style={{
+                  position: 'relative',
+                  height: '480px',
+                  marginBottom: '32px',
+                  overflow: 'hidden',
+                  padding: '0 40px',
+                  touchAction: 'pan-y',
+                  cursor: isDragging ? 'grabbing' : 'grab',
+                  userSelect: 'none',
+                }}
+              >
+                <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
+                <CarouselArrow direction="right" onClick={goRight} disabled={total <= 1} />
+
+                {filteredToolheads.map((toolhead, i) => {
+                  let position = null;
+                  if (i === safeIndex) position = 'center';
+                  else if (i === leftIndex) position = 'left';
+                  else if (i === rightIndex) position = 'right';
+                  else return null;
+
+                  return (
+                    <ToolheadCard
+                      key={toolhead.name}
+                      toolhead={toolhead}
+                      position={position}
+                      isSelected={selectedToolheadName === toolhead.name}
+                      onSelect={() => handleToolheadSelect(toolhead.name)}
+                      onClick={() => handleCardClick(i)}
+                      dragOffset={dragOffset}
+                      isDragging={isDragging}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Dot indicators */}
+              {total > 1 && (
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
+                  {filteredToolheads.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveIndex(i)}
+                      style={{
+                        width: i === safeIndex ? '24px' : '8px',
+                        height: '8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        backgroundColor: i === safeIndex ? '#2E8B57' : 'var(--sl-color-gray-5)',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'all 0.3s ease',
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          ) : toolheadView === 'grid' ? (
+            /* Grid view with images */
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+              gap: '6px',
+              marginBottom: '32px',
+            }}>
+              {filteredToolheads.map((toolhead) => (
+                <ToolheadGridTile
+                  key={toolhead.name}
+                  toolhead={toolhead}
+                  isSelected={selectedToolheadName === toolhead.name}
+                  onClick={() => handleToolheadSelect(toolhead.name)}
+                />
+              ))}
+            </div>
+          ) : (
+            /* Compact name-only view */
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px' }}>
+                {filteredToolheads.map((toolhead) => (
+                  <ToolheadCompactTile
+                    key={toolhead.name}
+                    name={toolhead.title || toolhead.name}
+                    isSelected={selectedToolheadName === toolhead.name}
+                    onClick={() => handleToolheadSelect(toolhead.name)}
+                    topPick={toolhead.top_pick}
+                  />
+                ))}
+              </div>
+              {selectedToolheadEntry && (
+                <ToolheadDetailCard toolhead={selectedToolheadEntry} />
+              )}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* ===== Component selection section ===== */}
       <div
         style={{
           padding: '16px',
@@ -1258,330 +1688,85 @@ export default function ToolheadRebuilder() {
         </div>
       </div>
 
-      {/* Compatible toolheads header with filter + view toggle */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', position: 'relative' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
-            Compatible Toolheads
-            {total > 0 && (
-              <span style={{ marginLeft: '8px', fontSize: '1rem', fontWeight: 400, color: 'var(--sl-color-gray-3)' }}>
-                ({total} found)
-              </span>
-            )}
+      {/* ===== Hardware summary table ===== */}
+      {selectedHardwareRows.length > 0 && (
+        <div
+          style={{
+            padding: '24px',
+            borderRadius: '12px',
+            border: '1px solid var(--sl-color-gray-5)',
+            backgroundColor: 'var(--sl-color-bg-sidebar)',
+          }}
+        >
+          <h2
+            style={{
+              fontSize: '1.2rem',
+              fontWeight: 700,
+              marginBottom: '16px',
+              color: 'var(--sl-color-white)',
+              borderBottom: '2px solid #2E8B57',
+              paddingBottom: '6px',
+            }}
+          >
+            Selected Hardware
           </h2>
-          {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0) && (
-            <button
-              onClick={() => setShowToolheadFilter((prev) => !prev)}
-              style={{
-                fontSize: '0.7rem',
-                padding: '2px 8px',
-                borderRadius: '0 4px 4px 0',
-                border: hasActiveToolheadFilter ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
-                borderLeft: 'none',
-                backgroundColor: hasActiveToolheadFilter ? 'rgba(46,139,87,0.13)' : 'transparent',
-                color: hasActiveToolheadFilter ? '#2E8B57' : 'var(--sl-color-gray-4)',
-                cursor: 'pointer',
-                fontWeight: 600,
-                margin: 0,
-                lineHeight: 1.4,
-              }}
-              title="Filter toolheads"
-            >
-              {hasActiveToolheadFilter ? '▾ Filter ✓' : '▾ Filter'}
-            </button>
-          )}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <button
-            onClick={() => setToolheadView('carousel')}
-            style={{
-              padding: '4px 6px',
-              borderRadius: '4px 0 0 4px',
-              border: '1px solid var(--sl-color-gray-5)',
-              borderRight: 'none',
-              backgroundColor: toolheadView === 'carousel' ? 'rgba(46,139,87,0.13)' : 'transparent',
-              color: toolheadView === 'carousel' ? '#2E8B57' : 'var(--sl-color-gray-4)',
-              cursor: 'pointer',
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            title="Carousel view"
-          >
-            <CarouselIcon />
-          </button>
-          <button
-            onClick={() => setToolheadView('grid')}
-            style={{
-              padding: '4px 6px',
-              borderRadius: '0 4px 4px 0',
-              border: '1px solid var(--sl-color-gray-5)',
-              backgroundColor: toolheadView === 'grid' ? 'rgba(46,139,87,0.13)' : 'transparent',
-              color: toolheadView === 'grid' ? '#2E8B57' : 'var(--sl-color-gray-4)',
-              cursor: 'pointer',
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            title="Grid view"
-          >
-            <GridIcon />
-          </button>
-        </div>
-        {showToolheadFilter && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              zIndex: 50,
-              marginTop: '4px',
-              padding: '8px',
-              borderRadius: '8px',
-              border: '1px solid #2E8B57',
-              backgroundColor: 'var(--sl-color-bg-sidebar)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-              minWidth: '140px',
-            }}
-          >
-            {toolheadCategoryOptions.length > 0 && (
-              <div style={{ marginBottom: toolheadCutterOptions.length > 0 ? '6px' : 0 }}>
-                <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Category
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
-                  {toolheadCategoryOptions.map((opt) => {
-                    const isActive = toolheadCategoryFilters.has(opt);
-                    return (
-                      <button
-                        key={opt}
-                        onClick={() => toggleFilter(setToolheadCategoryFilters)(opt)}
-                        style={{
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
-                          backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
-                          color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
-                          fontSize: '0.65rem',
-                          fontWeight: isActive ? 700 : 500,
-                          cursor: 'pointer',
-                          margin: 0,
-                        }}
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+            <thead>
+              <tr>
+                {['Component', 'Selection', 'Link'].map((col) => (
+                  <th
+                    key={col}
+                    style={{
+                      textAlign: 'left',
+                      padding: '8px 12px',
+                      borderBottom: '1px solid var(--sl-color-gray-5)',
+                      color: 'var(--sl-color-gray-3)',
+                      fontWeight: 700,
+                      fontSize: '0.8rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                    }}
+                  >
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {selectedHardwareRows.map((row, idx) => (
+                <tr
+                  key={row.component}
+                  style={{
+                    backgroundColor: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.03)',
+                  }}
+                >
+                  <td style={{ padding: '10px 12px', color: 'var(--sl-color-gray-3)', fontWeight: 600 }}>
+                    {row.component}
+                  </td>
+                  <td style={{ padding: '10px 12px', color: 'var(--sl-color-white)', fontWeight: 500 }}>
+                    {row.selection}
+                  </td>
+                  <td style={{ padding: '10px 12px' }}>
+                    {row.url ? (
+                      <a
+                        href={row.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: '#2E8B57', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}
                       >
-                        {opt}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            {toolheadCutterOptions.length > 0 && (
-              <div>
-                <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Filament Cutter
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
-                  {toolheadCutterOptions.map((opt) => {
-                    const isActive = toolheadCutterFilters.has(opt);
-                    return (
-                      <button
-                        key={opt}
-                        onClick={() => toggleFilter(setToolheadCutterFilters)(opt)}
-                        style={{
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
-                          backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
-                          color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
-                          fontSize: '0.65rem',
-                          fontWeight: isActive ? 700 : 500,
-                          cursor: 'pointer',
-                          margin: 0,
-                        }}
-                      >
-                        {opt}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {total === 0 ? (
-        <NoCompatibleCard />
-      ) : (
-        <>
-          <p style={{ color: 'var(--sl-color-gray-3)', marginTop: '-4px', marginBottom: '14px', fontSize: '0.9rem' }}>
-            {toolheadView === 'carousel'
-              ? 'Select a toolhead from the carousel to generate your final hardware table.'
-              : 'Click a toolhead tile to select it and generate your final hardware table.'}
-          </p>
-
-          {toolheadView === 'carousel' ? (
-            <>
-              {/* Toolhead carousel */}
-              <div
-                {...dragHandlers}
-                style={{
-                  position: 'relative',
-                  height: '480px',
-                  marginBottom: '32px',
-                  overflow: 'hidden',
-                  padding: '0 40px',
-                  touchAction: 'pan-y',
-                  cursor: isDragging ? 'grabbing' : 'grab',
-                  userSelect: 'none',
-                }}
-              >
-                <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
-                <CarouselArrow direction="right" onClick={goRight} disabled={total <= 1} />
-
-                {filteredToolheads.map((toolhead, i) => {
-                  let position = null;
-                  if (i === safeIndex) position = 'center';
-                  else if (i === leftIndex) position = 'left';
-                  else if (i === rightIndex) position = 'right';
-                  else return null;
-
-                  return (
-                    <ToolheadCard
-                      key={toolhead.name}
-                      toolhead={toolhead}
-                      position={position}
-                      isSelected={selectedToolheadName === toolhead.name}
-                      onSelect={() => handleToolheadSelect(toolhead.name)}
-                      onClick={() => handleCardClick(i)}
-                      dragOffset={dragOffset}
-                      isDragging={isDragging}
-                    />
-                  );
-                })}
-              </div>
-
-              {/* Dot indicators */}
-              {total > 1 && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
-                  {filteredToolheads.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setActiveIndex(i)}
-                      style={{
-                        width: i === safeIndex ? '24px' : '8px',
-                        height: '8px',
-                        borderRadius: '4px',
-                        border: 'none',
-                        backgroundColor: i === safeIndex ? '#2E8B57' : 'var(--sl-color-gray-5)',
-                        cursor: 'pointer',
-                        padding: 0,
-                        transition: 'all 0.3s ease',
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            /* Grid view */
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-              gap: '6px',
-              marginBottom: '32px',
-            }}>
-              {filteredToolheads.map((toolhead) => (
-                <ToolheadGridTile
-                  key={toolhead.name}
-                  toolhead={toolhead}
-                  isSelected={selectedToolheadName === toolhead.name}
-                  onClick={() => handleToolheadSelect(toolhead.name)}
-                />
+                        View →
+                      </a>
+                    ) : (
+                      <span style={{ color: 'var(--sl-color-gray-5)', fontStyle: 'italic', fontSize: '0.85rem' }}>
+                        No Link Available
+                      </span>
+                    )}
+                  </td>
+                </tr>
               ))}
-            </div>
-          )}
-
-          {selectedHardwareRows.length > 0 && (
-            <div
-              style={{
-                padding: '24px',
-                borderRadius: '12px',
-                border: '1px solid var(--sl-color-gray-5)',
-                backgroundColor: 'var(--sl-color-bg-sidebar)',
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: '1.2rem',
-                  fontWeight: 700,
-                  marginBottom: '16px',
-                  color: 'var(--sl-color-white)',
-                  borderBottom: '2px solid #2E8B57',
-                  paddingBottom: '6px',
-                }}
-              >
-                Selected Hardware
-              </h2>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
-                <thead>
-                  <tr>
-                    {['Component', 'Selection', 'Link'].map((col) => (
-                      <th
-                        key={col}
-                        style={{
-                          textAlign: 'left',
-                          padding: '8px 12px',
-                          borderBottom: '1px solid var(--sl-color-gray-5)',
-                          color: 'var(--sl-color-gray-3)',
-                          fontWeight: 700,
-                          fontSize: '0.8rem',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                        }}
-                      >
-                        {col}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedHardwareRows.map((row, idx) => (
-                    <tr
-                      key={row.component}
-                      style={{
-                        backgroundColor: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.03)',
-                      }}
-                    >
-                      <td style={{ padding: '10px 12px', color: 'var(--sl-color-gray-3)', fontWeight: 600 }}>
-                        {row.component}
-                      </td>
-                      <td style={{ padding: '10px 12px', color: 'var(--sl-color-white)', fontWeight: 500 }}>
-                        {row.selection}
-                      </td>
-                      <td style={{ padding: '10px 12px' }}>
-                        {row.url ? (
-                          <a
-                            href={row.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: '#2E8B57', fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}
-                          >
-                            View →
-                          </a>
-                        ) : (
-                          <span style={{ color: 'var(--sl-color-gray-5)', fontStyle: 'italic', fontSize: '0.85rem' }}>
-                            No Link Available
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </>
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

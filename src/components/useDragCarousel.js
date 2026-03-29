@@ -52,15 +52,17 @@ export function useDragCarousel(total, activeIndex, setActiveIndex, itemWidth = 
     setIsDragging(false);
 
     const offset = currentOffset.current;
-    const threshold = itemWidth * 0.15; // 15% of item width to trigger snap
+    const threshold = itemWidth * 0.08; // 8% of item width to trigger snap (high sensitivity)
 
     if (Math.abs(offset) > threshold && total > 1) {
+      // Calculate how many items to skip based on drag distance
+      const itemsToSkip = Math.max(1, Math.round(Math.abs(offset) / (itemWidth * 0.35)));
       if (offset < 0) {
         // Dragged left → go right (next)
-        setActiveIndex((prev) => (prev + 1) % total);
+        setActiveIndex((prev) => (prev + itemsToSkip) % total);
       } else {
         // Dragged right → go left (prev)
-        setActiveIndex((prev) => (prev - 1 + total) % total);
+        setActiveIndex((prev) => (prev - itemsToSkip + total) % total);
       }
     }
 
