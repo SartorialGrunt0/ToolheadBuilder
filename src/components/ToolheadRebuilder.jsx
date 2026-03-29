@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import toolheadsData from '../data/toolheads.json';
 import hotendsData from '../data/hotends.json';
 import extrudersData from '../data/extruders.json';
 import probesData from '../data/probes.json';
-import { useSwipe } from './useSwipe';
+import { useDragCarousel } from './useDragCarousel';
 
 const activeToolheads = toolheadsData.toolheads.filter((t) => t.configurator);
 
@@ -238,6 +238,7 @@ function matchesFan(fanField, fanValue) {
 /* ------- Cross-filtering: compute viable items per column ------- */
 function getViableToolheads(selections) {
   return activeToolheads.filter((th) => {
+    if (selections.toolheadName && th.name !== selections.toolheadName) return false;
     if (selections.extruder && !matchesComponentExtended(th.extruders, selections.extruder, getExpandedExtruders)) return false;
     if (selections.hotend && !matchesComponentExtended(th.hotend, selections.hotend, getExpandedHotends)) return false;
     if (selections.probe && !matchesComponentExtended(th.probe, selections.probe, getExpandedProbes)) return false;
@@ -699,15 +700,18 @@ function CarouselArrow({ direction, onClick, disabled }) {
   );
 }
 
-function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
+function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragOffset = 0, isDragging }) {
   const isCenter = position === 'center';
   const isLeft = position === 'left';
   const isRight = position === 'right';
 
-  const translateX = isCenter ? '0%' : isLeft ? '-60%' : '60%';
+  const baseTranslateX = isCenter ? 0 : isLeft ? -60 : 60;
   const scale = isCenter ? 1 : 0.82;
   const opacity = isCenter ? 1 : 0.4;
   const zIndex = isCenter ? 5 : 2;
+
+  // Convert dragOffset pixels to percentage of container
+  const dragPercent = (dragOffset / 460) * 60;
 
   return (
     <div
@@ -718,12 +722,13 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
         left: '50%',
         width: '100%',
         maxWidth: '420px',
-        transform: `translateX(-50%) translateX(${translateX}) scale(${scale})`,
+        transform: `translateX(-50%) translateX(${baseTranslateX + dragPercent}%) scale(${scale})`,
         opacity,
         zIndex,
-        transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
-        cursor: 'pointer',
+        transition: isDragging ? 'none' : 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+        cursor: isDragging ? 'grabbing' : 'pointer',
         pointerEvents: 'auto',
+        userSelect: 'none',
       }}
     >
       <div
@@ -879,6 +884,73 @@ function NoCompatibleCard() {
   );
 }
 
+function ToolheadGridTile({ toolhead, isSelected, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: '8px',
+        borderRadius: '8px',
+        border: isSelected ? '2px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+        backgroundColor: isSelected ? 'var(--sl-color-bg-nav)' : 'var(--sl-color-bg-sidebar)',
+        boxShadow: isSelected ? '0 2px 8px rgba(46, 139, 87, 0.3)' : 'none',
+        cursor: 'pointer',
+        textAlign: 'center',
+        margin: 0,
+        transition: 'all 0.15s ease',
+      }}
+    >
+      <img
+        src={toolhead.image}
+        alt={toolhead.name}
+        loading="lazy"
+        decoding="async"
+        style={{
+          width: '100%',
+          height: '90px',
+          objectFit: 'contain',
+          backgroundColor: 'var(--sl-color-bg-nav)',
+          borderRadius: '4px',
+          marginBottom: '4px',
+        }}
+      />
+      <div style={{
+        fontSize: '0.7rem',
+        fontWeight: isSelected ? 700 : 600,
+        color: isSelected ? '#2E8B57' : 'var(--sl-color-white)',
+        lineHeight: 1.2,
+        wordBreak: 'break-word',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '3px',
+      }}>
+        {toolhead.title || toolhead.name}
+        {toolhead.top_pick && <span style={{ fontSize: '0.55rem' }}>⭐</span>}
+      </div>
+    </button>
+  );
+}
+
+function GridIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="1" y="1" width="5.5" height="5.5" rx="1" />
+      <rect x="9.5" y="1" width="5.5" height="5.5" rx="1" />
+      <rect x="1" y="9.5" width="5.5" height="5.5" rx="1" />
+      <rect x="9.5" y="9.5" width="5.5" height="5.5" rx="1" />
+    </svg>
+  );
+}
+
+function CarouselIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="2" y="2" width="12" height="12" rx="2" />
+    </svg>
+  );
+}
+
 /* ------- Main component ------- */
 
 export default function ToolheadRebuilder() {
@@ -895,6 +967,10 @@ export default function ToolheadRebuilder() {
   const [extruderMountFilters, setExtruderMountFilters] = useState(new Set());
   const [hotendMountFilters, setHotendMountFilters] = useState(new Set());
   const [hotendNozzleFilters, setHotendNozzleFilters] = useState(new Set());
+  const [toolheadView, setToolheadView] = useState('carousel'); // 'carousel' or 'grid'
+  const [toolheadCategoryFilters, setToolheadCategoryFilters] = useState(new Set());
+  const [toolheadCutterFilters, setToolheadCutterFilters] = useState(new Set());
+  const [showToolheadFilter, setShowToolheadFilter] = useState(false);
 
   const toggleFilter = (setter) => (value) => {
     setter((prev) => {
@@ -905,56 +981,75 @@ export default function ToolheadRebuilder() {
     });
   };
 
-  const filteredToolheads = useMemo(() => getViableToolheads({
+  /* Toolheads filtered by component selections (for toolhead filter option computation) */
+  const componentFilteredToolheads = useMemo(() => getViableToolheads({
     extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
     hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+    toolheadName: null,
   }), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+
+  /* Toolheads further filtered by metadata filters (category + filament_cutter) */
+  const filteredToolheads = useMemo(() => {
+    let ths = componentFilteredToolheads;
+    if (toolheadCategoryFilters.size > 0) {
+      ths = ths.filter((th) => th.category && toolheadCategoryFilters.has(th.category));
+    }
+    if (toolheadCutterFilters.size > 0) {
+      ths = ths.filter((th) => th.filament_cutter && toolheadCutterFilters.has(th.filament_cutter));
+    }
+    return ths;
+  }, [componentFilteredToolheads, toolheadCategoryFilters, toolheadCutterFilters]);
 
   const viableExtruderNames = useMemo(() => {
     const ths = getViableToolheads({
       extruder: null, hotend: selectedHotend, probe: selectedProbe,
       hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+      toolheadName: selectedToolheadName,
     });
     return getViableNames(ths, (t) => t.extruders, getExpandedExtruders);
-  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName]);
 
   const viableHotendNames = useMemo(() => {
     const ths = getViableToolheads({
       extruder: selectedExtruder, hotend: null, probe: selectedProbe,
       hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+      toolheadName: selectedToolheadName,
     });
     return getViableNames(ths, (t) => t.hotend, getExpandedHotends);
-  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName]);
 
   const viableProbeNames = useMemo(() => {
     const ths = getViableToolheads({
       extruder: selectedExtruder, hotend: selectedHotend, probe: null,
       hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+      toolheadName: selectedToolheadName,
     });
     return getViableNames(ths, (t) => t.probe, getExpandedProbes);
-  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan]);
+  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName]);
 
   const viableHotendFanValues = useMemo(() => {
     const ths = getViableToolheads({
       extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
       hotendFan: null, partCoolingFan: selectedPartCoolingFan,
+      toolheadName: selectedToolheadName,
     });
     return getViableFanValues(ths, 'hotend_fan');
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan, selectedToolheadName]);
 
   const viablePartCoolingFanValues = useMemo(() => {
     const ths = getViableToolheads({
       extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
       hotendFan: selectedHotendFan, partCoolingFan: null,
+      toolheadName: selectedToolheadName,
     });
     return getViableFanValues(ths, 'part_cooling_fan');
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedToolheadName]);
 
   const total = filteredToolheads.length;
 
   useEffect(() => {
     setActiveIndex(0);
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters]);
 
   useEffect(() => {
     if (!selectedToolheadName) return;
@@ -966,12 +1061,13 @@ export default function ToolheadRebuilder() {
   const goLeft = () => setActiveIndex((prev) => (prev - 1 + total) % total);
   const goRight = () => setActiveIndex((prev) => (prev + 1) % total);
 
-  const swipeHandlers = useSwipe(goRight, goLeft);
+  const { dragOffset, isDragging, handlers: dragHandlers } = useDragCarousel(total, safeIndex, setActiveIndex);
 
   const leftIndex = total > 1 ? (safeIndex - 1 + total) % total : null;
   const rightIndex = total > 1 ? (safeIndex + 1) % total : null;
 
   const handleCardClick = (index) => {
+    if (isDragging) return; // Don't select during drag
     if (index === safeIndex) {
       const name = filteredToolheads[safeIndex].name;
       setSelectedToolheadName((prev) => (prev === name ? null : name));
@@ -1043,6 +1139,36 @@ export default function ToolheadRebuilder() {
       });
     }
   }
+
+  /* Dynamic toolhead filter options based on component-filtered toolheads */
+  const toolheadCategoryOptions = useMemo(() => {
+    const cats = new Set();
+    // Show category options from component-filtered toolheads that pass cutter filter
+    let candidates = componentFilteredToolheads;
+    if (toolheadCutterFilters.size > 0) {
+      candidates = candidates.filter((th) => th.filament_cutter && toolheadCutterFilters.has(th.filament_cutter));
+    }
+    for (const th of candidates) {
+      if (th.category && !EXCLUDED_FILTER_VALUES.has(th.category.toLowerCase())) cats.add(th.category);
+    }
+    for (const v of toolheadCategoryFilters) cats.add(v);
+    return [...cats].sort();
+  }, [componentFilteredToolheads, toolheadCategoryFilters, toolheadCutterFilters]);
+
+  const toolheadCutterOptions = useMemo(() => {
+    const cutters = new Set();
+    let candidates = componentFilteredToolheads;
+    if (toolheadCategoryFilters.size > 0) {
+      candidates = candidates.filter((th) => th.category && toolheadCategoryFilters.has(th.category));
+    }
+    for (const th of candidates) {
+      if (th.filament_cutter && !EXCLUDED_FILTER_VALUES.has(th.filament_cutter.toLowerCase())) cutters.add(th.filament_cutter);
+    }
+    for (const v of toolheadCutterFilters) cutters.add(v);
+    return [...cutters].sort();
+  }, [componentFilteredToolheads, toolheadCategoryFilters, toolheadCutterFilters]);
+
+  const hasActiveToolheadFilter = toolheadCategoryFilters.size > 0 || toolheadCutterFilters.size > 0;
 
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
@@ -1131,90 +1257,245 @@ export default function ToolheadRebuilder() {
         </div>
       </div>
 
-      {/* Compatible toolheads label */}
-      <h2
-        style={{
-          fontSize: '1.2rem',
-          fontWeight: 700,
-          marginBottom: '12px',
-          color: 'var(--sl-color-white)',
-        }}
-      >
-        Compatible Toolheads
-        {total > 0 && (
-          <span
+      {/* Compatible toolheads header with filter + view toggle */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+            Compatible Toolheads
+            {total > 0 && (
+              <span style={{ marginLeft: '8px', fontSize: '1rem', fontWeight: 400, color: 'var(--sl-color-gray-3)' }}>
+                ({total} found)
+              </span>
+            )}
+          </h2>
+          {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0) && (
+            <button
+              onClick={() => setShowToolheadFilter((prev) => !prev)}
+              style={{
+                fontSize: '0.7rem',
+                padding: '2px 8px',
+                borderRadius: '0 4px 4px 0',
+                border: hasActiveToolheadFilter ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                borderLeft: 'none',
+                backgroundColor: hasActiveToolheadFilter ? 'rgba(46,139,87,0.13)' : 'transparent',
+                color: hasActiveToolheadFilter ? '#2E8B57' : 'var(--sl-color-gray-4)',
+                cursor: 'pointer',
+                fontWeight: 600,
+                margin: 0,
+                lineHeight: 1.4,
+              }}
+              title="Filter toolheads"
+            >
+              {hasActiveToolheadFilter ? '▾ Filter ✓' : '▾ Filter'}
+            </button>
+          )}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <button
+            onClick={() => setToolheadView('carousel')}
             style={{
-              marginLeft: '12px',
-              fontSize: '1rem',
-              fontWeight: 400,
-              color: 'var(--sl-color-gray-3)',
+              padding: '4px 6px',
+              borderRadius: '4px 0 0 4px',
+              border: '1px solid var(--sl-color-gray-5)',
+              borderRight: 'none',
+              backgroundColor: toolheadView === 'carousel' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'carousel' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Carousel view"
+          >
+            <CarouselIcon />
+          </button>
+          <button
+            onClick={() => setToolheadView('grid')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '0 4px 4px 0',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: toolheadView === 'grid' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'grid' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Grid view"
+          >
+            <GridIcon />
+          </button>
+        </div>
+        {showToolheadFilter && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              zIndex: 50,
+              marginTop: '4px',
+              padding: '8px',
+              borderRadius: '8px',
+              border: '1px solid #2E8B57',
+              backgroundColor: 'var(--sl-color-bg-sidebar)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              minWidth: '140px',
             }}
           >
-            ({total} found)
-          </span>
+            {toolheadCategoryOptions.length > 0 && (
+              <div style={{ marginBottom: toolheadCutterOptions.length > 0 ? '6px' : 0 }}>
+                <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Category
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                  {toolheadCategoryOptions.map((opt) => {
+                    const isActive = toolheadCategoryFilters.has(opt);
+                    return (
+                      <button
+                        key={opt}
+                        onClick={() => toggleFilter(setToolheadCategoryFilters)(opt)}
+                        style={{
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                          backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
+                          color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
+                          fontSize: '0.65rem',
+                          fontWeight: isActive ? 700 : 500,
+                          cursor: 'pointer',
+                          margin: 0,
+                        }}
+                      >
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {toolheadCutterOptions.length > 0 && (
+              <div>
+                <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Filament Cutter
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                  {toolheadCutterOptions.map((opt) => {
+                    const isActive = toolheadCutterFilters.has(opt);
+                    return (
+                      <button
+                        key={opt}
+                        onClick={() => toggleFilter(setToolheadCutterFilters)(opt)}
+                        style={{
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                          backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
+                          color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
+                          fontSize: '0.65rem',
+                          fontWeight: isActive ? 700 : 500,
+                          cursor: 'pointer',
+                          margin: 0,
+                        }}
+                      >
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         )}
-      </h2>
+      </div>
 
       {total === 0 ? (
         <NoCompatibleCard />
       ) : (
         <>
           <p style={{ color: 'var(--sl-color-gray-3)', marginTop: '-4px', marginBottom: '14px', fontSize: '0.9rem' }}>
-            Select a toolhead from the carousel to generate your final hardware table.
+            {toolheadView === 'carousel'
+              ? 'Select a toolhead from the carousel to generate your final hardware table.'
+              : 'Click a toolhead tile to select it and generate your final hardware table.'}
           </p>
 
-          {/* Toolhead carousel */}
-          <div
-            {...swipeHandlers}
-            style={{
-              position: 'relative',
-              height: '480px',
+          {toolheadView === 'carousel' ? (
+            <>
+              {/* Toolhead carousel */}
+              <div
+                {...dragHandlers}
+                style={{
+                  position: 'relative',
+                  height: '480px',
+                  marginBottom: '32px',
+                  overflow: 'hidden',
+                  padding: '0 40px',
+                  touchAction: 'pan-y',
+                  cursor: isDragging ? 'grabbing' : 'grab',
+                  userSelect: 'none',
+                }}
+              >
+                <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
+                <CarouselArrow direction="right" onClick={goRight} disabled={total <= 1} />
+
+                {filteredToolheads.map((toolhead, i) => {
+                  let position = null;
+                  if (i === safeIndex) position = 'center';
+                  else if (i === leftIndex) position = 'left';
+                  else if (i === rightIndex) position = 'right';
+                  else return null;
+
+                  return (
+                    <ToolheadCard
+                      key={toolhead.name}
+                      toolhead={toolhead}
+                      position={position}
+                      isSelected={selectedToolheadName === toolhead.name}
+                      onSelect={() => handleToolheadSelect(toolhead.name)}
+                      onClick={() => handleCardClick(i)}
+                      dragOffset={dragOffset}
+                      isDragging={isDragging}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Dot indicators */}
+              {total > 1 && (
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
+                  {filteredToolheads.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveIndex(i)}
+                      style={{
+                        width: i === safeIndex ? '24px' : '8px',
+                        height: '8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        backgroundColor: i === safeIndex ? '#2E8B57' : 'var(--sl-color-gray-5)',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'all 0.3s ease',
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            /* Grid view */
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+              gap: '6px',
               marginBottom: '32px',
-              overflow: 'hidden',
-              padding: '0 40px',
-              touchAction: 'pan-y',
-            }}
-          >
-            <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
-            <CarouselArrow direction="right" onClick={goRight} disabled={total <= 1} />
-
-            {filteredToolheads.map((toolhead, i) => {
-              let position = null;
-              if (i === safeIndex) position = 'center';
-              else if (i === leftIndex) position = 'left';
-              else if (i === rightIndex) position = 'right';
-              else return null;
-
-              return (
-                <ToolheadCard
+            }}>
+              {filteredToolheads.map((toolhead) => (
+                <ToolheadGridTile
                   key={toolhead.name}
                   toolhead={toolhead}
-                  position={position}
                   isSelected={selectedToolheadName === toolhead.name}
-                  onSelect={() => handleToolheadSelect(toolhead.name)}
-                  onClick={() => handleCardClick(i)}
-                />
-              );
-            })}
-          </div>
-
-          {/* Dot indicators */}
-          {total > 1 && (
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '32px' }}>
-              {filteredToolheads.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveIndex(i)}
-                  style={{
-                    width: i === safeIndex ? '24px' : '8px',
-                    height: '8px',
-                    borderRadius: '4px',
-                    border: 'none',
-                    backgroundColor: i === safeIndex ? '#2E8B57' : 'var(--sl-color-gray-5)',
-                    cursor: 'pointer',
-                    padding: 0,
-                    transition: 'all 0.3s ease',
-                  }}
+                  onClick={() => handleToolheadSelect(toolhead.name)}
                 />
               ))}
             </div>
