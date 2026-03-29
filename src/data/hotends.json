@@ -279,7 +279,7 @@
       "flow_rate": "Unknown",
       "nozzle_compatibility": [
         "Other",
-        "V6
+        "V6"
       ],
       "url": "https://www.trianglelab.net/products/tz-40-hotend",
       "description": "Clone hotend with Bambulabs style heater block, variant of TZ 2.0, available in Bambulabs, V6+Dragon, or Ender style heatbreak and mounting, features single-piece throat+nozzle design, one handed nozzle changes.",
