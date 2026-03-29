@@ -244,6 +244,13 @@ function getViableToolheads(selections) {
     if (selections.probe && !matchesComponentExtended(th.probe, selections.probe, getExpandedProbes)) return false;
     if (selections.hotendFan && !matchesFan(th.hotend_fan, selections.hotendFan)) return false;
     if (selections.partCoolingFan && !matchesFan(th.part_cooling_fan, selections.partCoolingFan)) return false;
+    // Toolhead metadata filters
+    if (selections.categoryFilters && selections.categoryFilters.size > 0) {
+      if (!th.category || !selections.categoryFilters.has(th.category)) return false;
+    }
+    if (selections.cutterFilters && selections.cutterFilters.size > 0) {
+      if (!th.filament_cutter || !selections.cutterFilters.has(th.filament_cutter)) return false;
+    }
     return true;
   });
 }
@@ -349,45 +356,48 @@ function FilterPopup({ filterGroups, onClose, accentColor, containerRef }) {
         right: 0,
         zIndex: 50,
         marginTop: '4px',
-        padding: '8px',
+        padding: '8px 10px',
         borderRadius: '8px',
         border: `1px solid ${c.border}`,
         backgroundColor: 'var(--sl-color-bg-sidebar)',
         boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-        minWidth: '140px',
+        minWidth: '180px',
+        maxWidth: '400px',
       }}
     >
-      {filterGroups.map((group, gi) => (
-        <div key={group.label} style={{ marginBottom: gi < filterGroups.length - 1 ? '6px' : 0 }}>
-          <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            {group.label}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {filterGroups.map((group) => (
+          <div key={group.label} style={{ minWidth: '80px', flex: '1 1 auto' }}>
+            <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              {group.label}
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+              {group.options.map((opt) => {
+                const isActive = group.activeFilters.has(opt);
+                return (
+                  <button
+                    key={opt}
+                    onClick={() => group.onToggle(opt)}
+                    style={{
+                      padding: '2px 6px',
+                      borderRadius: '4px',
+                      border: isActive ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
+                      backgroundColor: isActive ? c.bg : 'transparent',
+                      color: isActive ? c.text : 'var(--sl-color-gray-3)',
+                      fontSize: '0.65rem',
+                      fontWeight: isActive ? 700 : 500,
+                      cursor: 'pointer',
+                      margin: 0,
+                    }}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
-            {group.options.map((opt) => {
-              const isActive = group.activeFilters.has(opt);
-              return (
-                <button
-                  key={opt}
-                  onClick={() => group.onToggle(opt)}
-                  style={{
-                    padding: '2px 6px',
-                    borderRadius: '4px',
-                    border: isActive ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
-                    backgroundColor: isActive ? c.bg : 'transparent',
-                    color: isActive ? c.text : 'var(--sl-color-gray-3)',
-                    fontSize: '0.65rem',
-                    fontWeight: isActive ? 700 : 500,
-                    cursor: 'pointer',
-                    margin: 0,
-                  }}
-                >
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -794,7 +804,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
         </h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '0.75rem', color: 'var(--sl-color-gray-3)', marginBottom: '8px' }}>
           {toolhead.category && <span><strong>Category:</strong> {toolhead.category}</span>}
-          {toolhead.filament_cutter && <span><strong>Cutter:</strong> {toolhead.filament_cutter}</span>}
+          {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
           {toolhead.top_pick && <span style={{ color: '#b45309', fontWeight: 700 }}>⭐ Top Pick</span>}
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1031,7 +1041,7 @@ function ToolheadDetailCard({ toolhead }) {
           )}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', fontSize: '0.7rem', color: 'var(--sl-color-gray-3)' }}>
             {toolhead.category && <span><strong>Category:</strong> {toolhead.category}</span>}
-            {toolhead.filament_cutter && <span><strong>Cutter:</strong> {toolhead.filament_cutter}</span>}
+            {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
           </div>
           {toolhead.url && (
             <a
@@ -1095,75 +1105,163 @@ export default function ToolheadRebuilder() {
     });
   };
 
-  /* Toolheads filtered by component selections (for toolhead filter option computation) */
+  /* Toolheads filtered by component selections AND metadata filters */
   const componentFilteredToolheads = useMemo(() => getViableToolheads({
     extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
     hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
     toolheadName: null,
-  }), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan]);
+    categoryFilters: toolheadCategoryFilters,
+    cutterFilters: toolheadCutterFilters,
+  }), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters]);
 
-  /* Toolheads further filtered by metadata filters (category + filament_cutter) */
+  /* Further filter toolheads by component-level filters (extruder gear/mount, hotend flow/mount/nozzle, probe type) */
+  const extruderFilterGroups = useMemo(() => [
+    { activeFilters: extruderFilters, filterField: 'gear_type' },
+    { activeFilters: extruderMountFilters, filterField: 'mounting_pattern' },
+  ], [extruderFilters, extruderMountFilters]);
+
+  const hotendFilterGroups = useMemo(() => [
+    { activeFilters: hotendFilters, filterField: 'hotend_type' },
+    { activeFilters: hotendMountFilters, filterField: 'mounting_pattern' },
+    { activeFilters: hotendNozzleFilters, filterField: 'nozzle_compatibility' },
+  ], [hotendFilters, hotendMountFilters, hotendNozzleFilters]);
+
+  const probeFilterGroups = useMemo(() => [
+    { activeFilters: probeFilters, filterField: 'type' },
+  ], [probeFilters]);
+
   const filteredToolheads = useMemo(() => {
-    let ths = componentFilteredToolheads;
-    if (toolheadCategoryFilters.size > 0) {
-      ths = ths.filter((th) => th.category && toolheadCategoryFilters.has(th.category));
-    }
-    if (toolheadCutterFilters.size > 0) {
-      ths = ths.filter((th) => th.filament_cutter && toolheadCutterFilters.has(th.filament_cutter));
-    }
-    return ths;
-  }, [componentFilteredToolheads, toolheadCategoryFilters, toolheadCutterFilters]);
+    const hasExtruderFilter = extruderFilterGroups.some((g) => g.activeFilters.size > 0);
+    const hasHotendFilter = hotendFilterGroups.some((g) => g.activeFilters.size > 0);
+    const hasProbeFilter = probeFilterGroups.some((g) => g.activeFilters.size > 0);
+    if (!hasExtruderFilter && !hasHotendFilter && !hasProbeFilter) return componentFilteredToolheads;
+
+    return componentFilteredToolheads.filter((th) => {
+      // Check if toolhead has at least one compatible extruder that passes extruder filters
+      if (hasExtruderFilter) {
+        const expandedExtNames = getExpandedExtruders(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []);
+        const allExtNames = [...new Set([...(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []), ...expandedExtNames])];
+        const hasMatch = allExtNames.some((name) => {
+          const ext = extrudersData.extruders.find((e) => e.name.toLowerCase() === name.toLowerCase());
+          return ext && itemPassesFilterGroups(ext, extruderFilterGroups, -1);
+        });
+        if (!hasMatch) return false;
+      }
+      // Check if toolhead has at least one compatible hotend that passes hotend filters
+      if (hasHotendFilter) {
+        const expandedHotNames = getExpandedHotends(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []);
+        const allHotNames = [...new Set([...(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []), ...expandedHotNames])];
+        const hasMatch = allHotNames.some((name) => {
+          const hot = hotendsData.hotends.find((h) => h.name.toLowerCase() === name.toLowerCase());
+          return hot && itemPassesFilterGroups(hot, hotendFilterGroups, -1);
+        });
+        if (!hasMatch) return false;
+      }
+      // Check if toolhead has at least one compatible probe that passes probe filters
+      if (hasProbeFilter) {
+        const expandedProbeNames = getExpandedProbes(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []);
+        const allProbeNames = [...new Set([...(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []), ...expandedProbeNames])];
+        const hasMatch = allProbeNames.some((name) => {
+          const prb = probesData.probes.find((p) => p.name.toLowerCase() === name.toLowerCase());
+          return prb && itemPassesFilterGroups(prb, probeFilterGroups, -1);
+        });
+        if (!hasMatch) return false;
+      }
+      return true;
+    });
+  }, [componentFilteredToolheads, extruderFilterGroups, hotendFilterGroups, probeFilterGroups]);
+
+  /* Helper: filter toolheads by component-level filters, optionally skipping one category */
+  const applyComponentFilters = useCallback((ths, skipCategory) => {
+    const hasExtFilter = skipCategory !== 'extruder' && extruderFilterGroups.some((g) => g.activeFilters.size > 0);
+    const hasHotFilter = skipCategory !== 'hotend' && hotendFilterGroups.some((g) => g.activeFilters.size > 0);
+    const hasProFilter = skipCategory !== 'probe' && probeFilterGroups.some((g) => g.activeFilters.size > 0);
+    if (!hasExtFilter && !hasHotFilter && !hasProFilter) return ths;
+    return ths.filter((th) => {
+      if (hasExtFilter) {
+        const names = getExpandedExtruders(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []);
+        const allNames = [...new Set([...(Array.isArray(th.extruders) ? th.extruders : th.extruders ? [th.extruders] : []), ...names])];
+        if (!allNames.some((n) => { const e = extrudersData.extruders.find((x) => x.name.toLowerCase() === n.toLowerCase()); return e && itemPassesFilterGroups(e, extruderFilterGroups, -1); })) return false;
+      }
+      if (hasHotFilter) {
+        const names = getExpandedHotends(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []);
+        const allNames = [...new Set([...(Array.isArray(th.hotend) ? th.hotend : th.hotend ? [th.hotend] : []), ...names])];
+        if (!allNames.some((n) => { const h = hotendsData.hotends.find((x) => x.name.toLowerCase() === n.toLowerCase()); return h && itemPassesFilterGroups(h, hotendFilterGroups, -1); })) return false;
+      }
+      if (hasProFilter) {
+        const names = getExpandedProbes(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []);
+        const allNames = [...new Set([...(Array.isArray(th.probe) ? th.probe : th.probe ? [th.probe] : []), ...names])];
+        if (!allNames.some((n) => { const p = probesData.probes.find((x) => x.name.toLowerCase() === n.toLowerCase()); return p && itemPassesFilterGroups(p, probeFilterGroups, -1); })) return false;
+      }
+      return true;
+    });
+  }, [extruderFilterGroups, hotendFilterGroups, probeFilterGroups]);
 
   const viableExtruderNames = useMemo(() => {
-    const ths = getViableToolheads({
+    let ths = getViableToolheads({
       extruder: null, hotend: selectedHotend, probe: selectedProbe,
       hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
       toolheadName: selectedToolheadName,
+      categoryFilters: toolheadCategoryFilters,
+      cutterFilters: toolheadCutterFilters,
     });
+    ths = applyComponentFilters(ths, 'extruder');
     return getViableNames(ths, (t) => t.extruders, getExpandedExtruders);
-  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName]);
+  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
 
   const viableHotendNames = useMemo(() => {
-    const ths = getViableToolheads({
+    let ths = getViableToolheads({
       extruder: selectedExtruder, hotend: null, probe: selectedProbe,
       hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
       toolheadName: selectedToolheadName,
+      categoryFilters: toolheadCategoryFilters,
+      cutterFilters: toolheadCutterFilters,
     });
+    ths = applyComponentFilters(ths, 'hotend');
     return getViableNames(ths, (t) => t.hotend, getExpandedHotends);
-  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName]);
+  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
 
   const viableProbeNames = useMemo(() => {
-    const ths = getViableToolheads({
+    let ths = getViableToolheads({
       extruder: selectedExtruder, hotend: selectedHotend, probe: null,
       hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
       toolheadName: selectedToolheadName,
+      categoryFilters: toolheadCategoryFilters,
+      cutterFilters: toolheadCutterFilters,
     });
+    ths = applyComponentFilters(ths, 'probe');
     return getViableNames(ths, (t) => t.probe, getExpandedProbes);
-  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName]);
+  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
 
   const viableHotendFanValues = useMemo(() => {
-    const ths = getViableToolheads({
+    let ths = getViableToolheads({
       extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
       hotendFan: null, partCoolingFan: selectedPartCoolingFan,
       toolheadName: selectedToolheadName,
+      categoryFilters: toolheadCategoryFilters,
+      cutterFilters: toolheadCutterFilters,
     });
+    ths = applyComponentFilters(ths, null);
     return getViableFanValues(ths, 'hotend_fan');
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan, selectedToolheadName]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
 
   const viablePartCoolingFanValues = useMemo(() => {
-    const ths = getViableToolheads({
+    let ths = getViableToolheads({
       extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
       hotendFan: selectedHotendFan, partCoolingFan: null,
       toolheadName: selectedToolheadName,
+      categoryFilters: toolheadCategoryFilters,
+      cutterFilters: toolheadCutterFilters,
     });
+    ths = applyComponentFilters(ths, null);
     return getViableFanValues(ths, 'part_cooling_fan');
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedToolheadName]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
 
   const total = filteredToolheads.length;
 
   useEffect(() => {
     setActiveIndex(0);
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters, extruderFilters, extruderMountFilters, hotendFilters, hotendMountFilters, hotendNozzleFilters, probeFilters]);
 
   useEffect(() => {
     if (!selectedToolheadName) return;
@@ -1255,10 +1353,20 @@ export default function ToolheadRebuilder() {
   }
 
   /* Dynamic toolhead filter options based on component-filtered toolheads */
+  /* Need base toolheads without metadata filters but WITH component-level filters for computing dynamic options */
+  const baseToolheadsForFilterOptions = useMemo(() => {
+    const base = getViableToolheads({
+      extruder: selectedExtruder, hotend: selectedHotend, probe: selectedProbe,
+      hotendFan: selectedHotendFan, partCoolingFan: selectedPartCoolingFan,
+      toolheadName: null,
+    });
+    return applyComponentFilters(base, null);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, applyComponentFilters]);
+
   const toolheadCategoryOptions = useMemo(() => {
     const cats = new Set();
-    // Show category options from component-filtered toolheads that pass cutter filter
-    let candidates = componentFilteredToolheads;
+    // Show category options from base toolheads that pass cutter filter
+    let candidates = baseToolheadsForFilterOptions;
     if (toolheadCutterFilters.size > 0) {
       candidates = candidates.filter((th) => th.filament_cutter && toolheadCutterFilters.has(th.filament_cutter));
     }
@@ -1267,11 +1375,11 @@ export default function ToolheadRebuilder() {
     }
     for (const v of toolheadCategoryFilters) cats.add(v);
     return [...cats].sort();
-  }, [componentFilteredToolheads, toolheadCategoryFilters, toolheadCutterFilters]);
+  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters]);
 
   const toolheadCutterOptions = useMemo(() => {
     const cutters = new Set();
-    let candidates = componentFilteredToolheads;
+    let candidates = baseToolheadsForFilterOptions;
     if (toolheadCategoryFilters.size > 0) {
       candidates = candidates.filter((th) => th.category && toolheadCategoryFilters.has(th.category));
     }
@@ -1280,7 +1388,7 @@ export default function ToolheadRebuilder() {
     }
     for (const v of toolheadCutterFilters) cutters.add(v);
     return [...cutters].sort();
-  }, [componentFilteredToolheads, toolheadCategoryFilters, toolheadCutterFilters]);
+  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters]);
 
   const hasActiveToolheadFilter = toolheadCategoryFilters.size > 0 || toolheadCutterFilters.size > 0;
 
@@ -1295,7 +1403,6 @@ export default function ToolheadRebuilder() {
           border: '1px solid var(--sl-color-gray-5)',
           backgroundColor: 'var(--sl-color-bg-sidebar)',
           marginBottom: '24px',
-          overflowX: 'auto',
         }}
       >
       {/* Toolheads header: label + filter + view toggle with colored line */}
@@ -1348,16 +1455,18 @@ export default function ToolheadRebuilder() {
                     left: 0,
                     zIndex: 50,
                     marginTop: '4px',
-                    padding: '8px',
+                    padding: '8px 10px',
                     borderRadius: '8px',
                     border: '1px solid #2E8B57',
                     backgroundColor: 'var(--sl-color-bg-sidebar)',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                    minWidth: '140px',
+                    minWidth: '180px',
+                    maxWidth: '400px',
                   }}
                 >
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {toolheadCategoryOptions.length > 0 && (
-                    <div style={{ marginBottom: toolheadCutterOptions.length > 0 ? '6px' : 0 }}>
+                    <div style={{ minWidth: '80px', flex: '1 1 auto' }}>
                       <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                         Category
                       </div>
@@ -1388,7 +1497,7 @@ export default function ToolheadRebuilder() {
                     </div>
                   )}
                   {toolheadCutterOptions.length > 0 && (
-                    <div>
+                    <div style={{ minWidth: '80px', flex: '1 1 auto' }}>
                       <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                         Filament Cutter
                       </div>
@@ -1418,6 +1527,7 @@ export default function ToolheadRebuilder() {
                       </div>
                     </div>
                   )}
+                  </div>
                 </div>
               )}
             </div>
@@ -1598,7 +1708,6 @@ export default function ToolheadRebuilder() {
           border: '1px solid var(--sl-color-gray-5)',
           backgroundColor: 'var(--sl-color-bg-sidebar)',
           marginBottom: '24px',
-          overflowX: 'auto',
         }}
       >
         <h2
