@@ -103,14 +103,14 @@
       "name": "NF-Crazy",
       "mounting_pattern": [
         "Groove",
-        "Volcano"
       ],
       "length": "49mm",
       "meltzone_length": "unknown",
       "hotend_type": "SF",
       "flow_rate": "Unknown",
       "nozzle_compatibility": [
-        "V6"
+        "V6",
+        "Volcano"
       ],
       "url": "https://3dmellow.com/products/nf-crazy-v2-hotend",
       "description": "Ender style hotend, supports Ender or V6 mounting, V6 or V6 Volcano nozzles, one-handed nozzle changes.",
@@ -235,14 +235,14 @@
     {
       "name": "Bambu A1/P2/H1",
       "mounting_pattern": [
-        "Bambu"
+        "Other"
       ],
-      "length": "unknown",
-      "meltzone_length": "unknown",
-      "hotend_type": "unknown",
-      "flow_rate": "unknown",
+      "length": "46.9mm",
+      "meltzone_length": "27.2mm",
+      "hotend_type": "HF",
+      "flow_rate": "~22 mm3/s",
       "nozzle_compatibility": [
-        "unknown"
+        "integrated"
       ],
       "url": "",
       "description": "Bambulabs hotend for A1, P2, and H1 series printers.",
@@ -278,7 +278,8 @@
       "hotend_type": "HF",
       "flow_rate": "Unknown",
       "nozzle_compatibility": [
-        "Other"
+        "Other",
+        "V6
       ],
       "url": "https://www.trianglelab.net/products/tz-40-hotend",
       "description": "Clone hotend with Bambulabs style heater block, variant of TZ 2.0, available in Bambulabs, V6+Dragon, or Ender style heatbreak and mounting, features single-piece throat+nozzle design, one handed nozzle changes.",
