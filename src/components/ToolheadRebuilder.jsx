@@ -305,7 +305,7 @@ function getViableFanValues(toolheads, fanField) {
 
 /* ------- UI Sub-components ------- */
 
-const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010'];
+const HOTEND_FAN_OPTIONS = ['2510', '3007', '3010', '4010', '4028'];
 const PART_COOLING_FAN_OPTIONS = ['3010', '3515', '3628', '4010', '4020', '5015', '5020', 'CPAP'];
 const CAROUSEL_ITEM_WIDTH = 460;
 
@@ -537,10 +537,28 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
-            {title}
-          </h3>
+        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+          {title}
+        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {selected && (
+            <button
+              onClick={() => onSelect(null)}
+              style={{
+                fontSize: '0.65rem',
+                padding: '1px 6px',
+                borderRadius: '10px',
+                border: '1px solid var(--sl-color-gray-5)',
+                backgroundColor: 'transparent',
+                color: 'var(--sl-color-gray-3)',
+                cursor: 'pointer',
+                fontWeight: 600,
+                margin: 0,
+              }}
+            >
+              ✕
+            </button>
+          )}
           {dynamicFilterGroups && dynamicFilterGroups.some((g) => g.options.length > 0) && (
             <div ref={filterContainerRef} style={{ position: 'relative' }}>
               <button
@@ -548,9 +566,8 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
                 style={{
                   fontSize: '0.7rem',
                   padding: '2px 8px',
-                  borderRadius: '0 4px 4px 0',
+                  borderRadius: '4px',
                   border: hasActiveFilter ? `1px solid ${c.border}` : '1px solid var(--sl-color-gray-5)',
-                  borderLeft: 'none',
                   backgroundColor: hasActiveFilter ? c.border + '22' : 'transparent',
                   color: hasActiveFilter ? c.border : 'var(--sl-color-gray-4)',
                   cursor: 'pointer',
@@ -571,26 +588,6 @@ function ComponentRow({ title, items, viableNames, selected, onSelect, accentCol
                 />
               )}
             </div>
-          )}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          {selected && (
-            <button
-              onClick={() => onSelect(null)}
-              style={{
-                fontSize: '0.65rem',
-                padding: '1px 6px',
-                borderRadius: '10px',
-                border: '1px solid var(--sl-color-gray-5)',
-                backgroundColor: 'transparent',
-                color: 'var(--sl-color-gray-3)',
-                cursor: 'pointer',
-                fontWeight: 600,
-                margin: 0,
-              }}
-            >
-              ✕
-            </button>
           )}
         </div>
       </div>
@@ -1395,8 +1392,7 @@ export default function ToolheadRebuilder() {
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
+        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--sl-color-white)', margin: 0 }}>
             Toolheads
             {total > 0 && (
               <span style={{ marginLeft: '6px', fontSize: '0.75rem', fontWeight: 400, color: 'var(--sl-color-gray-3)' }}>
@@ -1404,6 +1400,62 @@ export default function ToolheadRebuilder() {
               </span>
             )}
           </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button
+            onClick={() => setToolheadView('carousel')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '4px 0 0 4px',
+              border: '1px solid var(--sl-color-gray-5)',
+              borderRight: 'none',
+              backgroundColor: toolheadView === 'carousel' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'carousel' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Carousel view"
+          >
+            <CarouselIcon />
+          </button>
+          <button
+            onClick={() => setToolheadView('grid')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '0',
+              border: '1px solid var(--sl-color-gray-5)',
+              borderRight: 'none',
+              backgroundColor: toolheadView === 'grid' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'grid' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Grid view"
+          >
+            <GridIcon />
+          </button>
+          <button
+            onClick={() => setToolheadView('compact')}
+            style={{
+              padding: '4px 6px',
+              borderRadius: '0 4px 4px 0',
+              border: '1px solid var(--sl-color-gray-5)',
+              backgroundColor: toolheadView === 'compact' ? 'rgba(46,139,87,0.13)' : 'transparent',
+              color: toolheadView === 'compact' ? '#2E8B57' : 'var(--sl-color-gray-4)',
+              cursor: 'pointer',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+            title="Compact view"
+          >
+            <DenseGridIcon />
+          </button>
+          </div>
           {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0) && (
             <div ref={toolheadFilterRef} style={{ position: 'relative' }}>
               <button
@@ -1411,9 +1463,8 @@ export default function ToolheadRebuilder() {
                 style={{
                   fontSize: '0.7rem',
                   padding: '2px 8px',
-                  borderRadius: '0 4px 4px 0',
+                  borderRadius: '4px',
                   border: hasActiveToolheadFilter ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
-                  borderLeft: 'none',
                   backgroundColor: hasActiveToolheadFilter ? 'rgba(46,139,87,0.13)' : 'transparent',
                   color: hasActiveToolheadFilter ? '#2E8B57' : 'var(--sl-color-gray-4)',
                   cursor: 'pointer',
@@ -1430,7 +1481,7 @@ export default function ToolheadRebuilder() {
                   style={{
                     position: 'absolute',
                     top: '100%',
-                    left: 0,
+                    right: 0,
                     zIndex: 50,
                     marginTop: '4px',
                     padding: '8px 10px',
@@ -1510,61 +1561,6 @@ export default function ToolheadRebuilder() {
               )}
             </div>
           )}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <button
-            onClick={() => setToolheadView('carousel')}
-            style={{
-              padding: '4px 6px',
-              borderRadius: '4px 0 0 4px',
-              border: '1px solid var(--sl-color-gray-5)',
-              borderRight: 'none',
-              backgroundColor: toolheadView === 'carousel' ? 'rgba(46,139,87,0.13)' : 'transparent',
-              color: toolheadView === 'carousel' ? '#2E8B57' : 'var(--sl-color-gray-4)',
-              cursor: 'pointer',
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            title="Carousel view"
-          >
-            <CarouselIcon />
-          </button>
-          <button
-            onClick={() => setToolheadView('grid')}
-            style={{
-              padding: '4px 6px',
-              borderRadius: '0',
-              border: '1px solid var(--sl-color-gray-5)',
-              borderRight: 'none',
-              backgroundColor: toolheadView === 'grid' ? 'rgba(46,139,87,0.13)' : 'transparent',
-              color: toolheadView === 'grid' ? '#2E8B57' : 'var(--sl-color-gray-4)',
-              cursor: 'pointer',
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            title="Grid view"
-          >
-            <GridIcon />
-          </button>
-          <button
-            onClick={() => setToolheadView('compact')}
-            style={{
-              padding: '4px 6px',
-              borderRadius: '0 4px 4px 0',
-              border: '1px solid var(--sl-color-gray-5)',
-              backgroundColor: toolheadView === 'compact' ? 'rgba(46,139,87,0.13)' : 'transparent',
-              color: toolheadView === 'compact' ? '#2E8B57' : 'var(--sl-color-gray-4)',
-              cursor: 'pointer',
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            title="Compact view"
-          >
-            <DenseGridIcon />
-          </button>
         </div>
       </div>
 
