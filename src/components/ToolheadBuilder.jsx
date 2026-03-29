@@ -3,9 +3,10 @@ import toolheadsData from '../data/toolheads.json';
 import hotendsData from '../data/hotends.json';
 import extrudersData from '../data/extruders.json';
 import probesData from '../data/probes.json';
-import { useSwipe } from './useSwipe';
+import { useDragCarousel } from './useDragCarousel';
 
 const communityPicks = toolheadsData.toolheads.filter((t) => t.configurator);
+const CAROUSEL_ITEM_WIDTH = 460;
 
 function findDetail(name, catalog, nameKey = 'name') {
   const lower = name.toLowerCase();
@@ -621,15 +622,17 @@ function CarouselArrow({ direction, onClick }) {
   );
 }
 
-function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
+function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragOffset = 0, isDragging }) {
   const isCenter = position === 'center';
   const isLeft = position === 'left';
   const isRight = position === 'right';
 
-  const translateX = isCenter ? '0%' : isLeft ? '-60%' : '60%';
+  const baseTranslateX = isCenter ? 0 : isLeft ? -60 : 60;
   const scale = isCenter ? 1 : 0.82;
   const opacity = isCenter ? 1 : 0.4;
   const zIndex = isCenter ? 5 : 2;
+
+  const dragPercent = (dragOffset / CAROUSEL_ITEM_WIDTH) * 60;
 
   return (
     <div
@@ -640,12 +643,13 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick }) {
         left: '50%',
         width: '100%',
         maxWidth: '420px',
-        transform: `translateX(-50%) translateX(${translateX}) scale(${scale})`,
+        transform: `translateX(-50%) translateX(${baseTranslateX + dragPercent}%) scale(${scale})`,
         opacity,
         zIndex,
-        transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
-        cursor: 'pointer',
-        pointerEvents: isCenter ? 'auto' : 'auto',
+        transition: isDragging ? 'none' : 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+        cursor: isDragging ? 'grabbing' : 'pointer',
+        pointerEvents: 'auto',
+        userSelect: 'none',
       }}
     >
       <div
@@ -779,7 +783,10 @@ export default function ToolheadBuilder() {
     clearComponentSelections();
   };
 
-  const swipeHandlers = useSwipe(goRight, goLeft);
+  const { dragOffset, isDragging, handlers: dragHandlers } = useDragCarousel(total, activeIndex, (fnOrVal) => {
+    setActiveIndex(fnOrVal);
+    clearComponentSelections();
+  }, CAROUSEL_ITEM_WIDTH);
 
   const leftIndex = (activeIndex - 1 + total) % total;
   const rightIndex = (activeIndex + 1) % total;
@@ -789,6 +796,7 @@ export default function ToolheadBuilder() {
     : null;
 
   const handleCardClick = (index) => {
+    if (isDragging) return;
     if (index === activeIndex) {
       const name = communityPicks[activeIndex].name;
       const isDeselecting = selectedName === name;
@@ -878,7 +886,7 @@ export default function ToolheadBuilder() {
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
       {/* Toolhead carousel */}
       <div
-        {...swipeHandlers}
+        {...dragHandlers}
         style={{
           position: 'relative',
           height: '480px',
@@ -886,6 +894,8 @@ export default function ToolheadBuilder() {
           overflow: 'hidden',
           padding: '0 40px',
           touchAction: 'pan-y',
+          cursor: isDragging ? 'grabbing' : 'grab',
+          userSelect: 'none',
         }}
       >
         <CarouselArrow direction="left" onClick={goLeft} />
@@ -906,6 +916,8 @@ export default function ToolheadBuilder() {
               isSelected={selectedName === toolhead.name}
               onSelect={() => handleToolheadSelect(toolhead.name)}
               onClick={() => handleCardClick(i)}
+              dragOffset={dragOffset}
+              isDragging={isDragging}
             />
           );
         })}

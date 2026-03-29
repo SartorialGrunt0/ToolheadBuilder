@@ -41,7 +41,7 @@
       "length": "44.15mm",
       "meltzone_length": "18.2mm",
       "hotend_type": "SF",
-      "flow_rate": "Unknown",
+      "flow_rate": "~12 mm3/s",
       "nozzle_compatibility": [
         "Revo"
       ],
@@ -52,7 +52,8 @@
     {
       "name": "Dragon SF",
       "mounting_pattern": [
-        "Screws"
+        "Screws",
+        "Groove"
       ],
       "length": "45.5mm",
       "meltzone_length": "26mm",
@@ -69,7 +70,7 @@
       "name": "Dragonfly",
       "mounting_pattern": [
         "Groove",
-        "other"
+        "Through-hole"
       ],
       "length": "45.6mm",
       "meltzone_length": "18.5mm",
@@ -103,7 +104,8 @@
       "name": "NF-Crazy",
       "mounting_pattern": [
         "Groove",
-        "Volcano"
+        "Screws",
+        "Through-hole"
       ],
       "length": "49mm",
       "meltzone_length": "unknown",
@@ -120,7 +122,8 @@
       "name": "NF-Crazy Volcano",
       "mounting_pattern": [
         "Groove",
-        "other"
+        "Screws",
+        "Through-hole"
       ],
       "length": "unknowm",
       "meltzone_length": "34.5mm",
@@ -136,7 +139,9 @@
     {
       "name": "Mosquito",
       "mounting_pattern": [
-        "other"
+        "Groove",
+        "Screws",
+        "Through-hole"
       ],
       "length": "41mm",
       "meltzone_length": "18.9mm",
@@ -158,7 +163,7 @@
       "length": "50.8mm",
       "meltzone_length": "33.0mm",
       "hotend_type": "HF",
-      "flow_rate": "~25 mm3/s",
+      "flow_rate": "~25-30 mm3/s",
       "nozzle_compatibility": [
         "V6"
       ],
@@ -186,7 +191,7 @@
     {
       "name": "Dragonfly HIC",
       "mounting_pattern": [
-        "other"
+        "Through-hole"
       ],
       "length": "unknown",
       "meltzone_length": "unknown",
@@ -233,6 +238,22 @@
       "top_pick": false
     },
     {
+      "name": "Bambu A1/P2/H1",
+      "mounting_pattern": [
+        "Other"
+      ],
+      "length": "46.9mm",
+      "meltzone_length": "27.2mm",
+      "hotend_type": "HF",
+      "flow_rate": "~22 mm3/s",
+      "nozzle_compatibility": [
+        "integrated"
+      ],
+      "url": "https://us.store.bambulab.com/products/bambu-hotend-a1-series",
+      "description": "Bambulabs hotend for A1, P2, and H1 series printers.",
+      "top_pick": false
+    },
+    {
       "name": "TZ2.0",
       "mounting_pattern": [
         "Groove",
@@ -260,9 +281,10 @@
       "length": "45.15mm",
       "meltzone_length": "24.2mm",
       "hotend_type": "HF",
-      "flow_rate": "Unknown",
+      "flow_rate": "~24 mm3/s",
       "nozzle_compatibility": [
-        "Other"
+        "Other",
+        "V6"
       ],
       "url": "https://www.trianglelab.net/products/tz-40-hotend",
       "description": "Clone hotend with Bambulabs style heater block, variant of TZ 2.0, available in Bambulabs, V6+Dragon, or Ender style heatbreak and mounting, features single-piece throat+nozzle design, one handed nozzle changes.",
@@ -328,11 +350,11 @@
       "length": "47.2mm",
       "meltzone_length": "unknown",
       "hotend_type": "UHF",
-      "flow_rate": "Unknown",
+      "flow_rate": "~35 mm3/s",
       "nozzle_compatibility": [
         "V6"
       ],
-      "url": "https://www.aliexpress.us/item/3256809993234845.html",
+      "url": "https://3dmellow.com/products/fluxheat-hotend?VariantsId=10249",
       "description": "V6 or Bambu style hotend, Dragon or Bambu mounting, one handed nozzle changes, support for an integrated nozzle probe, V6 nozzles.",
       "top_pick": false
     },
@@ -380,7 +402,8 @@
       "hotend_type": "UHF",
       "flow_rate": "Unknown",
       "nozzle_compatibility": [
-        "V6"
+        "V6",
+        "Integrated"
       ],
       "url": "https://www.phaetus.com/en-us/products/dragon-hotend-%C2%AE-ultra high",
       "description": "V6 style hotend, variant of Dragon HF, supports groove or Dragon mounting, ceramic heater, one handed nozzle changes.",
