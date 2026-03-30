@@ -39,10 +39,13 @@
       "filament_cutter": "native",
       "top_pick": true,
       "belt_path": [
-        "Monolith",
-        "CoreXY"
+        "Monolith coreXY",
+        "Voron coreXY"
       ],
-      "printers": "unknown",
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
       "build_guide": false
     },
     {
@@ -73,8 +76,8 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": [
-        "CoreXY",
-        "CoreXZ"
+        "Voron coreXY",
+        "Voron coreXZ"
       ],
       "printers": [
         "Trident",
@@ -100,7 +103,7 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -135,7 +138,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "native",
       "top_pick": true,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": [
         "Trident",
         "V2.4",
@@ -182,10 +185,13 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": [
-        "CoreXY",
-        "Monolith"
+        "Voron coreXY",
+        "Monolith coreXY"
       ],
-      "printers": "unknown",
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
       "build_guide": false
     },
     {
@@ -205,7 +211,7 @@
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -227,8 +233,11 @@
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "unknown",
-      "printers": "unknown",
+      "belt_path": "Voron coreXY",
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
       "build_guide": false
     },
     {
@@ -261,7 +270,7 @@
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": [
         "Trident",
         "V2.4"
@@ -285,7 +294,10 @@
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": [
+        "Monolith coreXY",
+        "Voron coreXY"
+      ],
       "printers": [
         "Trident",
         "V2.4"
@@ -371,7 +383,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": true,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -419,7 +431,7 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -440,7 +452,7 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -471,7 +483,7 @@
       ],
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -510,7 +522,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": [
         "Trident",
         "V2.4"
@@ -549,8 +561,11 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXZ",
-      "printers": "Switchwire",
+      "belt_path": "Voron coreXZ",
+      "printers": [
+        "Switchwire",
+        "Enderwire"
+      ],
       "build_guide": false
     },
     {
@@ -578,7 +593,10 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "native",
       "top_pick": false,
-      "belt_path": "unknown",
+      "belt_path": [
+        "Voron coreXY",
+        "Voron coreXZ"
+      ],
       "printers": [
         "V0",
         "Micron",
@@ -622,13 +640,14 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": [
-        "CoreXY",
-        "CoreXZ"
+        "Voron coreXY",
+        "Voron coreXZ"
       ],
       "printers": [
         "V0",
         "V2.4",
-        "Trident"
+        "Trident",
+        "Switchwire"
       ],
       "build_guide": false
     },
@@ -667,8 +686,11 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "unknown",
-      "printers": "unknown",
+      "belt_path": "Voron coreXY",
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
       "build_guide": false
     },
     {
@@ -688,7 +710,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -713,7 +735,7 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -745,7 +767,7 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -772,7 +794,7 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": true
     },
@@ -812,7 +834,7 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -839,7 +861,7 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -905,7 +927,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -946,7 +968,7 @@
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": [
         "V2.4",
         "Trident"
@@ -981,8 +1003,8 @@
       "filament_cutter": "native",
       "top_pick": false,
       "belt_path": [
-        "CoreXY",
-        "Monolith"
+        "Voron coreXY",
+        "Monolith coreXY"
       ],
       "printers": [
         "V2.4",
@@ -1011,7 +1033,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -1036,7 +1058,7 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -1072,7 +1094,10 @@
       "part_cooling_fan": "5015",
       "filament_cutter": "mod",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": [
+        "Voron coreXY",
+        "Voron coreXZ"
+      ],
       "printers": [
         "Switchwire",
         "V2.4",
@@ -1109,7 +1134,7 @@
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -1146,7 +1171,7 @@
       ],
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     },
@@ -1177,8 +1202,8 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": [
-        "Monolith",
-        "CoreXY"
+        "Monolith coreXY",
+        "Voron coreXY"
       ],
       "printers": [
         "Trident",
@@ -1214,8 +1239,11 @@
       ],
       "filament_cutter": "native",
       "top_pick": false,
-      "belt_path": "unknown",
-      "printers": "unknown",
+      "belt_path": "Voron coreXY",
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
       "build_guide": true
     },
     {
@@ -1235,7 +1263,7 @@
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -1256,7 +1284,7 @@
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "Monolith",
+      "belt_path": "Monolith coreXY",
       "printers": "unknown",
       "build_guide": false
     },
@@ -1282,8 +1310,12 @@
       "part_cooling_fan": "5020",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "unknown",
-      "printers": "unknown",
+      "belt_path": "Voron coreXY",
+      "printers": [
+        "V2.4",
+        "Trident",
+        "SV08"
+      ],
       "build_guide": false
     },
     {
@@ -1304,8 +1336,12 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "unknown",
-      "printers": "unknown",
+      "belt_path": "Voron coreXY",
+      "printers": [
+        "V2.4",
+        "Trident",
+        "SV08"
+      ],
       "build_guide": false
     },
     {
@@ -1325,8 +1361,11 @@
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "unknown",
-      "printers": "unknown",
+      "belt_path": "Voron coreXY",
+      "printers": [
+        "V2.4",
+        "SV08"
+      ],
       "build_guide": false
     },
     {
@@ -1376,8 +1415,8 @@
       "filament_cutter": "mod",
       "top_pick": false,
       "belt_path": [
-        "CoreXY",
-        "Monolith"
+        "Voron coreXY",
+        "Monolith coreXY"
       ],
       "printers": [
         "Trident",
@@ -1418,7 +1457,7 @@
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
       "top_pick": false,
-      "belt_path": "CoreXY",
+      "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
     }

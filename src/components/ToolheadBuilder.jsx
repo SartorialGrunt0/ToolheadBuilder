@@ -202,6 +202,15 @@ function getFieldValues(items, field) {
   return [...set].sort();
 }
 
+function fieldMatchesActiveFilters(item, field, activeFilters) {
+  if (!activeFilters || activeFilters.size === 0) return true;
+  const val = item[field];
+  if (Array.isArray(val)) {
+    return val.some((v) => activeFilters.has(v));
+  }
+  return !!val && activeFilters.has(val);
+}
+
 function itemPassesFilterGroups(item, filterGroups, skipIndex) {
   for (let i = 0; i < filterGroups.length; i++) {
     if (i === skipIndex) continue;
@@ -267,6 +276,12 @@ function getViableToolheads(selections) {
     }
     if (selections.cutterFilters && selections.cutterFilters.size > 0) {
       if (!th.filament_cutter || !selections.cutterFilters.has(th.filament_cutter)) return false;
+    }
+    if (selections.printerFilters && selections.printerFilters.size > 0) {
+      if (!fieldMatchesActiveFilters(th, 'printers', selections.printerFilters)) return false;
+    }
+    if (selections.beltPathFilters && selections.beltPathFilters.size > 0) {
+      if (!fieldMatchesActiveFilters(th, 'belt_path', selections.beltPathFilters)) return false;
     }
     return true;
   });
@@ -1092,6 +1107,8 @@ export default function ToolheadBuilder() {
   const [toolheadView, setToolheadView] = useState('carousel'); // 'carousel', 'grid', or 'compact'
   const [toolheadCategoryFilters, setToolheadCategoryFilters] = useState(new Set());
   const [toolheadCutterFilters, setToolheadCutterFilters] = useState(new Set());
+  const [toolheadPrinterFilters, setToolheadPrinterFilters] = useState(new Set());
+  const [toolheadBeltPathFilters, setToolheadBeltPathFilters] = useState(new Set());
   const [showToolheadFilter, setShowToolheadFilter] = useState(false);
   const toolheadFilterRef = useRef(null);
 
@@ -1126,7 +1143,9 @@ export default function ToolheadBuilder() {
     toolheadName: null,
     categoryFilters: toolheadCategoryFilters,
     cutterFilters: toolheadCutterFilters,
-  }), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters]);
+    printerFilters: toolheadPrinterFilters,
+    beltPathFilters: toolheadBeltPathFilters,
+  }), [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters]);
 
   /* Further filter toolheads by component-level filters (extruder gear/mount, hotend flow/mount/nozzle, probe type) */
   const extruderFilterGroups = useMemo(() => [
@@ -1179,10 +1198,12 @@ export default function ToolheadBuilder() {
       toolheadName: selectedToolheadName,
       categoryFilters: toolheadCategoryFilters,
       cutterFilters: toolheadCutterFilters,
+      printerFilters: toolheadPrinterFilters,
+      beltPathFilters: toolheadBeltPathFilters,
     });
     ths = applyComponentFilters(ths, 'extruder');
     return getViableNames(ths, (t) => t.extruders, getExpandedExtruders);
-  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
+  }, [selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters, applyComponentFilters]);
 
   const viableHotendNames = useMemo(() => {
     let ths = getViableToolheads({
@@ -1191,10 +1212,12 @@ export default function ToolheadBuilder() {
       toolheadName: selectedToolheadName,
       categoryFilters: toolheadCategoryFilters,
       cutterFilters: toolheadCutterFilters,
+      printerFilters: toolheadPrinterFilters,
+      beltPathFilters: toolheadBeltPathFilters,
     });
     ths = applyComponentFilters(ths, 'hotend');
     return getViableNames(ths, (t) => t.hotend, getExpandedHotends);
-  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
+  }, [selectedExtruder, selectedProbe, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters, applyComponentFilters]);
 
   const viableProbeNames = useMemo(() => {
     let ths = getViableToolheads({
@@ -1203,10 +1226,12 @@ export default function ToolheadBuilder() {
       toolheadName: selectedToolheadName,
       categoryFilters: toolheadCategoryFilters,
       cutterFilters: toolheadCutterFilters,
+      printerFilters: toolheadPrinterFilters,
+      beltPathFilters: toolheadBeltPathFilters,
     });
     ths = applyComponentFilters(ths, 'probe');
     return getViableNames(ths, (t) => t.probe, getExpandedProbes);
-  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
+  }, [selectedExtruder, selectedHotend, selectedHotendFan, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters, applyComponentFilters]);
 
   const viableHotendFanValues = useMemo(() => {
     let ths = getViableToolheads({
@@ -1215,10 +1240,12 @@ export default function ToolheadBuilder() {
       toolheadName: selectedToolheadName,
       categoryFilters: toolheadCategoryFilters,
       cutterFilters: toolheadCutterFilters,
+      printerFilters: toolheadPrinterFilters,
+      beltPathFilters: toolheadBeltPathFilters,
     });
     ths = applyComponentFilters(ths, null);
     return getViableFanValues(ths, 'hotend_fan');
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedPartCoolingFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters, applyComponentFilters]);
 
   const viablePartCoolingFanValues = useMemo(() => {
     let ths = getViableToolheads({
@@ -1227,16 +1254,18 @@ export default function ToolheadBuilder() {
       toolheadName: selectedToolheadName,
       categoryFilters: toolheadCategoryFilters,
       cutterFilters: toolheadCutterFilters,
+      printerFilters: toolheadPrinterFilters,
+      beltPathFilters: toolheadBeltPathFilters,
     });
     ths = applyComponentFilters(ths, null);
     return getViableFanValues(ths, 'part_cooling_fan');
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, applyComponentFilters]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedToolheadName, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters, applyComponentFilters]);
 
   const total = filteredToolheads.length;
 
   useEffect(() => {
     setActiveIndex(0);
-  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters, extruderFilters, extruderMountFilters, hotendFilters, hotendMountFilters, hotendNozzleFilters, probeFilters]);
+  }, [selectedExtruder, selectedHotend, selectedProbe, selectedHotendFan, selectedPartCoolingFan, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters, extruderFilters, extruderMountFilters, hotendFilters, hotendMountFilters, hotendNozzleFilters, probeFilters]);
 
   useEffect(() => {
     if (!selectedToolheadName) return;
@@ -1340,32 +1369,64 @@ export default function ToolheadBuilder() {
 
   const toolheadCategoryOptions = useMemo(() => {
     const cats = new Set();
-    // Show category options from base toolheads that pass cutter filter
+    // Show category options from base toolheads that pass all other metadata filters.
     let candidates = baseToolheadsForFilterOptions;
-    if (toolheadCutterFilters.size > 0) {
-      candidates = candidates.filter((th) => th.filament_cutter && toolheadCutterFilters.has(th.filament_cutter));
-    }
+    if (toolheadCutterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'filament_cutter', toolheadCutterFilters));
+    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printers', toolheadPrinterFilters));
+    if (toolheadBeltPathFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'belt_path', toolheadBeltPathFilters));
     for (const th of candidates) {
       if (th.category && !EXCLUDED_FILTER_VALUES.has(th.category.toLowerCase())) cats.add(th.category);
     }
     for (const v of toolheadCategoryFilters) cats.add(v);
     return [...cats].sort();
-  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters]);
+  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters]);
 
   const toolheadCutterOptions = useMemo(() => {
     const cutters = new Set();
     let candidates = baseToolheadsForFilterOptions;
-    if (toolheadCategoryFilters.size > 0) {
-      candidates = candidates.filter((th) => th.category && toolheadCategoryFilters.has(th.category));
-    }
+    if (toolheadCategoryFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'category', toolheadCategoryFilters));
+    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printers', toolheadPrinterFilters));
+    if (toolheadBeltPathFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'belt_path', toolheadBeltPathFilters));
     for (const th of candidates) {
       if (th.filament_cutter && !EXCLUDED_FILTER_VALUES.has(th.filament_cutter.toLowerCase())) cutters.add(th.filament_cutter);
     }
     for (const v of toolheadCutterFilters) cutters.add(v);
     return [...cutters].sort();
-  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters]);
+  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters]);
 
-  const hasActiveToolheadFilter = toolheadCategoryFilters.size > 0 || toolheadCutterFilters.size > 0;
+  const toolheadPrinterOptions = useMemo(() => {
+    const printers = new Set();
+    let candidates = baseToolheadsForFilterOptions;
+    if (toolheadCategoryFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'category', toolheadCategoryFilters));
+    if (toolheadCutterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'filament_cutter', toolheadCutterFilters));
+    if (toolheadBeltPathFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'belt_path', toolheadBeltPathFilters));
+    for (const th of candidates) {
+      const vals = toArray(th.printers);
+      for (const v of vals) {
+        if (typeof v === 'string' && isFilterableValue(v)) printers.add(v);
+      }
+    }
+    for (const v of toolheadPrinterFilters) printers.add(v);
+    return [...printers].sort();
+  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters]);
+
+  const toolheadBeltPathOptions = useMemo(() => {
+    const beltPaths = new Set();
+    let candidates = baseToolheadsForFilterOptions;
+    if (toolheadCategoryFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'category', toolheadCategoryFilters));
+    if (toolheadCutterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'filament_cutter', toolheadCutterFilters));
+    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printers', toolheadPrinterFilters));
+    for (const th of candidates) {
+      const vals = toArray(th.belt_path);
+      for (const v of vals) {
+        if (typeof v === 'string' && isFilterableValue(v)) beltPaths.add(v);
+      }
+    }
+    for (const v of toolheadBeltPathFilters) beltPaths.add(v);
+    return [...beltPaths].sort();
+  }, [baseToolheadsForFilterOptions, toolheadCategoryFilters, toolheadCutterFilters, toolheadPrinterFilters, toolheadBeltPathFilters]);
+
+  const hasActiveToolheadFilter = toolheadCategoryFilters.size > 0 || toolheadCutterFilters.size > 0 || toolheadPrinterFilters.size > 0 || toolheadBeltPathFilters.size > 0;
 
   return (
     <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
@@ -1456,7 +1517,7 @@ export default function ToolheadBuilder() {
             <DenseGridIcon />
           </button>
           </div>
-          {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0) && (
+          {(toolheadCategoryOptions.length > 0 || toolheadCutterOptions.length > 0 || toolheadPrinterOptions.length > 0 || toolheadBeltPathOptions.length > 0) && (
             <div ref={toolheadFilterRef} style={{ position: 'relative' }}>
               <button
                 onClick={() => setShowToolheadFilter((prev) => !prev)}
@@ -1537,6 +1598,68 @@ export default function ToolheadBuilder() {
                             <button
                               key={opt}
                               onClick={() => toggleFilter(setToolheadCutterFilters)(opt)}
+                              style={{
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                                backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
+                                color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
+                                fontSize: '0.65rem',
+                                fontWeight: isActive ? 700 : 500,
+                                cursor: 'pointer',
+                                margin: 0,
+                              }}
+                            >
+                              {opt}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {toolheadPrinterOptions.length > 0 && (
+                    <div style={{ minWidth: '80px', flex: '1 1 auto' }}>
+                      <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Printer
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                        {toolheadPrinterOptions.map((opt) => {
+                          const isActive = toolheadPrinterFilters.has(opt);
+                          return (
+                            <button
+                              key={opt}
+                              onClick={() => toggleFilter(setToolheadPrinterFilters)(opt)}
+                              style={{
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                border: isActive ? '1px solid #2E8B57' : '1px solid var(--sl-color-gray-5)',
+                                backgroundColor: isActive ? 'rgba(46,139,87,0.13)' : 'transparent',
+                                color: isActive ? '#2E8B57' : 'var(--sl-color-gray-3)',
+                                fontSize: '0.65rem',
+                                fontWeight: isActive ? 700 : 500,
+                                cursor: 'pointer',
+                                margin: 0,
+                              }}
+                            >
+                              {opt}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {toolheadBeltPathOptions.length > 0 && (
+                    <div style={{ minWidth: '80px', flex: '1 1 auto' }}>
+                      <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--sl-color-gray-4)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Belt Path
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                        {toolheadBeltPathOptions.map((opt) => {
+                          const isActive = toolheadBeltPathFilters.has(opt);
+                          return (
+                            <button
+                              key={opt}
+                              onClick={() => toggleFilter(setToolheadBeltPathFilters)(opt)}
                               style={{
                                 padding: '2px 6px',
                                 borderRadius: '4px',
