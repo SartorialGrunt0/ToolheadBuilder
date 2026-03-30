@@ -37,7 +37,13 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "native",
-      "top_pick": true
+      "top_pick": true,
+      "belt_path": [
+        "Monolith",
+        "CoreXY"
+      ],
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Afterburner",
@@ -65,7 +71,17 @@
       "hotend_fan": "4010",
       "part_cooling_fan": "4020",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": [
+        "CoreXY",
+        "CoreXZ"
+      ],
+      "printers": [
+        "Trident",
+        "V2.4",
+        "Switchwire"
+      ],
+      "build_guide": true
     },
     {
       "name": "Angry",
@@ -83,7 +99,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "AntHead",
@@ -114,8 +133,18 @@
       "configurator": true,
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
-      "filament_cutter": "unknown",
-      "top_pick": true
+      "filament_cutter": "native",
+      "top_pick": true,
+      "belt_path": "CoreXY",
+      "printers": [
+        "Trident",
+        "V2.4",
+        "V0",
+        "Micron",
+        "Salad Fork",
+        "StealthFork"
+      ],
+      "build_guide": true
     },
     {
       "name": "Archetype",
@@ -151,7 +180,13 @@
         "CPAP"
       ],
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": [
+        "CoreXY",
+        "Monolith"
+      ],
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Banantis",
@@ -169,7 +204,10 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Calamity",
@@ -188,7 +226,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Crown Cooler",
@@ -219,7 +260,13 @@
       "hotend_fan": "4028",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": [
+        "Trident",
+        "V2.4"
+      ],
+      "build_guide": false
     },
     {
       "name": "DK's Monolith",
@@ -237,7 +284,13 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": [
+        "Trident",
+        "V2.4"
+      ],
+      "build_guide": false
     },
     {
       "name": "Dragon Brick",
@@ -255,7 +308,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Dragon Burner",
@@ -314,7 +370,10 @@
       ],
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": true
+      "top_pick": true,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "EVA",
@@ -332,7 +391,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Fibre Steam",
@@ -356,7 +418,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Fibre Stream",
@@ -374,7 +439,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Gustav",
@@ -402,7 +470,10 @@
         "CPAP"
       ],
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Hypernova",
@@ -438,7 +509,13 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": [
+        "Trident",
+        "V2.4"
+      ],
+      "build_guide": false
     },
     {
       "name": "Hypernova BSE",
@@ -471,7 +548,10 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXZ",
+      "printers": "Switchwire",
+      "build_guide": false
     },
     {
       "name": "Jabberwocky",
@@ -497,7 +577,15 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "3010",
       "filament_cutter": "native",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": [
+        "V0",
+        "Micron",
+        "Switchwire",
+        "SV08"
+      ],
+      "build_guide": false
     },
     {
       "name": "Mailbox",
@@ -532,7 +620,17 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": [
+        "CoreXY",
+        "CoreXZ"
+      ],
+      "printers": [
+        "V0",
+        "V2.4",
+        "Trident"
+      ],
+      "build_guide": false
     },
     {
       "name": "Mantis",
@@ -568,7 +666,10 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Micro Saul2",
@@ -586,7 +687,10 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Mini-Afterburner",
@@ -608,7 +712,10 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Mini-Aftersherpa",
@@ -637,7 +744,10 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Mini-Stealthburner",
@@ -661,7 +771,10 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": true
     },
     {
       "name": "Mini-Stealthdort",
@@ -698,7 +811,10 @@
       ],
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Omniburner",
@@ -722,7 +838,10 @@
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Rainbow Dragon",
@@ -738,7 +857,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Rapid Burner",
@@ -782,7 +904,10 @@
       ],
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Reaper",
@@ -820,7 +945,13 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
+      "build_guide": true
     },
     {
       "name": "Rx",
@@ -848,7 +979,16 @@
         "CPAP"
       ],
       "filament_cutter": "native",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": [
+        "CoreXY",
+        "Monolith"
+      ],
+      "printers": [
+        "V2.4",
+        "Trident"
+      ],
+      "build_guide": false
     },
     {
       "name": "Spartacus",
@@ -870,7 +1010,10 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Sphinx",
@@ -892,7 +1035,10 @@
       "boards": "unknown",
       "hotend_fan": "unknown",
       "part_cooling_fan": "CPAP",
-      "filament_cutter": "unknown"
+      "filament_cutter": "unknown",
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Stealthburner",
@@ -925,7 +1071,14 @@
       "hotend_fan": "4010",
       "part_cooling_fan": "5015",
       "filament_cutter": "mod",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": [
+        "Switchwire",
+        "V2.4",
+        "Trident"
+      ],
+      "build_guide": true
     },
     {
       "name": "Stormbreaker",
@@ -949,13 +1102,16 @@
       "url": "https://github.com/Gr33n5murf/Stormbreaker-Toolhead",
       "description": "Toolhead for Monolith gantry.",
       "category": "Full Size Printers",
-      "configurator": false,
+      "configurator": true,
       "title": "Stormbreaker",
-      "image": "",
+      "image": "/Stormbreaker.webp",
       "hotend_fan": "3010",
       "part_cooling_fan": "5015",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "StovePipe",
@@ -989,7 +1145,10 @@
         "5015"
       ],
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     },
     {
       "name": "Takeoff",
@@ -1016,7 +1175,16 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": [
+        "Monolith",
+        "CoreXY"
+      ],
+      "printers": [
+        "Trident",
+        "V2.4"
+      ],
+      "build_guide": false
     },
     {
       "name": "The Yokai",
@@ -1045,7 +1213,10 @@
         "CPAP"
       ],
       "filament_cutter": "native",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": true
     },
     {
       "name": "Trinity",
@@ -1063,7 +1234,10 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "3628",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "UAP",
@@ -1081,7 +1255,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "Monolith",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "V4",
@@ -1104,7 +1281,10 @@
       "hotend_fan": "3010",
       "part_cooling_fan": "5020",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "V5",
@@ -1123,7 +1303,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Xenomorph",
@@ -1141,7 +1324,10 @@
       "hotend_fan": "unknown",
       "part_cooling_fan": "unknown",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "unknown",
+      "printers": "unknown",
+      "build_guide": false
     },
     {
       "name": "Xol",
@@ -1187,8 +1373,17 @@
         "4010",
         "CPAP"
       ],
-      "filament_cutter": "unknown",
-      "top_pick": false
+      "filament_cutter": "mod",
+      "top_pick": false,
+      "belt_path": [
+        "CoreXY",
+        "Monolith"
+      ],
+      "printers": [
+        "Trident",
+        "V2.4"
+      ],
+      "build_guide": false
     },
     {
       "name": "Yavoth",
@@ -1222,7 +1417,10 @@
       "hotend_fan": "2510",
       "part_cooling_fan": "4010",
       "filament_cutter": "unknown",
-      "top_pick": false
+      "top_pick": false,
+      "belt_path": "CoreXY",
+      "printers": "V0",
+      "build_guide": false
     }
   ]
 }
