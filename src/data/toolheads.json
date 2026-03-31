@@ -385,7 +385,13 @@
       "top_pick": true,
       "belt_path": "Voron coreXY",
       "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": [
+        "Trident",
+        "V2.4",
+        "V0",
+        "Switchwire"
+      ]
     },
     {
       "name": "EVA",
@@ -837,6 +843,24 @@
       "belt_path": "Voron coreXY",
       "printers": "V0",
       "build_guide": false
+    },
+    {
+      "name": "MiniSB-Extruder",
+      "title": "MiniSB-Extruder",
+      "url": "https://github.com/JackJack3231/MiniSB-Extruder-Mounts",
+      "description": "Toolhead for Voron V0, variant of Mini Stealthburner, features much larger hardware support.",
+      "category": "Printers for Ants",
+      "image": "/MiniSB-Extruder.webp",
+      "configurator": false,
+      "extruders": "unknown",
+      "hotend": "unknown",
+      "probe": "unknown",
+      "boards": "unknown",
+      "hotend_fan": "3007",
+      "part_cooling_fan": "3010",
+      "filament_cutter": "unknown",
+      "printer_compatibility": "V0",
+      "belt_path": "Voron coreXY"
     },
     {
       "name": "Omniburner",
