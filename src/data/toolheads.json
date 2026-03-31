@@ -851,11 +851,28 @@
       "description": "Toolhead for Voron V0, variant of Mini Stealthburner, features much larger hardware support.",
       "category": "Printers for Ants",
       "image": "/MiniSB-Extruder.webp",
-      "configurator": false,
-      "extruders": "unknown",
-      "hotend": "unknown",
-      "probe": "unknown",
-      "boards": "unknown",
+      "configurator": true,
+      "extruders": [
+        "LGX-Lite",
+        "Vz HextrudORT",
+        "Sherpa Micro",
+        "Sherpa Heavy",
+        "Orbiter 2",
+        "Orbiter 1.5",
+        "Sherpa Mini"
+      ],
+      "hotend": [
+        "Dragon UHF",
+        "Dragon Ace",
+        "Rapido HF"
+      ],
+      "probe": [
+        "ZeroClick",
+        "SuperPINDA",
+        "Klicky",
+        "Boop"
+      ],
+      "boards": "Picobilical",
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
