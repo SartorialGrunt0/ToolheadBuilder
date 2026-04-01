@@ -903,6 +903,34 @@
       "build_guide": false
     },
     {
+      "name": "MiniBurner XL",
+      "title": "MiniBurner XL",
+      "url": "https://github.com/printicus/For-Voron-Printers/tree/main/MiniBurner_XL_Toolhead",
+      "description": "Lightweight tools for Voron 2.4 and Trident, supports dual 5015 fans and UHF hotends.",
+      "category": "Full Size Printers",
+      "image": "/MiniBurner_XL.webp",
+      "configurator": false,
+      "extruders": [
+        "Sherpa Mini",
+        "Orbiter 2",
+        "Orbiter 2.5"
+      ],
+      "hotend": [
+        "Rapido HF",
+        "CHC XL"
+      ],
+      "probe": "Klicky",
+      "boards": "unknown",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "5015",
+      "filament_cutter": "native",
+      "printer_compatibility": [
+        "Trident",
+        "V2.4"
+      ],
+      "belt_path": "Voron coreXY"
+    },
+    {
       "name": "MiniSB-Extruder",
       "title": "MiniSB-Extruder",
       "url": "https://github.com/JackJack3231/MiniSB-Extruder-Mounts",
