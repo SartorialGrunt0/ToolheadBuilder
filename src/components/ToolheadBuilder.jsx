@@ -1,5 +1,7 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback, lazy, Suspense } from 'react';
 import toolheadsData from '../data/toolheads.json';
+
+const ThreeDViewer = lazy(() => import('./ThreeDViewer.jsx'));
 import hotendsData from '../data/hotends.json';
 import extrudersData from '../data/extruders.json';
 import probesData from '../data/probes.json';
@@ -1142,6 +1144,7 @@ export default function ToolheadBuilder() {
   const [toolheadBeltPathFilters, setToolheadBeltPathFilters] = useState(new Set());
   const [showToolheadFilter, setShowToolheadFilter] = useState(false);
   const toolheadFilterRef = useRef(null);
+  const [show3DViewer, setShow3DViewer] = useState(false);
   const [carouselHeight, setCarouselHeight] = useState(480);
   const centerCardRef = useRef(null);
 
@@ -1939,18 +1942,43 @@ export default function ToolheadBuilder() {
             backgroundColor: 'var(--sl-color-bg-sidebar)',
           }}
         >
-          <h2
-            style={{
-              fontSize: '1.2rem',
-              fontWeight: 700,
-              marginBottom: '16px',
-              color: 'var(--sl-color-white)',
-              borderBottom: '2px solid #2E8B57',
-              paddingBottom: '6px',
-            }}
-          >
-            Selected Hardware
-          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '2px solid #2E8B57', paddingBottom: '6px' }}>
+            <h2
+              style={{
+                fontSize: '1.2rem',
+                fontWeight: 700,
+                color: 'var(--sl-color-white)',
+                margin: 0,
+              }}
+            >
+              Selected Hardware
+            </h2>
+            {selectedToolheadEntry?.cad && (
+              <button
+                onClick={() => setShow3DViewer(true)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #2E8B57',
+                  backgroundColor: 'rgba(46,139,87,0.12)',
+                  color: '#2E8B57',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  margin: 0,
+                  transition: 'background 0.15s ease',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(46,139,87,0.25)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(46,139,87,0.12)'; }}
+              >
+                <CubeIcon />
+                View 3D Assembly
+              </button>
+            )}
+          </div>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
             <thead>
               <tr>
@@ -2009,6 +2037,31 @@ export default function ToolheadBuilder() {
           </table>
         </div>
       )}
+
+      {/* ===== 3D viewer modal ===== */}
+      {show3DViewer && selectedToolheadEntry?.cad && (
+        <Suspense fallback={null}>
+          <ThreeDViewer
+            cadUrl={selectedToolheadEntry.cad}
+            assemblyManifestUrl={selectedToolheadEntry.cad_manifest}
+            selectedExtruder={selectedExtruder}
+            selectedHotend={selectedHotend}
+            selectedProbe={selectedProbe}
+            toolheadName={selectedToolheadEntry.title || selectedToolheadEntry.name}
+            onClose={() => setShow3DViewer(false)}
+          />
+        </Suspense>
+      )}
     </div>
+  );
+}
+
+function CubeIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+      <line x1="12" y1="22.08" x2="12" y2="12" />
+    </svg>
   );
 }

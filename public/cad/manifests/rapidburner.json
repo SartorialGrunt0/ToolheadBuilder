@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "toolhead": "Rapid Burner",
+  "base": {
+    "cadUrl": "/cad/rapidburner/assembly.step",
+    "transform": {
+      "position": [0, 0, 0],
+      "rotationDeg": [0, 180, 180],
+      "scale": [1, 1, 1]
+    }
+  },
+  "components": {
+    "extruder": {
+      "Sherpa Mini": {
+        "cadUrl": "/cad/extruders/sherpa_mini.step",
+        "transform": {
+          "position": [0, 0, 0],
+          "rotationDeg": [0, 0, 0],
+          "scale": [1, 1, 1]
+        }
+      }
+    },
+    "hotend": {},
+    "probe": {}
+  }
+}

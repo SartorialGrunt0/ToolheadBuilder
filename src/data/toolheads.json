@@ -1120,7 +1120,9 @@
       "belt_path": "Voron coreXY",
       "build_guide": false,
       "printer_compatibility": "V0",
-      "boards": "unknown"
+      "boards": "unknown",
+      "cad": "/cad/rapidburner/assembly.step",
+      "cad_manifest": "/cad/manifests/rapidburner.json"
     },
     {
       "name": "Reaper",

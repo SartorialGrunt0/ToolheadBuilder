@@ -62,6 +62,7 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    assetsInclude: ['**/*.wasm'],
   },
 
   adapter: cloudflare(),
