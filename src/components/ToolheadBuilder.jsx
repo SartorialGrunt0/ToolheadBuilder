@@ -24,7 +24,7 @@ function isGitHubUrl(url) {
   return typeof url === 'string' && url.toLowerCase().includes('github');
 }
 
-const ALWAYS_COMPATIBLE_HOTENDS = ['dragon sf', 'dragon hf', 'tz2.0', 'tz 3.0/4.0', 'red lizard k1 hf'];
+const ALWAYS_COMPATIBLE_HOTENDS = ['dragon sf', 'dragon hf', 'tz2.0', 'tz 3.0/4.0', 'red lizard k1 hf', 'dragon ace volcano'];
 
 const mountingPatternMap = new Map(
   [...new Set(extrudersData.extruders.map((e) => e.mounting_pattern))].map(
@@ -278,7 +278,7 @@ function getViableToolheads(selections) {
       if (!th.filament_cutter || !selections.cutterFilters.has(th.filament_cutter)) return false;
     }
     if (selections.printerFilters && selections.printerFilters.size > 0) {
-      if (!fieldMatchesActiveFilters(th, 'printers', selections.printerFilters)) return false;
+      if (!fieldMatchesActiveFilters(th, 'printer_compatibility', selections.printerFilters)) return false;
     }
     if (selections.beltPathFilters && selections.beltPathFilters.size > 0) {
       if (!fieldMatchesActiveFilters(th, 'belt_path', selections.beltPathFilters)) return false;
@@ -489,6 +489,11 @@ function DetailCard({ item, accentColor, type }) {
           </span>
         ))}
       </div>
+      {item.description && item.description !== 'unknown' && (
+        <p style={{ fontSize: '0.68rem', color: 'var(--sl-color-gray-3)', margin: '4px 0 0 0', lineHeight: 1.4 }}>
+          {item.description}
+        </p>
+      )}
       {item.url && (
         <a
           href={item.url}
@@ -758,7 +763,7 @@ function CarouselArrow({ direction, onClick, disabled }) {
   );
 }
 
-function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragOffset = 0, isDragging }) {
+function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragOffset = 0, isDragging, cardRef }) {
   const isCenter = position === 'center';
   const isLeft = position === 'left';
   const isRight = position === 'right';
@@ -773,6 +778,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
 
   return (
     <div
+      ref={cardRef}
       onClick={onClick}
       style={{
         position: 'absolute',
@@ -831,9 +837,24 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
         >
           {toolhead.title || toolhead.name}
         </h3>
+        {toolhead.description && toolhead.description !== 'unknown' && (
+          <p style={{ fontSize: '0.8rem', color: 'var(--sl-color-gray-3)', marginBottom: '8px', lineHeight: 1.4 }}>
+            {toolhead.description}
+          </p>
+        )}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '0.75rem', color: 'var(--sl-color-gray-3)', marginBottom: '8px' }}>
-          {toolhead.category && <span><strong>Category:</strong> {toolhead.category}</span>}
-          {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
+          {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && toolhead.filament_cutter !== 'unsupported' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
+          {(() => {
+            const pc = toolhead.printer_compatibility;
+            const vals = Array.isArray(pc) ? pc.filter((v) => v && v !== 'unknown') : (pc && pc !== 'unknown') ? [pc] : [];
+            return vals.length > 0 ? <span><strong>Printers:</strong> {vals.join(', ')}</span> : null;
+          })()}
+          {toolhead.build_guide && toolhead.build_guide !== 'unknown' && toolhead.build_guide !== false && <span><strong>Build Guide:</strong> {toolhead.build_guide === true ? 'Yes' : toolhead.build_guide}</span>}
+          {(() => {
+            const bp = toolhead.belt_path;
+            const vals = Array.isArray(bp) ? bp.filter((v) => v && v !== 'unknown') : (bp && bp !== 'unknown') ? [bp] : [];
+            return vals.length > 0 ? <span><strong>Belt Path:</strong> {vals.join(', ')}</span> : null;
+          })()}
           {toolhead.top_pick && <span style={{ color: '#b45309', fontWeight: 700 }}>⭐ Top Pick</span>}
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1063,14 +1084,24 @@ function ToolheadDetailCard({ toolhead }) {
               </span>
             )}
           </h3>
-          {toolhead.description && (
+          {toolhead.description && toolhead.description !== 'unknown' && (
             <p style={{ fontSize: '0.8rem', color: 'var(--sl-color-gray-3)', marginBottom: '6px', lineHeight: 1.4 }}>
               {toolhead.description}
             </p>
           )}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', fontSize: '0.7rem', color: 'var(--sl-color-gray-3)' }}>
-            {toolhead.category && <span><strong>Category:</strong> {toolhead.category}</span>}
-            {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
+            {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && toolhead.filament_cutter !== 'unsupported' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
+            {(() => {
+              const pc = toolhead.printer_compatibility;
+              const vals = Array.isArray(pc) ? pc.filter((v) => v && v !== 'unknown') : (pc && pc !== 'unknown') ? [pc] : [];
+              return vals.length > 0 ? <span><strong>Printers:</strong> {vals.join(', ')}</span> : null;
+            })()}
+            {toolhead.build_guide && toolhead.build_guide !== 'unknown' && toolhead.build_guide !== false && <span><strong>Build Guide:</strong> {toolhead.build_guide === true ? 'Yes' : toolhead.build_guide}</span>}
+            {(() => {
+              const bp = toolhead.belt_path;
+              const vals = Array.isArray(bp) ? bp.filter((v) => v && v !== 'unknown') : (bp && bp !== 'unknown') ? [bp] : [];
+              return vals.length > 0 ? <span><strong>Belt Path:</strong> {vals.join(', ')}</span> : null;
+            })()}
           </div>
           {toolhead.url && (
             <a
@@ -1111,6 +1142,8 @@ export default function ToolheadBuilder() {
   const [toolheadBeltPathFilters, setToolheadBeltPathFilters] = useState(new Set());
   const [showToolheadFilter, setShowToolheadFilter] = useState(false);
   const toolheadFilterRef = useRef(null);
+  const [carouselHeight, setCarouselHeight] = useState(480);
+  const centerCardRef = useRef(null);
 
   useEffect(() => {
     if (!showToolheadFilter) return;
@@ -1126,6 +1159,19 @@ export default function ToolheadBuilder() {
       document.removeEventListener('touchstart', handler);
     };
   }, [showToolheadFilter]);
+
+  useEffect(() => {
+    const el = centerCardRef.current;
+    if (!el) return;
+    const update = () => {
+      const h = el.getBoundingClientRect().height;
+      if (h > 0) setCarouselHeight(Math.ceil(h) + 16);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  });
 
   const toggleFilter = (setter) => (value) => {
     setter((prev) => {
@@ -1372,7 +1418,7 @@ export default function ToolheadBuilder() {
     // Show category options from base toolheads that pass all other metadata filters.
     let candidates = baseToolheadsForFilterOptions;
     if (toolheadCutterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'filament_cutter', toolheadCutterFilters));
-    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printers', toolheadPrinterFilters));
+    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printer_compatibility', toolheadPrinterFilters));
     if (toolheadBeltPathFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'belt_path', toolheadBeltPathFilters));
     for (const th of candidates) {
       if (th.category && !EXCLUDED_FILTER_VALUES.has(th.category.toLowerCase())) cats.add(th.category);
@@ -1385,7 +1431,7 @@ export default function ToolheadBuilder() {
     const cutters = new Set();
     let candidates = baseToolheadsForFilterOptions;
     if (toolheadCategoryFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'category', toolheadCategoryFilters));
-    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printers', toolheadPrinterFilters));
+    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printer_compatibility', toolheadPrinterFilters));
     if (toolheadBeltPathFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'belt_path', toolheadBeltPathFilters));
     for (const th of candidates) {
       if (th.filament_cutter && !EXCLUDED_FILTER_VALUES.has(th.filament_cutter.toLowerCase())) cutters.add(th.filament_cutter);
@@ -1401,7 +1447,7 @@ export default function ToolheadBuilder() {
     if (toolheadCutterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'filament_cutter', toolheadCutterFilters));
     if (toolheadBeltPathFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'belt_path', toolheadBeltPathFilters));
     for (const th of candidates) {
-      const vals = toArray(th.printers);
+      const vals = toArray(th.printer_compatibility);
       for (const v of vals) {
         if (typeof v === 'string' && isFilterableValue(v)) printers.add(v);
       }
@@ -1415,7 +1461,7 @@ export default function ToolheadBuilder() {
     let candidates = baseToolheadsForFilterOptions;
     if (toolheadCategoryFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'category', toolheadCategoryFilters));
     if (toolheadCutterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'filament_cutter', toolheadCutterFilters));
-    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printers', toolheadPrinterFilters));
+    if (toolheadPrinterFilters.size > 0) candidates = candidates.filter((th) => fieldMatchesActiveFilters(th, 'printer_compatibility', toolheadPrinterFilters));
     for (const th of candidates) {
       const vals = toArray(th.belt_path);
       for (const v of vals) {
@@ -1698,13 +1744,14 @@ export default function ToolheadBuilder() {
                 {...dragHandlers}
                 style={{
                   position: 'relative',
-                  height: '480px',
+                  height: `${carouselHeight}px`,
                   marginBottom: '32px',
                   overflow: 'hidden',
                   padding: '0 40px',
                   touchAction: 'pan-y',
                   cursor: isDragging ? 'grabbing' : 'grab',
                   userSelect: 'none',
+                  transition: 'height 0.3s ease',
                 }}
               >
                 <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
@@ -1727,6 +1774,7 @@ export default function ToolheadBuilder() {
                       onClick={() => handleCardClick(i)}
                       dragOffset={dragOffset}
                       isDragging={isDragging}
+                      cardRef={position === 'center' ? centerCardRef : undefined}
                     />
                   );
                 })}
