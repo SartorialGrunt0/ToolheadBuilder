@@ -42,15 +42,12 @@
         "Monolith coreXY",
         "Voron coreXY"
       ],
-      "printers": [
-        "V2.4",
-        "Trident"
-      ],
       "build_guide": false,
       "printer_compatibility": [
         "Trident",
         "V2.4"
-      ]
+      ],
+      "boards": "unknown"
     },
     {
       "name": "A5T",
@@ -76,7 +73,9 @@
         "V2.4",
         "Trident"
       ],
-      "belt_path": "Voron coreXY"
+      "belt_path": "Voron coreXY",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Afterburner",
@@ -109,12 +108,13 @@
         "Voron coreXY",
         "Voron coreXZ"
       ],
-      "printers": [
+      "build_guide": true,
+      "printer_compatibility": [
         "Trident",
         "V2.4",
         "Switchwire"
       ],
-      "build_guide": true
+      "boards": "unknown"
     },
     {
       "name": "Angry",
@@ -134,8 +134,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "AntHead",
@@ -169,7 +170,8 @@
       "filament_cutter": "native",
       "top_pick": true,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": true,
+      "printer_compatibility": [
         "Trident",
         "V2.4",
         "V0",
@@ -177,8 +179,7 @@
         "Salad Fork",
         "StealthFork"
       ],
-      "build_guide": true,
-      "printer_compatibility": "unknown"
+      "boards": "unknown"
     },
     {
       "name": "Apogee",
@@ -210,7 +211,9 @@
         "Switchwire",
         "Enderwire"
       ],
-      "belt_path": "Voron coreXZ"
+      "belt_path": "Voron coreXZ",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Archetype",
@@ -251,11 +254,12 @@
         "Voron coreXY",
         "Monolith coreXY"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "Trident"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Banantis",
@@ -275,8 +279,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Calamity",
@@ -297,11 +302,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "Trident"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Crown Cooler",
@@ -334,11 +340,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "Trident",
         "V2.4"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "DK's Monolith",
@@ -361,11 +368,12 @@
         "Monolith coreXY",
         "Voron coreXY"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "Trident",
         "V2.4"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Dragon Brick",
@@ -385,8 +393,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "unknown",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Dragon Burner",
@@ -447,14 +456,14 @@
       "filament_cutter": "unknown",
       "top_pick": true,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
       "build_guide": false,
       "printer_compatibility": [
         "Trident",
         "V2.4",
         "V0",
         "Switchwire"
-      ]
+      ],
+      "boards": "unknown"
     },
     {
       "name": "EVA",
@@ -474,8 +483,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "unknown",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Fibre Steam",
@@ -501,8 +511,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Fibre Stream",
@@ -522,8 +533,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Gustav",
@@ -553,8 +565,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Hypernova",
@@ -592,11 +605,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "Trident",
         "V2.4"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Hypernova BSE",
@@ -631,11 +645,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXZ",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "Switchwire",
         "Enderwire"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Jabberwocky",
@@ -666,13 +681,14 @@
         "Voron coreXY",
         "Voron coreXZ"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V0",
         "Micron",
         "Switchwire",
         "SV08"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Lich King",
@@ -699,7 +715,9 @@
         "Trident",
         "V2.4"
       ],
-      "belt_path": "Voron coreXY"
+      "belt_path": "Voron coreXY",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Mailbox",
@@ -739,13 +757,14 @@
         "Voron coreXY",
         "Voron coreXZ"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V0",
         "V2.4",
         "Trident",
         "Switchwire"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Mantis",
@@ -783,11 +802,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "Trident"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Micro Saul2",
@@ -807,8 +827,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Mini-Afterburner",
@@ -832,8 +853,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Mini-Aftersherpa",
@@ -864,8 +886,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Mini-Stealthburner",
@@ -891,8 +914,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": true
+      "build_guide": true,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Mini-Stealthdort",
@@ -931,8 +955,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "MiniBurner XL",
@@ -960,7 +985,9 @@
         "Trident",
         "V2.4"
       ],
-      "belt_path": "Voron coreXY"
+      "belt_path": "Voron coreXY",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "MiniSB-Extruder",
@@ -995,7 +1022,9 @@
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
       "printer_compatibility": "V0",
-      "belt_path": "Voron coreXY"
+      "belt_path": "Voron coreXY",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Omniburner",
@@ -1021,8 +1050,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Rainbow Dragon",
@@ -1040,8 +1070,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "unknown",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "Rapid Burner",
@@ -1087,8 +1118,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Reaper",
@@ -1128,11 +1160,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": true,
+      "printer_compatibility": [
         "V2.4",
         "Trident"
       ],
-      "build_guide": true
+      "boards": "unknown"
     },
     {
       "name": "Rx",
@@ -1165,11 +1198,12 @@
         "Voron coreXY",
         "Monolith coreXY"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "Trident"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Scorpion V1",
@@ -1198,7 +1232,9 @@
         "V2.4",
         "Trident"
       ],
-      "belt_path": "Voron coreXY"
+      "belt_path": "Voron coreXY",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Scorpion V2",
@@ -1226,7 +1262,9 @@
         "V2.4",
         "Trident"
       ],
-      "belt_path": "Voron coreXY"
+      "belt_path": "Voron coreXY",
+      "build_guide": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Spartacus",
@@ -1250,8 +1288,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Sphinx",
@@ -1275,8 +1314,9 @@
       "part_cooling_fan": "CPAP",
       "filament_cutter": "unknown",
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "top_pick": "unknown"
     },
     {
       "name": "Stealthburner",
@@ -1314,12 +1354,13 @@
         "Voron coreXY",
         "Voron coreXZ"
       ],
-      "printers": [
+      "build_guide": true,
+      "printer_compatibility": [
         "Switchwire",
         "V2.4",
         "Trident"
       ],
-      "build_guide": true
+      "boards": "unknown"
     },
     {
       "name": "Stormbreaker",
@@ -1351,8 +1392,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "StovePipe",
@@ -1388,8 +1430,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     },
     {
       "name": "Takeoff",
@@ -1421,11 +1464,12 @@
         "Monolith coreXY",
         "Voron coreXY"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "Trident",
         "V2.4"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "The Yokai",
@@ -1456,15 +1500,12 @@
       "filament_cutter": "native",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
-        "V2.4",
-        "Trident"
-      ],
       "build_guide": true,
       "printer_compatibility": [
         "Trident",
         "V2.4"
-      ]
+      ],
+      "boards": "unknown"
     },
     {
       "name": "Trinity",
@@ -1484,8 +1525,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "UAP",
@@ -1505,8 +1547,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Monolith coreXY",
-      "printers": "unknown",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "unknown",
+      "boards": "unknown"
     },
     {
       "name": "V4",
@@ -1531,12 +1574,13 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "Trident",
         "SV08"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "V5",
@@ -1557,12 +1601,13 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "Trident",
         "SV08"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Xenomorph",
@@ -1582,11 +1627,12 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "V2.4",
         "SV08"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Xol",
@@ -1638,11 +1684,12 @@
         "Voron coreXY",
         "Monolith coreXY"
       ],
-      "printers": [
+      "build_guide": false,
+      "printer_compatibility": [
         "Trident",
         "V2.4"
       ],
-      "build_guide": false
+      "boards": "unknown"
     },
     {
       "name": "Yavoth",
@@ -1678,8 +1725,9 @@
       "filament_cutter": "unknown",
       "top_pick": false,
       "belt_path": "Voron coreXY",
-      "printers": "V0",
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": "V0",
+      "boards": "unknown"
     }
   ]
 }
