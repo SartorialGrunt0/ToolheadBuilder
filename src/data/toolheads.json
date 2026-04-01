@@ -46,7 +46,11 @@
         "V2.4",
         "Trident"
       ],
-      "build_guide": false
+      "build_guide": false,
+      "printer_compatibility": [
+        "Trident",
+        "V2.4"
+      ]
     },
     {
       "name": "A5T",
@@ -173,7 +177,8 @@
         "Salad Fork",
         "StealthFork"
       ],
-      "build_guide": true
+      "build_guide": true,
+      "printer_compatibility": "unknown"
     },
     {
       "name": "Apogee",
@@ -670,6 +675,33 @@
       "build_guide": false
     },
     {
+      "name": "Lich King",
+      "title": "Lich King",
+      "url": "https://www.printables.com/model/1584696-voron-lich-king-toolhead-goliath-orbiter-cpap-cutt",
+      "description": "",
+      "category": "Full Size Printers",
+      "image": "/Lich_King.webp",
+      "configurator": true,
+      "extruders": "Orbiter 2",
+      "hotend": [
+        "CHC XL",
+        "Goliath"
+      ],
+      "probe": [
+        "Cartographer",
+        "Beacon"
+      ],
+      "boards": "Fysetc H36",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "CPAP",
+      "filament_cutter": "native",
+      "printer_compatibility": [
+        "Trident",
+        "V2.4"
+      ],
+      "belt_path": "Voron coreXY"
+    },
+    {
       "name": "Mailbox",
       "extruders": [
         "LGX-lite",
@@ -909,7 +941,7 @@
       "description": "Lightweight tools for Voron 2.4 and Trident, supports dual 5015 fans and UHF hotends.",
       "category": "Full Size Printers",
       "image": "/MiniBurner_XL.webp",
-      "configurator": false,
+      "configurator": true,
       "extruders": [
         "Sherpa Mini",
         "Orbiter 2",
@@ -1428,7 +1460,11 @@
         "V2.4",
         "Trident"
       ],
-      "build_guide": true
+      "build_guide": true,
+      "printer_compatibility": [
+        "Trident",
+        "V2.4"
+      ]
     },
     {
       "name": "Trinity",
