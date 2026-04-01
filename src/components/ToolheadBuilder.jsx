@@ -763,7 +763,7 @@ function CarouselArrow({ direction, onClick, disabled }) {
   );
 }
 
-function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragOffset = 0, isDragging }) {
+function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragOffset = 0, isDragging, cardRef }) {
   const isCenter = position === 'center';
   const isLeft = position === 'left';
   const isRight = position === 'right';
@@ -778,6 +778,7 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
 
   return (
     <div
+      ref={cardRef}
       onClick={onClick}
       style={{
         position: 'absolute',
@@ -842,7 +843,6 @@ function ToolheadCard({ toolhead, position, isSelected, onSelect, onClick, dragO
           </p>
         )}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '0.75rem', color: 'var(--sl-color-gray-3)', marginBottom: '8px' }}>
-          {toolhead.category && toolhead.category !== 'unknown' && <span><strong>Category:</strong> {toolhead.category}</span>}
           {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && toolhead.filament_cutter !== 'unsupported' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
           {(() => {
             const pc = toolhead.printer_compatibility;
@@ -1090,7 +1090,6 @@ function ToolheadDetailCard({ toolhead }) {
             </p>
           )}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', fontSize: '0.7rem', color: 'var(--sl-color-gray-3)' }}>
-            {toolhead.category && toolhead.category !== 'unknown' && <span><strong>Category:</strong> {toolhead.category}</span>}
             {toolhead.filament_cutter && toolhead.filament_cutter !== 'unknown' && toolhead.filament_cutter !== 'unsupported' && <span><strong>Filament Cutter:</strong> {toolhead.filament_cutter}</span>}
             {(() => {
               const pc = toolhead.printer_compatibility;
@@ -1143,6 +1142,8 @@ export default function ToolheadBuilder() {
   const [toolheadBeltPathFilters, setToolheadBeltPathFilters] = useState(new Set());
   const [showToolheadFilter, setShowToolheadFilter] = useState(false);
   const toolheadFilterRef = useRef(null);
+  const [carouselHeight, setCarouselHeight] = useState(480);
+  const centerCardRef = useRef(null);
 
   useEffect(() => {
     if (!showToolheadFilter) return;
@@ -1158,6 +1159,19 @@ export default function ToolheadBuilder() {
       document.removeEventListener('touchstart', handler);
     };
   }, [showToolheadFilter]);
+
+  useEffect(() => {
+    const el = centerCardRef.current;
+    if (!el) return;
+    const update = () => {
+      const h = el.getBoundingClientRect().height;
+      if (h > 0) setCarouselHeight(Math.ceil(h) + 16);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  });
 
   const toggleFilter = (setter) => (value) => {
     setter((prev) => {
@@ -1730,13 +1744,14 @@ export default function ToolheadBuilder() {
                 {...dragHandlers}
                 style={{
                   position: 'relative',
-                  height: '480px',
+                  height: `${carouselHeight}px`,
                   marginBottom: '32px',
                   overflow: 'hidden',
                   padding: '0 40px',
                   touchAction: 'pan-y',
                   cursor: isDragging ? 'grabbing' : 'grab',
                   userSelect: 'none',
+                  transition: 'height 0.3s ease',
                 }}
               >
                 <CarouselArrow direction="left" onClick={goLeft} disabled={total <= 1} />
@@ -1759,6 +1774,7 @@ export default function ToolheadBuilder() {
                       onClick={() => handleCardClick(i)}
                       dragOffset={dragOffset}
                       isDragging={isDragging}
+                      cardRef={position === 'center' ? centerCardRef : undefined}
                     />
                   );
                 })}
