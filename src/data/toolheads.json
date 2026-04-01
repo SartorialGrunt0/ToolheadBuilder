@@ -49,6 +49,32 @@
       "build_guide": false
     },
     {
+      "name": "A5T",
+      "title": "A5T",
+      "url": "https://github.com/minilogique/A5T",
+      "description": "",
+      "category": "unknown",
+      "image": "/A5T.webp",
+      "configurator": false,
+      "extruders": [
+        "Wristwatch BMG",
+        "Sherpa Mini",
+        "Orbiter 2",
+        "Orbiter 2.5"
+      ],
+      "hotend": "unknown",
+      "probe": "TAP",
+      "boards": "unknown",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "5015",
+      "filament_cutter": "unknown",
+      "printer_compatibility": [
+        "V2.4",
+        "Trident"
+      ],
+      "belt_path": "Voron coreXY"
+    },
+    {
       "name": "Afterburner",
       "extruders": [
         "Clockwork1"
@@ -1084,6 +1110,63 @@
         "Trident"
       ],
       "build_guide": false
+    },
+    {
+      "name": "Scorpion V1",
+      "title": "Scorpion V1",
+      "url": "https://github.com/minilogique/Scorpion-toolhead-v1",
+      "description": "Lightweight tools for Voron 2.4 and Trident, variant of crown cooler, supports CPAP and UHF hotends.",
+      "category": "Full Size Printers",
+      "image": "/Scorpion_V1.webp",
+      "configurator": false,
+      "extruders": "Sherpa Mini",
+      "hotend": [
+        "Goliath",
+        "Lancer",
+        "Rapido UHF"
+      ],
+      "probe": "TAP",
+      "boards": "unknown",
+      "hotend_fan": [
+        "CPAP",
+        "4010",
+        "2510"
+      ],
+      "part_cooling_fan": "CPAP",
+      "filament_cutter": "unknown",
+      "printer_compatibility": [
+        "V2.4",
+        "Trident"
+      ],
+      "belt_path": "Voron coreXY"
+    },
+    {
+      "name": "Scorpion V2",
+      "title": "Scorpion V2",
+      "url": "https://github.com/minilogique/Scorpion-V2/tree/main",
+      "description": "Lightweight tools for Voron 2.4 and Trident, variant of crown cooler and scorpion 1, supports CPAP and UHF hotends.",
+      "category": "Full Size Printers",
+      "image": "/Scorpion_V2.webp",
+      "configurator": false,
+      "extruders": [
+        "Sherpa Mini",
+        "Orbiter 2"
+      ],
+      "hotend": [
+        "Goliath",
+        "Lancer",
+        "CHC XL"
+      ],
+      "probe": "TAP",
+      "boards": "unknown",
+      "hotend_fan": "unknown",
+      "part_cooling_fan": "CPAP",
+      "filament_cutter": "unknown",
+      "printer_compatibility": [
+        "V2.4",
+        "Trident"
+      ],
+      "belt_path": "Voron coreXY"
     },
     {
       "name": "Spartacus",
