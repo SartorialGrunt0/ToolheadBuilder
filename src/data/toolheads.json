@@ -150,6 +150,38 @@
       "build_guide": true
     },
     {
+      "name": "Apogee",
+      "title": "Apogee",
+      "url": "https://www.orbiterprojects.com/apogee-ender-3-v2/",
+      "description": "Lightweight toolhead for Ender 3 and Switchwire.",
+      "category": "Full Size Printers",
+      "image": "/Apogee.webp",
+      "configurator": true,
+      "extruders": [
+        "Orbiter 2",
+        "Orbiter 1.5"
+      ],
+      "hotend": [
+        "Revo",
+        "Dragonfly",
+        "Rapido HF",
+        "Mosquito"
+      ],
+      "probe": [
+        "BLTouch",
+        "CRTouch"
+      ],
+      "boards": "unknown",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unknown",
+      "printer_compatibility": [
+        "Switchwire",
+        "Enderwire"
+      ],
+      "belt_path": "Voron coreXZ"
+    },
+    {
       "name": "Archetype",
       "extruders": [
         "Sherpa Mini",
