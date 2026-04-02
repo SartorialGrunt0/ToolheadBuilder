@@ -1476,7 +1476,8 @@
       "extruders": [
         "Sherpa Mini",
         "Sherpa Micro",
-        "Orbiter 2"
+        "Orbiter 2",
+        "Wristwatch BMG"
       ],
       "probe": [
         "Eddy",
@@ -1484,7 +1485,8 @@
         "Beacon"
       ],
       "hotend": [
-        "Rapido UHF"
+        "Rapido UHF",
+        "Bambu X1/P1"
       ],
       "url": "https://www.printables.com/model/1462701-yokai-v35-toolhead",
       "description": "Toolhead for Voron 2.4 and Trident, features ultralightweight design and CPAP.",
