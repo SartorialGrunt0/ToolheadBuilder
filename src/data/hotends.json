@@ -414,9 +414,7 @@
       "meltzone_length": "unknown",
       "hotend_type": "SF",
       "flow_rate": "Unknown",
-      "nozzle_compatibility": [
-        "V6"
-      ],
+      "nozzle_compatibility": "V6",
       "url": "https://3dmellow.com/products/nf-crazy-v2-hotend",
       "description": "Ender style hotend, supports Ender or V6 mounting, V6 or V6 Volcano nozzles, one-handed nozzle changes.",
       "top_pick": false,
