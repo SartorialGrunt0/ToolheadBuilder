@@ -204,8 +204,14 @@
         "CRTouch"
       ],
       "boards": "unknown",
-      "hotend_fan": "3010",
-      "part_cooling_fan": "4010",
+      "hotend_fan": [
+        "3010",
+        "4010"
+      ],
+      "part_cooling_fan": [
+        "4010",
+        "3010"
+      ],
       "filament_cutter": "unknown",
       "printer_compatibility": [
         "Switchwire",
@@ -978,7 +984,10 @@
       ],
       "probe": "Klicky",
       "boards": "unknown",
-      "hotend_fan": "2510",
+      "hotend_fan": [
+        "2510",
+        "5015"
+      ],
       "part_cooling_fan": "5015",
       "filament_cutter": "native",
       "printer_compatibility": [
@@ -1017,7 +1026,10 @@
         "Klicky",
         "Boop"
       ],
-      "boards": "Picobilical",
+      "boards": [
+        "Picobilical",
+        "Toolhead PCB"
+      ],
       "hotend_fan": "3007",
       "part_cooling_fan": "3010",
       "filament_cutter": "unknown",
