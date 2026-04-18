@@ -74,7 +74,7 @@
         "Trident"
       ],
       "belt_path": "Voron coreXY",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
@@ -212,7 +212,7 @@
         "Enderwire"
       ],
       "belt_path": "Voron coreXZ",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
@@ -308,6 +308,28 @@
         "Trident"
       ],
       "boards": "unknown"
+    },
+    {
+      "name": "CN3D Y-CPAP",
+      "title": "CN3D Y-CPAP",
+      "url": "https://www.printables.com/model/1693013-cn3d-y-cpap-toolhead-multi-material-ready-filament",
+      "build_guide": true,
+      "description": "Lightweight toolhead for Voron 2.4 and Trident, features CPAP support, an integrated large gear extruder, and a built in filament cutter.",
+      "category": "Full Size Printers",
+      "image": "/CN3D_Y-CPAP.webp",
+      "configurator": true,
+      "extruders": "Integrated",
+      "hotend": "Rapido UHF",
+      "probe": "Eddy",
+      "boards": "EBB42",
+      "hotend_fan": "2510",
+      "part_cooling_fan": "CPAP",
+      "filament_cutter": "native",
+      "printer_compatibility": [
+        "Trident",
+        "V2.4"
+      ],
+      "belt_path": "Voron coreXY"
     },
     {
       "name": "Crown Cooler",
@@ -716,7 +738,7 @@
         "V2.4"
       ],
       "belt_path": "Voron coreXY",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
@@ -986,7 +1008,7 @@
         "V2.4"
       ],
       "belt_path": "Voron coreXY",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
@@ -1023,7 +1045,7 @@
       "filament_cutter": "unknown",
       "printer_compatibility": "V0",
       "belt_path": "Voron coreXY",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
@@ -1233,7 +1255,7 @@
         "Trident"
       ],
       "belt_path": "Voron coreXY",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
@@ -1263,7 +1285,7 @@
         "Trident"
       ],
       "belt_path": "Voron coreXY",
-      "build_guide": "unknown",
+      "build_guide": false,
       "top_pick": "unknown"
     },
     {
