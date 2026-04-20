@@ -1,0 +1,41 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ['latest']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Cache Astro build
+      uses: actions/cache@v4
+      with:
+        path: |
+          .astro
+          node_modules/.vite
+        key: ${{ runner.os }}-astro-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Astro Check
+      run: npm run astro check
+
+    - name: Build
+      run: npm run build
