@@ -8,13 +8,15 @@
         "Orbiter 2",
         "Wristwatch G2",
         "Wristwatch BMG",
-        "Vz HextrudORT"
+        "Vz HextrudORT",
+        "Clockwork2"
       ],
       "probe": [
         "Tap",
         "Klicky",
         "Eddy",
-        "Omron"
+        "Omron",
+        "Cartographer"
       ],
       "hotend": [
         "Bambu X1/P1",
@@ -26,7 +28,8 @@
         "Rapido UHF",
         "Revo",
         "TZ2.0",
-        "Chube"
+        "Chube",
+        "NF-Crazy Volcano"
       ],
       "url": "https://github.com/Armchair-Heavy-Industries/A4T",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
@@ -35,7 +38,10 @@
       "category": "Full Size Printers",
       "configurator": true,
       "hotend_fan": "2510",
-      "part_cooling_fan": "4010",
+      "part_cooling_fan": [
+        "4010",
+        "2510"
+      ],
       "filament_cutter": "native",
       "top_pick": true,
       "belt_path": [
