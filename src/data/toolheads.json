@@ -604,7 +604,8 @@
       "probe": [
         "Beacon",
         "Cartographer",
-        "Klicky"
+        "Klicky",
+        "Klicky PCB"
       ],
       "hotend": [
         "TZ2.0",
@@ -614,7 +615,8 @@
         "Rapido UHF",
         "Red Lizard K1 HF",
         "Red Lizard K1 UHF",
-        "Chube Air"
+        "Chube Air",
+        "Chube"
       ],
       "url": "https://hyperdrivedesign.com/products/Hypernova/hypernova/#hypernova-printhead",
       "description": "Toolhead for Voron 2.4 and Trident, features a CNC metal plate for rigidity, support for UHF hotends, and accepts standalone extruders.",
