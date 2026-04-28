@@ -26,7 +26,8 @@
         "Rapido UHF",
         "Revo",
         "TZ2.0",
-        "Chube"
+        "Chube",
+        "NF-Crazy Volcano"
       ],
       "url": "https://github.com/Armchair-Heavy-Industries/A4T",
       "description": "Lightweight toolhead for Voron 2.4 and Trident, accepts standalone extruders.",
