@@ -1461,21 +1461,19 @@
       "name": "SUSBurner",
       "title": "SUSburner",
       "url": "https://github.com/ArmoredTurtle/SUSBurner/tree/main",
-      "build_guide": "",
-      "description": "Toolhead for Voron V0 and other printers for ants, inspired by Stealthburner, features a small profile and native filament cutter.",
+      "build_guide": false,
+      "description": "Toolhead for Voron V0 and other printers for ants, inspired by Stealthburner, features a native filament cutter and large HGX-lite 2.0 gears.",
       "category": "Printers for Ants",
       "image": "/SUSburner.webp",
       "configurator": true,
       "extruders": [
-        "Clockwork2",
-        "Large Gear Clockwork2"
       ],
       "hotend": [
         "Rapido UHF",
         "Dragon UHF",
         "Revo"
       ],
-      "probe": "Omron",
+      "probe": "",
       "boards": "EBB36",
       "hotend_fan": "3010",
       "part_cooling_fan": "4020",
