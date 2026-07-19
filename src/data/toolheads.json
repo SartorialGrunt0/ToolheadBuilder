@@ -285,6 +285,44 @@
       "boards": "unknown"
     },
     {
+      "name": "Burninator",
+      "title": "Burninator",
+      "url": "https://github.com/The-Duke-96/Burninator",
+      "build_guide": "",
+      "description": "Toolhead for Voron 2.4 and Trident, inspired by A4t and Dragonburner, features support for stealtchanger and MadMax, supports standalone extruders and UHF hotends.",
+      "category": "Full Size Printers",
+      "image": "/Burninator.webp",
+      "configurator": true,
+      "extruders": [
+        "Sherpa Micro",
+        "Sherpa Mini",
+        "Galileo 2",
+        "LGX-Lite",
+        "Orbiter 2",
+        "Orbiter 2.5"
+      ],
+      "hotend": [
+        "Rapido UHF",
+        "Dragon UHF",
+        "Dragon Ace",
+        "Rapido HF",
+        "CHC",
+        "Dragon SF",
+        "TZ2.0",
+        "NeXt G HF"
+      ],
+      "probe": "Beacon",
+      "boards": "unknown",
+      "hotend_fan": "3010",
+      "part_cooling_fan": "4010",
+      "filament_cutter": "unsupported",
+      "printer_compatibility": [
+        "V2.4",
+        "Trident"
+      ],
+      "belt_path": "Voron coreXY"
+    },
+    {
       "name": "Calamity",
       "extruders": [
         "LGX-Lite",
