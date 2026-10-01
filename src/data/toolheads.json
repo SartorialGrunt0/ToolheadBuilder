@@ -205,8 +205,14 @@
         "CRTouch"
       ],
       "boards": "unknown",
-      "hotend_fan": "3010",
-      "part_cooling_fan": "4010",
+      "hotend_fan": [
+        "3010",
+        "4010"
+      ],
+      "part_cooling_fan": [
+        "4010",
+        "3010"
+      ],
       "filament_cutter": "unknown",
       "printer_compatibility": [
         "Switchwire",
@@ -1504,8 +1510,7 @@
       "category": "Printers for Ants",
       "image": "/SUSburner.webp",
       "configurator": true,
-      "extruders": [
-      ],
+      "extruders": [],
       "hotend": [
         "Rapido UHF",
         "Dragon UHF",
