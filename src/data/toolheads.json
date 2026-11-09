@@ -976,7 +976,10 @@
       "top_pick": false,
       "belt_path": "Voron coreXY",
       "build_guide": true,
-      "printer_compatibility": "V0",
+      "printer_compatibility": [
+        "V0",
+        "Trident"
+      ],
       "boards": "unknown"
     },
     {
@@ -1504,8 +1507,7 @@
       "category": "Printers for Ants",
       "image": "/SUSburner.webp",
       "configurator": true,
-      "extruders": [
-      ],
+      "extruders": [],
       "hotend": [
         "Rapido UHF",
         "Dragon UHF",
