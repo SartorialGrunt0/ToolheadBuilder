@@ -437,6 +437,62 @@
       "boards": "unknown"
     },
     {
+      "name": "Downdraft",
+      "title": "Downdraft",
+      "url": "https://github.com/VoronDesign/voron-downdraft",
+      "build_guide": "Yes",
+      "description": "Voron Official Toolhead designed for wide compatibility and superior cooling.",
+      "category": "Full Size Printers",
+      "image": "",
+      "configurator": false,
+      "extruders": [
+        "Galileo 2 Standalone",
+        "Orbiter 2.5",
+        "Wristwatch BMG",
+        "Wristwatch G2",
+        "Sherpa Mini",
+        "LGX-Lite"
+      ],
+      "hotend": [
+        "Dragon Ace",
+        "Dragon HF",
+        "TZ2.0",
+        "Chube",
+        "Rapido HF",
+        "Rapido UHF",
+        "Tricorn",
+        "Revo",
+        "CHC XL",
+        "Goliath"
+      ],
+      "probe": [
+        "Eddy",
+        "Klicky",
+        "TAP",
+        "Omron"
+      ],
+      "boards": [
+        "EBB36",
+        "Fly SHT36",
+        "Nitehawk USB"
+      ],
+      "hotend_fan": "2510",
+      "part_cooling_fan": [
+        "4010",
+        "5015"
+      ],
+      "filament_cutter": "unknown",
+      "printer_compatibility": [
+        "V2.4",
+        "Trident",
+        "Switchwire"
+      ],
+      "belt_path": [
+        "Voron coreXY",
+        "Voron coreXZ"
+      ]
+    },
+    {
       "name": "Dragon Brick",
       "extruders": [
         "unknown"
@@ -1504,8 +1560,7 @@
       "category": "Printers for Ants",
       "image": "/SUSburner.webp",
       "configurator": true,
-      "extruders": [
-      ],
+      "extruders": [],
       "hotend": [
         "Rapido UHF",
         "Dragon UHF",
