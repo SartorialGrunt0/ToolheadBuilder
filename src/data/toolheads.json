@@ -451,7 +451,8 @@
         "Wristwatch BMG",
         "Wristwatch G2",
         "Sherpa Mini",
-        "LGX-Lite"
+        "LGX-Lite",
+        "Integrated"
       ],
       "hotend": [
         "Dragon Ace",
@@ -474,7 +475,8 @@
       "boards": [
         "EBB36",
         "Fly SHT36",
-        "Nitehawk USB"
+        "Nitehawk USB",
+        "Toolhead PCB"
       ],
       "hotend_fan": "2510",
       "part_cooling_fan": [
